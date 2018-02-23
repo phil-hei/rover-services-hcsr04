@@ -14,9 +14,8 @@ tools_path = os.path.join(root_path, 'tools')
 app_templates_path = os.path.join(tools_path, 'app-templates')
 
 app_path = os.path.join(root_path, 'app')
-app_lib_path = os.path.join(app_path, 'rover-services-api')
-app_src_path = os.path.join(app_lib_path, 'src')
-app_include_path = os.path.join(app_lib_path, 'include', 'app')
+app_src_path = os.path.join(app_path, 'src')
+app_include_path = os.path.join(app_path, 'include', 'app')
 services_path = os.path.join(root_path, 'service')
 
 # Load templates
@@ -86,7 +85,7 @@ def create_app_files(model_filename):
 
     logging.info("Creating AGL Service Build Files at - " + app_path)
 
-    create_dir(app_lib_path)
+    create_dir(app_path)
     create_dir(app_src_path)
     create_dir(app_include_path)
 
@@ -101,54 +100,17 @@ def create_app_files(model_filename):
 
 def create_app_build_system():
     logging.info("Creating AGL Service Build Files at - " + app_path)
-    conf_path = os.path.join(app_path, 'conf.d')
-    cmake_path = os.path.join(conf_path, 'cmake')
-    app_lib_path = os.path.join(app_path, 'rover-services-api')
-    wgt_path = os.path.join(conf_path, 'wgt')
-
-    create_dir(app_lib_path)
-    create_dir(cmake_path)
-    create_dir(wgt_path)
 
     info = {}
     info["name"] = 'Rover Services API'
     info["short_name"] = 'rover-services-api'
-
-    # Create the config.cmake file
-    tmpl = env.get_template("app.config.cmake")
-
-    cont = tmpl.render(info=info)
-
-    fh = open(os.path.join(cmake_path, 'config.cmake'), "w")
-    fh.write(cont)
-    fh.close()
-
-    # Deploy the CMakeLists.txt from templates
-    cmakelists_file = os.path.join(app_templates_path,
-                                   'samples.d',
-                                   'CMakeLists.txt.sample')
-    cmakelists_dst_file = os.path.join(app_path, 'CMakeLists.txt')
-    shutil.copy2(cmakelists_file, cmakelists_dst_file)
-
-    # Deploy the autobuild Scripts
-    autobuild_dst_dir = os.path.join(conf_path, 'autobuild')
-    copy_autobuild_dir(autobuild_dst_dir)
-
-    # Deploy the widget config templat
-    tmpl = env.get_template("app.config.xml.in")
-
-    cont = tmpl.render(info=info)
-
-    fh = open(os.path.join(wgt_path, "config.xml.in"), "w")
-    fh.write(cont)
-    fh.close()
 
     # Create the CMakeLists.txt file
     tmpl = env.get_template("app.CMakeLists.txt")
 
     cont = tmpl.render(info=info)
 
-    fh = open(os.path.join(app_lib_path, 'CMakeLists.txt'), "w")
+    fh = open(os.path.join(app_path, 'CMakeLists.txt'), "w")
     fh.write(cont)
     fh.close()
 

@@ -18,15 +18,15 @@
 
 # Project Info
 # ------------------
-set(PROJECT_NAME {{ info.short_name }})
-set(PROJECT_PRETTY_NAME "{{ info.name }}")
-set(PROJECT_DESCRIPTION "{{ info.name }}")
+set(PROJECT_NAME rover-service-demo)
+set(PROJECT_PRETTY_NAME "Rover Service Demo")
+set(PROJECT_DESCRIPTION "Rover Service Demo")
 set(PROJECT_URL "https://gitlab.idial.institute/pedro.cuadrachamorro/rover-services")
 set(PROJECT_ICON "icon.png")
 set(PROJECT_AUTHOR "FH Dortmund")
 set(PROJECT_AUTHOR_MAIL "example.man@example.com")
 set(PROJECT_LICENSE "EPL-1")
-set(PROJECT_LANGUAGES "CXX")
+set(PROJECT_LANGUAGES "C")
 
 # Where are stored default templates files from submodule or subtree app-templates in your project tree
 # relative to the root project directory
@@ -42,7 +42,7 @@ set(PROJECT_APP_TEMPLATES_DIR "../tools/app-templates")
 # Compilation Mode (DEBUG, RELEASE)
 # ----------------------------------
 set(CMAKE_BUILD_TYPE "DEBUG")
-set(USE_EFENCE 1)
+# set(USE_EFENCE 1)
 
 # Kernel selection if needed. You can choose between a
 # mandatory version to impose a minimal version.
@@ -65,6 +65,7 @@ set (gcc_minimal_version 4.9)
 # PKG_CONFIG required packages
 # -----------------------------
 set (PKG_REQUIRED_LIST
+	libafbwsc
 	json-c
 	libsystemd>=222
 	afb-daemon
@@ -147,14 +148,14 @@ set(WIDGET_CONFIG_TEMPLATE ${CMAKE_SOURCE_DIR}/conf.d/wgt/config.xml.in CACHE PA
 #	content.src designates the relative path of the binary.
 #	For such application, only security setup is made.
 #
-set(WIDGET_TYPE application/vnd.agl.service)
+set(WIDGET_TYPE application/vnd.agl.native)
 
 # Mandatory Widget entry point file of the main unit
 # --------------------------------------------------------------
 # This is the file that will be executed, loaded,
 # at launch time by the application framework.
 #
-set(WIDGET_ENTRY_POINT config.xml)
+set(WIDGET_ENTRY_POINT bin/rover-service-demo)
 
 # Optional dependencies order
 # ---------------------------
