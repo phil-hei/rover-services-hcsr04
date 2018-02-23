@@ -1,0 +1,28 @@
+#%RAML 1.0
+title: Rover driving
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+/goforward:
+  description: "Move Forward"
+  get:
+/gobackward:
+  description: "Move Backwards"
+  get:
+/turnright:
+  description: "Turn Right"
+  get:
+/turnleft:
+  description: "Turn Left"
+  get:
+/stop:
+  description: "Stop the Rover"
+  get:
+/setspeed:
+  description: "Set the motors' speed"
+  post:
+    body:
+      application/json:
+        properties:
+          speed:
+            type: integer
