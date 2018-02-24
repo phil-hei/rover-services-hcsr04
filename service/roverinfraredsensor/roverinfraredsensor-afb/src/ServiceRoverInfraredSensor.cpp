@@ -17,7 +17,18 @@
 #include <service/ServiceRoverInfraredSensor.h>
 #include <roverapi/rover_infraredsensor.hpp>
 
-static RoverInfraredSensor obj;
+using namespace rover;
+
+static const int maxInfraRedSensors = 6;
+
+static RoverInfraredSensor obj[maxInfraRedSensors] = {
+  RoverInfraredSensor(static_cast<const RoverSensorID_t>(0)),
+  RoverInfraredSensor(static_cast<const RoverSensorID_t>(1)),
+  RoverInfraredSensor(static_cast<const RoverSensorID_t>(2)),
+  RoverInfraredSensor(static_cast<const RoverSensorID_t>(3)),
+  RoverInfraredSensor(static_cast<const RoverSensorID_t>(4)),
+  RoverInfraredSensor(static_cast<const RoverSensorID_t>(5))
+};
 
 ServiceRoverInfraredSensor::ServiceRoverInfraredSensor() {
   AFB_NOTICE("[ServiceRoverInfraredSensor] Constructor ");
@@ -26,18 +37,20 @@ ServiceRoverInfraredSensor::ServiceRoverInfraredSensor() {
 int ServiceRoverInfraredSensor::init() {
   AFB_NOTICE("[ServiceRoverInfraredSensor] Init ");
 
-  obj.initialize();
+  for (int i = 0; i < maxInfraRedSensors; i++) {
+    obj[i].initialize();
+  }
 
   return 0;
 }
 
-
 /** Autogenrated doc for read */
-int ServiceRoverInfraredSensor::read(double &out_speed) {
+int ServiceRoverInfraredSensor::read(const int in_sensor_id,
+    double &out_speed) {
 
   AFB_NOTICE("[ServiceRoverInfraredSensor] Read");
 
-  out_speed = obj.read();
+  out_speed = static_cast<double>(obj[in_sensor_id].read());
 
   return 0;
 }

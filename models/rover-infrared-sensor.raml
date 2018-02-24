@@ -5,6 +5,11 @@ version: v1
 baseUri: localhost:8000/api?token=x
 /read:
   description: "Read Data From Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: integer
   get:
     responses:
       200:

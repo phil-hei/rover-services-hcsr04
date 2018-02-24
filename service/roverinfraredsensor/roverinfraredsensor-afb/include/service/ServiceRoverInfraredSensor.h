@@ -35,7 +35,8 @@ public:
   int init();
 
     /** Autogenrated doc for read */
-    int read(double &out_speed);
+    int read(const int in_sensor_id,
+        double &out_speed);
 
 };
 

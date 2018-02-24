@@ -46,11 +46,21 @@ static void read(struct afb_req request) {
   double _var_speed = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
+  json_object *val = NULL;
   int ret = 0;
 
   AFB_NOTICE("[roverinfraredsensor] Calling read");
 
-  ret = obj.read(_var_speed);
+  if (args) {
+      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
+        AFB_ERROR("[roverinfraredsensor] No 'sensor_id' param provided");
+        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+        return;
+      }
+  }
+
+  ret = obj.read(json_object_object_get_ex(args, "sensor_id", &val) ? json_object_get_int(val) : static_cast<int>(0),
+      _var_speed);
   if (ret) {
     AFB_ERROR("[roverinfraredsensor] Verb 'read' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read' returning error %d", ret);
