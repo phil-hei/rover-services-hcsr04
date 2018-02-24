@@ -29,10 +29,37 @@
 #include <afb/afb-ws-client.h>
 #include <app/RoverDriving.h>
 
+int test_rover_driving(char * uri) {\
+  int rc = 0;
+  RoverDriving ws((const char *)uri);
+
+  rc |= ws.setspeed(480);
+	sleep(1);
+
+	rc |= ws.goforward();
+	sleep(1);
+
+  rc |= ws.gobackward();
+	sleep(1);
+
+  rc |= ws.stop();
+  sleep(1);
+
+  rc |= ws.turnright();
+	sleep(1);
+
+  rc |= ws.turnleft();
+	sleep(1);
+
+  if (rc) {
+    return -1;
+  }
+}
+
 /* entry function */
 int main(int ac, char **av, char **env)
 {
-	int rc;
+	int rc = 0;
 
 	/*get port and token from the command arg*/
 	char *port = av[1];
@@ -41,11 +68,11 @@ int main(int ac, char **av, char **env)
 
   sprintf(uri, "127.0.0.1:%s/api?token=%s", port, token);
 
-	RoverDriving ws((const char *)uri);
+  // Test Driving Service
+  rc |= test_rover_driving(uri);
 
-	while (1) {
-		ws.goforward();
-		sleep(5);
-	}
+  if (rc) {
+    return -1;
+  }
 
 }
