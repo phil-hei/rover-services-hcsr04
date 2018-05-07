@@ -30,6 +30,12 @@ env = Environment(
 generator = r2g.Raml2Agl()
 parser = rp.RamlParser()
 
+mapping = {'info': logging.INFO,
+           'warning': logging.WARNING,
+           'debug': logging.DEBUG,
+           'error': logging.ERROR,
+           }
+
 
 def getopts(argv):
     opts = {}  # Empty dictionary to store key-value pairs.
@@ -125,12 +131,9 @@ def create_agl_service_build_system(model_filename):
     service_path = os.path.join(services_path,
                                 info["short_name"])
 
-    # If exists then the build system is assumed to be set
-    if os.path.exists(service_path):
-        return
+    create_dir(services_path)
 
     # Create the service root dir
-    logging.info("Creating AGL Service Build Files at - " + service_path)
     conf_path = os.path.join(service_path, 'conf.d')
     cmake_path = os.path.join(conf_path, 'cmake')
     binding_path = os.path.join(service_path, info["short_name"] + '-afb')
@@ -138,6 +141,11 @@ def create_agl_service_build_system(model_filename):
     include_dir = os.path.join(binding_path, 'include', 'service')
     wgt_path = os.path.join(conf_path, 'wgt')
 
+    if os.path.exists(service_path):
+        logging.warning("AGL Service Classes already existing. Skipping...")
+        return
+
+    logging.info("Creating AGL Service Build Files at - " + service_path)
     create_dir(service_path)
     create_dir(cmake_path)
     create_dir(src_dir)
@@ -197,13 +205,15 @@ if __name__ == '__main__':
     from sys import argv
     myargs = getopts(argv)
 
-    if '-v' in myargs:
-        logging.basicConfig(level=logging.INFO)
+    if '-l' in myargs:
+        logging.basicConfig(level=mapping[myargs['-l']])
+    else:
+        logging.basicConfig(level=logging.WARNING)
 
-    if '-t' in myargs:
-        if os.path.exists(services_path):
-            shutil.rmtree(services_path)
-        create_dir(services_path)
+    # if '-t' in myargs:
+    #     if os.path.exists(services_path):
+    #         shutil.rmtree(services_path)
+    #     create_dir(services_path)
 
     logging.info("Provided params - " + json.dumps(myargs,
                                                    sort_keys=True,
