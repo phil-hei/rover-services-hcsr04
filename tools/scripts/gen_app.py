@@ -105,7 +105,7 @@ def create_app_files(model_filename):
 
 
 def create_app_build_system():
-    logging.info("Creating AGL Service Build Files at - " + app_path)
+    logging.info("Creating AGL Application Build Files at - " + app_path)
 
     info = {}
     info["name"] = 'Rover Services API'
