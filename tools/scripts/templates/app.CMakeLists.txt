@@ -11,4 +11,6 @@ file(GLOB all_cpp_sources "src/*.cpp")
 ADD_LIBRARY({{ info.short_name }} SHARED ${all_cpp_sources})
 
 # Install
-#FIXME implement this!
+install(TARGETS {{ info.short_name }}
+        LIBRARY DESTINATION lib)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/app DESTINATION include)
