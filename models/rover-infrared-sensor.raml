@@ -3,17 +3,26 @@ title: Rover Infrared Sensor
 mediaType: application/json
 version: v1
 baseUri: localhost:8000/api?token=x
+types:
+  infrared_sensor_id:
+    enum:
+      - rear_right
+      - rear_left
+      - front_right
+      - front_left
+      - front
+      - rear
 /read:
   description: "Read Data From Sensor"
   post:
     body:
       properties:
         sensor_id:
-          type: integer
+          type: infrared_sensor_id
   get:
     responses:
       200:
         body:
           properties:
-            speed:
+            distance:
               type: number

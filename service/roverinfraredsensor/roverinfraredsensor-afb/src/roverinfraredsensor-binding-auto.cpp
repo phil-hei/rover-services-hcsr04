@@ -59,7 +59,7 @@ static void read(struct afb_req request) {
       }
   }
 
-  ret = obj.read(json_object_object_get_ex(args, "sensor_id", &val) ? json_object_get_int(val) : static_cast<int>(0),
+  ret = obj.read(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<infrared_sensor_id>(json_object_get_int(val)) : static_cast<infrared_sensor_id>(0),
       _var_speed);
   if (ret) {
     AFB_ERROR("[roverinfraredsensor] Verb 'read' returning error");

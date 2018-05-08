@@ -28,6 +28,15 @@ extern "C"
     #include <afb/afb-binding.h>
 };
 
+enum infrared_sensor_id {
+  rear_right,
+  rear_left,
+  front_right,
+  front_left,
+  front,
+  rear
+};
+
 class ServiceRoverInfraredSensor {
 public:
   ServiceRoverInfraredSensor();
@@ -35,7 +44,7 @@ public:
   int init();
 
     /** Autogenrated doc for read */
-    int read(const int in_sensor_id,
+    int read(const infrared_sensor_id in_sensor_id,
         double &out_speed);
 
 };
