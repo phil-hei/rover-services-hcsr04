@@ -28,8 +28,11 @@
 #include <afb/afb-wsj1.h>
 #include <afb/afb-ws-client.h>
 #include <app/RoverDriving.h>
+#include <app/RoverInfraredSensor.h>
 
-int test_rover_driving(char * uri) {\
+using namespace std;
+
+int test_rover_driving(char * uri) {
   int rc = 0;
   RoverDriving ws((const char *)uri);
 
@@ -56,6 +59,70 @@ int test_rover_driving(char * uri) {\
   }
 }
 
+int test_rover_infraredsensor(char * uri) {
+  int rc = 0;
+  int count = 0;
+  double sensor_val;
+  RoverInfraredSensor ws((const char *)uri);
+
+  while (count < 3) {
+    rc |= ws.read(infrared_sensor_id::front_right, sensor_val);
+    printf("Front right sensor value: %f\n", sensor_val);
+  	sleep(1);
+    count++;
+  }
+
+  count = 0;
+
+  while (count < 3) {
+    rc |= ws.read(infrared_sensor_id::front_left, sensor_val);
+    printf("Front left sensor value: %f\n", sensor_val);
+  	sleep(1);
+    count++;
+  }
+
+  count = 0;
+
+  while (count < 3) {
+    rc |= ws.read(infrared_sensor_id::rear_right, sensor_val);
+    printf("Rear right sensor value: %f\n", sensor_val);
+    sleep(1);
+    count++;
+  }
+
+  count = 0;
+
+  while (count < 3) {
+    rc |= ws.read(infrared_sensor_id::rear_left, sensor_val);
+    printf("Rear left sensor value: %f\n", sensor_val);
+    sleep(1);
+    count++;
+  }
+
+  count = 0;
+
+  while (count < 3) {
+    rc |= ws.read(infrared_sensor_id::rear, sensor_val);
+    printf("Rear sensor value: %f\n", sensor_val);
+    sleep(1);
+    count++;
+  }
+
+  count = 0;
+
+  while (count < 3) {
+    rc |= ws.read(infrared_sensor_id::front, sensor_val);
+    printf("Front sensor value: %f\n", sensor_val);
+    sleep(1);
+    count++;
+  }
+
+
+  if (rc) {
+    return -1;
+  }
+}
+
 /* entry function */
 int main(int ac, char **av, char **env)
 {
@@ -70,6 +137,8 @@ int main(int ac, char **av, char **env)
 
   // Test Driving Service
   rc |= test_rover_driving(uri);
+  // Test Infrared Sensor
+  rc |= test_rover_infraredsensor(uri);
 
   if (rc) {
     return -1;
