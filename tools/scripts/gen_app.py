@@ -210,11 +210,6 @@ if __name__ == '__main__':
     else:
         logging.basicConfig(level=logging.WARNING)
 
-    # if '-t' in myargs:
-    #     if os.path.exists(services_path):
-    #         shutil.rmtree(services_path)
-    #     create_dir(services_path)
-
     logging.info("Provided params - " + json.dumps(myargs,
                                                    sort_keys=True,
                                                    indent=4))

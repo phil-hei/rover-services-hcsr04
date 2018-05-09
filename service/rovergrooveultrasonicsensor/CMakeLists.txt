@@ -1,6 +1,8 @@
 ###########################################################################
 # Copyright 2015, 2016, 2017 IoT.bzh
 #
+# author: Romain Forlot <romain.forlot@iot.bzh>
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -14,22 +16,6 @@
 # limitations under the License.
 ###########################################################################
 
-include_directories(${CMAKE_SOURCE_DIR}/roverinfraredsensor-afb/include)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
 
-# Add target to project dependency list
-PROJECT_TARGET_ADD(roverinfraredsensor)
-
-# Define project Targets
-ADD_LIBRARY(${TARGET_NAME} MODULE src/roverinfraredsensor-binding-auto.cpp  src/ServiceRoverInfraredSensor.cpp)
-
-# Binder exposes a unique public entry point
-SET_TARGET_PROPERTIES(${TARGET_NAME} PROPERTIES
-    PREFIX "afb-"
-    LABELS "BINDING"
-    LINK_FLAGS  ${BINDINGS_LINK_FLAG}
-    OUTPUT_NAME ${TARGET_NAME}
-)
-
-TARGET_LINK_LIBRARIES(${TARGET_NAME}
- ${link_libraries} roverapi
-)
+include(${CMAKE_CURRENT_SOURCE_DIR}/conf.d/cmake/config.cmake)

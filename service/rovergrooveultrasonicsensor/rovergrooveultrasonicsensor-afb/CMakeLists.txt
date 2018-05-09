@@ -14,13 +14,13 @@
 # limitations under the License.
 ###########################################################################
 
-include_directories(${CMAKE_SOURCE_DIR}/roverinfraredsensor-afb/include)
+include_directories(${CMAKE_SOURCE_DIR}/rovergrooveultrasonicsensor-afb/include)
 
 # Add target to project dependency list
-PROJECT_TARGET_ADD(roverinfraredsensor)
+PROJECT_TARGET_ADD(rovergrooveultrasonicsensor)
 
 # Define project Targets
-ADD_LIBRARY(${TARGET_NAME} MODULE src/roverinfraredsensor-binding-auto.cpp  src/ServiceRoverInfraredSensor.cpp)
+ADD_LIBRARY(${TARGET_NAME} MODULE src/rovergrooveultrasonicsensor-binding-auto.cpp  src/ServiceRoverGrooveUltrasonicSensor.cpp)
 
 # Binder exposes a unique public entry point
 SET_TARGET_PROPERTIES(${TARGET_NAME} PROPERTIES

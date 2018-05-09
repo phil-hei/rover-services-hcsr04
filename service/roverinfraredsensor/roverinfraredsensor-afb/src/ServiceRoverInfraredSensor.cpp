@@ -44,13 +44,13 @@ int ServiceRoverInfraredSensor::init() {
   return 0;
 }
 
-/** Autogenrated doc for read */
-int ServiceRoverInfraredSensor::read(const infrared_sensor_id in_sensor_id,
-    double &out_speed) {
 
+/** Autogenrated doc for read */
+int ServiceRoverInfraredSensor::read(const rover_sensor_id in_sensor_id,
+    double &out_distance) {
   AFB_NOTICE("[ServiceRoverInfraredSensor] Read");
 
-  out_speed = static_cast<double>(obj[static_cast<int>(in_sensor_id)].read());
+  out_distance = static_cast<double>(obj[static_cast<int>(in_sensor_id)].read());
 
   return 0;
 }

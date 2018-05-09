@@ -4,7 +4,7 @@ mediaType: application/json
 version: v1
 baseUri: localhost:8000/api?token=x
 types:
-  infrared_sensor_id:
+  rover_sensor_id:
     enum:
       - rear_right
       - rear_left
@@ -18,7 +18,7 @@ types:
     body:
       properties:
         sensor_id:
-          type: infrared_sensor_id
+          type: rover_sensor_id
   get:
     responses:
       200:
