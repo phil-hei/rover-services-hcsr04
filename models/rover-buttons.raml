@@ -1,0 +1,25 @@
+#%RAML 1.0
+title: Rover Buttons
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+/read:
+  description: "Read Button State"
+  post:
+    body:
+      properties:
+        button_id:
+          type: rover_button_id
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            button_state:
+              type: number

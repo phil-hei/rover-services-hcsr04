@@ -139,9 +139,9 @@ int main(int ac, char **av, char **env)
   sprintf(uri, "127.0.0.1:%s/api?token=%s", port, token);
 
   // Test Driving Service
-  // rc |= test_rover_driving(uri);
+  rc |= test_rover_driving(uri);
   // Test Infrared Sensor
-  // rc |= test_rover_infraredsensor(uri);
+  rc |= test_rover_infraredsensor(uri);
   // Test Groove Sensors
   rc |= test_rover_groovesensor(uri);
 
