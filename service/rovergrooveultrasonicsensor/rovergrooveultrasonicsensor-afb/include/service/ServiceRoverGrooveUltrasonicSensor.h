@@ -44,16 +44,20 @@ public:
   int init();
 
     /** Autogenrated doc for check */
-    int check(bool &out_enable);
+    int check(const rover_sensor_id in_sensor_id,
+        bool &out_enable);
 
     /** Autogenrated doc for get_sig_pin */
-    int get_sig_pin(int &out_sig_pin);
+    int get_sig_pin(const rover_sensor_id in_sensor_id,
+        int &out_sig_pin);
 
     /** Autogenrated doc for read */
-    int read(double &out_distance);
+    int read(const rover_sensor_id in_sensor_id,
+        double &out_distance);
 
     /** Autogenrated doc for set_sig_pin */
-    int set_sig_pin(const int in_sig_pin);
+    int set_sig_pin(const rover_sensor_id in_sensor_id,
+        const int in_sig_pin);
 
 };
 

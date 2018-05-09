@@ -14,6 +14,11 @@ types:
       - rear
 /read:
   description: "Read Data From Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
   get:
     responses:
       200:
@@ -23,6 +28,11 @@ types:
               type: number
 /check:
   description: "Check if the sensor is enabled"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
   get:
     responses:
       200:
@@ -35,10 +45,17 @@ types:
   post:
     body:
       properties:
+        sensor_id:
+          type: rover_sensor_id
         sig_pin:
           type: integer
 /get_sig_pin:
   description: "Sets the private attribute sigPin for Groove Ultrasonic Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
   get:
     responses:
       200:

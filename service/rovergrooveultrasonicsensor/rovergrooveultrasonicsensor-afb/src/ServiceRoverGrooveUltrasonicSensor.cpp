@@ -20,9 +20,28 @@
 using namespace rover;
 
 static RoverGrooveUltrasonic rearSensor(static_cast<const RoverSensorID_t>(rover_sensor_id::rear));
+static RoverGrooveUltrasonic frontSensor(static_cast<const RoverSensorID_t>(rover_sensor_id::front));
 
-// TODO: Implement check of the presence of this sensor
-static bool enabled = false;
+inline RoverGrooveUltrasonic getSensor(const rover_sensor_id id) {
+  switch (id) {
+    case rear:
+      return rearSensor;
+    case front:
+      return frontSensor;
+    default:
+      return frontSensor; // Note that the id is check in every function
+  }
+}
+
+inline bool check_id(const rover_sensor_id id) {
+  switch (id) {
+    case rear:
+    case front:
+      return true;
+    default:
+      return false;
+  }
+}
 
 ServiceRoverGrooveUltrasonicSensor::ServiceRoverGrooveUltrasonicSensor() {
   AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Constructor ");
@@ -32,45 +51,74 @@ int ServiceRoverGrooveUltrasonicSensor::init() {
   AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Init ");
 
   rearSensor.initialize();
-
-  enabled = true;
+  frontSensor.initialize();
 
   return 0;
 }
 
 
 /** Autogenrated doc for check */
-int ServiceRoverGrooveUltrasonicSensor::check(bool &out_enable) {
+int ServiceRoverGrooveUltrasonicSensor::check(const rover_sensor_id in_sensor_id,
+    bool &out_enable) {
+
   AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Check");
 
-  out_enable = enabled;
+  RoverGrooveUltrasonic sensor = getSensor(in_sensor_id);
+
+  if (!check_id(in_sensor_id)) {
+    return -1;
+  }
+
+  // TODO: Implement this check
+  out_enable = true;
 
   return 0;
 }
 
 /** Autogenrated doc for get_sig_pin */
-int ServiceRoverGrooveUltrasonicSensor::get_sig_pin(int &out_sig_pin) {
-  AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Get_sig_pin");
+int ServiceRoverGrooveUltrasonicSensor::get_sig_pin(const rover_sensor_id in_sensor_id,
+    int &out_sig_pin) {
 
-  out_sig_pin = rearSensor.getSigPin();
+  AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Get_sig_pin");
+  RoverGrooveUltrasonic sensor = getSensor(in_sensor_id);
+
+  if (!check_id(in_sensor_id)) {
+    return -1;
+  }
+
+  out_sig_pin = sensor.getSigPin();
 
   return 0;
 }
 
 /** Autogenrated doc for read */
-int ServiceRoverGrooveUltrasonicSensor::read(double &out_distance) {
-  AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Read");
+int ServiceRoverGrooveUltrasonicSensor::read(const rover_sensor_id in_sensor_id,
+    double &out_distance) {
 
-  out_distance = static_cast<double>(rearSensor.read());
+  AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Read");
+  RoverGrooveUltrasonic sensor = getSensor(in_sensor_id);
+
+  if (!check_id(in_sensor_id)) {
+    return -1;
+  }
+
+  out_distance = static_cast<double>(sensor.read());
 
   return 0;
 }
 
 /** Autogenrated doc for set_sig_pin */
-int ServiceRoverGrooveUltrasonicSensor::set_sig_pin(const int in_sig_pin) {
-  AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Set_sig_pin");
+int ServiceRoverGrooveUltrasonicSensor::set_sig_pin(const rover_sensor_id in_sensor_id,
+    const int in_sig_pin) {
 
-  rearSensor.setSigPin(in_sig_pin);
+  AFB_NOTICE("[ServiceRoverGrooveUltrasonicSensor] Set_sig_pin");
+  RoverGrooveUltrasonic sensor = getSensor(in_sensor_id);
+
+  if (!check_id(in_sensor_id)) {
+    return -1;
+  }
+
+  sensor.setSigPin(in_sig_pin);
 
   return 0;
 }

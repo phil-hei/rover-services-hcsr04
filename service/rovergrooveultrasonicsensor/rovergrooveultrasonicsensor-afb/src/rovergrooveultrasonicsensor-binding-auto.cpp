@@ -46,11 +46,21 @@ static void read(struct afb_req request) {
   double _var_distance = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
+  json_object *val = NULL;
   int ret = 0;
 
   AFB_NOTICE("[rovergrooveultrasonicsensor] Calling read");
 
-  ret = obj.read(_var_distance);
+  if (args) {
+      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
+        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+        return;
+      }
+  }
+
+  ret = obj.read(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+      _var_distance);
   if (ret) {
     AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'read' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read' returning error %d", ret);
@@ -74,6 +84,11 @@ static void set_sig_pin(struct afb_req request) {
   AFB_NOTICE("[rovergrooveultrasonicsensor] Calling set_sig_pin");
 
   if (args) {
+      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
+        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+        return;
+      }
       if (!json_object_object_get_ex(args, "sig_pin", &val)) {
         AFB_ERROR("[rovergrooveultrasonicsensor] No 'sig_pin' param provided");
         afb_req_fail(request, "bad-request", "No 'sig_pin' param provided");
@@ -81,7 +96,8 @@ static void set_sig_pin(struct afb_req request) {
       }
   }
 
-  ret = obj.set_sig_pin(json_object_object_get_ex(args, "sig_pin", &val) ? static_cast<int>(json_object_get_int(val)) : static_cast<int>(0));
+  ret = obj.set_sig_pin(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+      json_object_object_get_ex(args, "sig_pin", &val) ? static_cast<int>(json_object_get_int(val)) : static_cast<int>(0));
   if (ret) {
     AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'set_sig_pin' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'set_sig_pin' returning error %d", ret);
@@ -98,11 +114,21 @@ static void get_sig_pin(struct afb_req request) {
   int _var_sig_pin = static_cast<int>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
+  json_object *val = NULL;
   int ret = 0;
 
   AFB_NOTICE("[rovergrooveultrasonicsensor] Calling get_sig_pin");
 
-  ret = obj.get_sig_pin(_var_sig_pin);
+  if (args) {
+      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
+        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+        return;
+      }
+  }
+
+  ret = obj.get_sig_pin(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+      _var_sig_pin);
   if (ret) {
     AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'get_sig_pin' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'get_sig_pin' returning error %d", ret);
@@ -123,11 +149,21 @@ static void check(struct afb_req request) {
   bool _var_enable = static_cast<bool>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
+  json_object *val = NULL;
   int ret = 0;
 
   AFB_NOTICE("[rovergrooveultrasonicsensor] Calling check");
 
-  ret = obj.check(_var_enable);
+  if (args) {
+      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
+        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+        return;
+      }
+  }
+
+  ret = obj.check(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+      _var_enable);
   if (ret) {
     AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'check' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'check' returning error %d", ret);
