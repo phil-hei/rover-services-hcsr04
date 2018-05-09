@@ -1,0 +1,88 @@
+#%RAML 1.0
+title: Rover HCSR04 Ultrasonic Sensor
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - rear_left
+      - front_right
+      - front_left
+      - front
+      - rear
+/read:
+  description: "Read Data From Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            distance:
+              type: number
+/check:
+  description: "Check if the sensor is enabled"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            enable:
+              type: boolean
+/set_trig_pin:
+  description: "Sets the private attribute trigPin for HCSR04 Ultrasonic Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
+        trig_pin:
+          type: integer
+/get_trig_pin:
+  description: "Sets the private attribute trigPin for HCSR04 Ultrasonic Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            trig_pin:
+              type: integer
+/set_echo_pin:
+  description: "Sets the private attribute echoPin for HCSR04 Ultrasonic Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
+        echo_pin:
+          type: integer
+/get_echo_pin:
+  description: "Sets the private attribute echoPin for HCSR04 Ultrasonic Sensor"
+  post:
+    body:
+      properties:
+        sensor_id:
+          type: rover_sensor_id
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            echo_pin:
+              type: integer
