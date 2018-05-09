@@ -29,6 +29,7 @@
 #include <afb/afb-ws-client.h>
 #include <app/RoverDriving.h>
 #include <app/RoverInfraredSensor.h>
+#include <app/RoverGrooveUltrasonicSensor.h>
 
 using namespace std;
 
@@ -66,7 +67,7 @@ int test_rover_infraredsensor(char * uri) {
   RoverInfraredSensor ws((const char *)uri);
 
   while (count < 3) {
-    rc |= ws.read(infrared_sensor_id::front_right, sensor_val);
+    rc |= ws.read(rover_sensor_id::front_right, sensor_val);
     printf("Front right sensor value: %f\n", sensor_val);
   	sleep(1);
     count++;
@@ -75,7 +76,7 @@ int test_rover_infraredsensor(char * uri) {
   count = 0;
 
   while (count < 3) {
-    rc |= ws.read(infrared_sensor_id::front_left, sensor_val);
+    rc |= ws.read(rover_sensor_id::front_left, sensor_val);
     printf("Front left sensor value: %f\n", sensor_val);
   	sleep(1);
     count++;
@@ -84,7 +85,7 @@ int test_rover_infraredsensor(char * uri) {
   count = 0;
 
   while (count < 3) {
-    rc |= ws.read(infrared_sensor_id::rear_right, sensor_val);
+    rc |= ws.read(rover_sensor_id::rear_right, sensor_val);
     printf("Rear right sensor value: %f\n", sensor_val);
     sleep(1);
     count++;
@@ -93,29 +94,31 @@ int test_rover_infraredsensor(char * uri) {
   count = 0;
 
   while (count < 3) {
-    rc |= ws.read(infrared_sensor_id::rear_left, sensor_val);
+    rc |= ws.read(rover_sensor_id::rear_left, sensor_val);
     printf("Rear left sensor value: %f\n", sensor_val);
     sleep(1);
     count++;
   }
 
-  count = 0;
 
-  while (count < 3) {
-    rc |= ws.read(infrared_sensor_id::rear, sensor_val);
-    printf("Rear sensor value: %f\n", sensor_val);
-    sleep(1);
-    count++;
+  if (rc) {
+    return -1;
   }
+}
 
-  count = 0;
+int test_rover_groovesensor(char * uri) {
+  int rc = 0;
+  double sensor_val;
+  RoverGrooveUltrasonicSensor ws((const char *)uri);
 
-  while (count < 3) {
-    rc |= ws.read(infrared_sensor_id::front, sensor_val);
-    printf("Front sensor value: %f\n", sensor_val);
-    sleep(1);
-    count++;
-  }
+  rc |= ws.read(rover_sensor_id::rear, sensor_val);
+  printf("Rear sensor value: %f\n", sensor_val);
+  sleep(1);
+
+
+  rc |= ws.read(rover_sensor_id::front, sensor_val);
+  printf("Front sensor value: %f\n", sensor_val);
+  sleep(1);
 
 
   if (rc) {
@@ -136,9 +139,11 @@ int main(int ac, char **av, char **env)
   sprintf(uri, "127.0.0.1:%s/api?token=%s", port, token);
 
   // Test Driving Service
-  rc |= test_rover_driving(uri);
+  // rc |= test_rover_driving(uri);
   // Test Infrared Sensor
-  rc |= test_rover_infraredsensor(uri);
+  // rc |= test_rover_infraredsensor(uri);
+  // Test Groove Sensors
+  rc |= test_rover_groovesensor(uri);
 
   if (rc) {
     return -1;
