@@ -30,6 +30,9 @@
 #include <app/RoverDriving.h>
 #include <app/RoverInfraredSensor.h>
 #include <app/RoverGrooveUltrasonicSensor.h>
+#include <app/RoverBuzzer.h>
+
+#include "melodies.h"
 
 using namespace std;
 
@@ -108,17 +111,43 @@ int test_rover_infraredsensor(char * uri) {
 
 int test_rover_groovesensor(char * uri) {
   int rc = 0;
+  int count = 0;
   double sensor_val;
   RoverGrooveUltrasonicSensor ws((const char *)uri);
 
-  rc |= ws.read(rover_sensor_id::rear, sensor_val);
-  printf("Rear sensor value: %f\n", sensor_val);
-  sleep(1);
+  while (count < 3) {
+    rc |= ws.read(rover_sensor_id::rear, sensor_val);
+    printf("Rear sensor value: %f\n", sensor_val);
+    sleep(1);
+    count++;
+  }
+
+  count = 0;
+
+  while (count < 3) {
+    rc |= ws.read(rover_sensor_id::front, sensor_val);
+    printf("Front sensor value: %f\n", sensor_val);
+    sleep(1);
+    count++;
+  }
 
 
-  rc |= ws.read(rover_sensor_id::front, sensor_val);
-  printf("Front sensor value: %f\n", sensor_val);
+  if (rc) {
+    return -1;
+  }
+}
+
+
+int test_rover_buzzer(char * uri) {
+  int rc = 0;
+  int med_size = 3;
+  int med[med_size] = {1, 2, 5};
+
+  RoverBuzzer ws((const char *)uri);
+
+  rc |= ws.set_tone(300);
   sleep(1);
+  rc |= ws.play_melody(mario_theme, MARION_THEME_SIZE, mario_theme_tempo, MARION_THEME_SIZE);
 
 
   if (rc) {
@@ -144,6 +173,8 @@ int main(int ac, char **av, char **env)
   rc |= test_rover_infraredsensor(uri);
   // Test Groove Sensors
   rc |= test_rover_groovesensor(uri);
+  // Test Buzzer
+  rc |= test_rover_buzzer(uri);
 
   if (rc) {
     return -1;

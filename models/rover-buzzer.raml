@@ -1,0 +1,55 @@
+#%RAML 1.0
+title: Rover Buzzer
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - rear_left
+      - front_right
+      - front_left
+      - front
+      - rear
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+/set_frequency:
+  description: "Set the Buzzer Frequency"
+  post:
+    body:
+      properties:
+        buzzer_frequency:
+          type: integer
+/get_frequency:
+  description: "Get the Buzzer Frequency"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            buzzer_frequency:
+              type: integer
+/set_on:
+  description: "Set the Buzzer On"
+/set_off:
+  description: "Set the Buzzer Off"
+/set_tone:
+  description: "Set the Buzzer Tone"
+  post:
+    body:
+      properties:
+        buzzer_frequency:
+          type: integer
+/play_melody:
+  description: "Play Melody"
+  post:
+    body:
+      properties:
+        melody:
+          type: integer[]
+        tempo:
+          type: number[]
