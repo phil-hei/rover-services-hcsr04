@@ -51,7 +51,9 @@ static void get_honocloud_status(struct afb_req request) {
 
   AFB_NOTICE("[roverutils] Calling get_honocloud_status");
 
+
   if (args) {
+    // Parse args if possible
     if (!json_object_object_get_ex(args, "device_id", &val[0])) {
       AFB_ERROR("[roverutils] No 'device_id' param provided");
       afb_req_fail(request, "bad-request", "No 'device_id' param provided");
@@ -82,7 +84,10 @@ static void get_honocloud_status(struct afb_req request) {
       afb_req_fail(request, "bad-request", "No 'user' param provided");
       return;
     }
+
+
   }
+
 
   ret = obj.get_honocloud_status(static_cast<const char *>(json_object_get_string(val[0])),
       static_cast<const char *>(json_object_get_string(val[1])),
@@ -116,6 +121,14 @@ static void get_bluetooth_status(struct afb_req request) {
 
   AFB_NOTICE("[roverutils] Calling get_bluetooth_status");
 
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
   ret = obj.get_bluetooth_status(_var_is_on);
   if (ret) {
     AFB_ERROR("[roverutils] Verb 'get_bluetooth_status' returning error");
@@ -141,6 +154,14 @@ static void get_internet_status(struct afb_req request) {
   int ret = 0;
 
   AFB_NOTICE("[roverutils] Calling get_internet_status");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
 
   ret = obj.get_internet_status(_var_is_on);
   if (ret) {
@@ -168,6 +189,14 @@ static void get_wlan_status(struct afb_req request) {
 
   AFB_NOTICE("[roverutils] Calling get_wlan_status");
 
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
   ret = obj.get_wlan_status(_var_is_on);
   if (ret) {
     AFB_ERROR("[roverutils] Verb 'get_wlan_status' returning error");
@@ -187,15 +216,34 @@ static void get_wlan_status(struct afb_req request) {
 
 static void get_core_utilization(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  double _var_out_core_utilization[] = {};
-  int _var_out_core_utilization_size = 0;
+  double _var_core_utilization = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
+  double * _var_out_core_utilization = nullptr;
+  json_object *val_core_utilization_size_obj = NULL;
+  int _var_in_core_utilization_size = 0;
   int ret = 0;
 
   AFB_NOTICE("[roverutils] Calling get_core_utilization");
 
-  ret = obj.get_core_utilization(_var_out_core_utilization, _var_out_core_utilization_size);
+
+  if (args) {
+    // Parse args if possible
+
+    if (!json_object_object_get_ex(args, "core_utilization_size", &val_core_utilization_size_obj)) {
+      AFB_ERROR("[roverutils] No 'core_utilization_size' param provided");
+      afb_req_fail(request, "bad-request", "No 'core_utilization_size' param provided");
+      return;
+    }
+
+    _var_in_core_utilization_size = json_object_get_int(val_core_utilization_size_obj);
+
+    _var_out_core_utilization = new double[_var_in_core_utilization_size];
+
+  }
+
+
+  ret = obj.get_core_utilization(_var_out_core_utilization, _var_in_core_utilization_size);
   if (ret) {
     AFB_ERROR("[roverutils] Verb 'get_core_utilization' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'get_core_utilization' returning error %d", ret);
@@ -204,12 +252,13 @@ static void get_core_utilization(struct afb_req request) {
 
 
   new_sub_json = json_object_new_array();
-  for (int i = 0; i < _var_out_core_utilization_size; i++) {
+  for (int i = 0; i < _var_in_core_utilization_size; i++) {
     json_object_array_put_idx(new_sub_json, i, json_object_new_double(_var_out_core_utilization[i]));
   }
   json_object_object_add(new_json, "core_utilization", new_sub_json);
-  new_sub_json = json_object_new_int(_var_out_core_utilization_size);
-  json_object_object_add(new_json, "core_utilization_size", new_sub_json);
+
+  delete [] _var_out_core_utilization;
+
 
   afb_req_success(request, new_json, NULL);
   // Release the request json object
@@ -225,6 +274,14 @@ static void get_ethernet_status(struct afb_req request) {
   int ret = 0;
 
   AFB_NOTICE("[roverutils] Calling get_ethernet_status");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
 
   ret = obj.get_ethernet_status(_var_is_on);
   if (ret) {
@@ -251,6 +308,14 @@ static void get_number_cores(struct afb_req request) {
   int ret = 0;
 
   AFB_NOTICE("[roverutils] Calling get_number_cores");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
 
   ret = obj.get_number_cores(_var_num_cores);
   if (ret) {

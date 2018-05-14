@@ -31,6 +31,7 @@
 #include <app/RoverInfraredSensor.h>
 #include <app/RoverGrooveUltrasonicSensor.h>
 #include <app/RoverBuzzer.h>
+#include <app/RoverUtils.h>
 
 #include "melodies.h"
 
@@ -140,8 +141,6 @@ int test_rover_groovesensor(char * uri) {
 
 int test_rover_buzzer(char * uri) {
   int rc = 0;
-  int med_size = 3;
-  int med[med_size] = {1, 2, 5};
 
   RoverBuzzer ws((const char *)uri);
 
@@ -149,6 +148,43 @@ int test_rover_buzzer(char * uri) {
   sleep(1);
   rc |= ws.play_melody(mario_theme, MARION_THEME_SIZE, mario_theme_tempo, MARION_THEME_SIZE);
 
+
+  if (rc) {
+    return -1;
+  }
+}
+
+int test_rover_utils(char * uri) {
+  int rc = 0;
+  bool status;
+  int n_cores = 0;
+  double * cores_util;
+
+  RoverUtils ws((const char *)uri);
+
+  rc |= ws.get_ethernet_status(status);
+  printf("Ethernet Status: %s\n", status? "ON" : "OFF");
+
+  rc |= ws.get_wlan_status(status);
+  printf("WLAN Status: %s\n", status? "ON" : "OFF");
+
+  rc |= ws.get_internet_status(status);
+  printf("Internet Status: %s\n", status? "ON" : "OFF");
+
+  rc |= ws.get_bluetooth_status(status);
+  printf("Bluetooth Status: %s\n", status? "ON" : "OFF");
+
+  rc |= ws.get_number_cores(n_cores);
+  printf("Number Of Cores: %d\n", n_cores);
+
+  cores_util = new double[n_cores];
+
+  rc |= ws.get_core_utilization(cores_util, n_cores);
+  for (int i = 0; i < n_cores; i++) {
+      printf("Core %d: Utilization %f\n", i, cores_util[i]);
+  }
+
+  delete [] cores_util;
 
   if (rc) {
     return -1;
@@ -168,13 +204,15 @@ int main(int ac, char **av, char **env)
   sprintf(uri, "127.0.0.1:%s/api?token=%s", port, token);
 
   // Test Driving Service
-  rc |= test_rover_driving(uri);
+  // rc |= test_rover_driving(uri);
   // Test Infrared Sensor
-  rc |= test_rover_infraredsensor(uri);
+  // rc |= test_rover_infraredsensor(uri);
   // Test Groove Sensors
-  rc |= test_rover_groovesensor(uri);
+  // rc |= test_rover_groovesensor(uri);
   // Test Buzzer
-  rc |= test_rover_buzzer(uri);
+  // rc |= test_rover_buzzer(uri);
+  // Test Utils
+  rc |= test_rover_utils(uri);
 
   if (rc) {
     return -1;

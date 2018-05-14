@@ -12,5 +12,6 @@
      <param name="roverinfraredsensor" value="ws" />
      <param name="rovergrooveultrasonicsensor" value="ws" />
      <param name="roverbuzzer" value="ws" />
+     <param name="roverutils" value="ws" />
   </feature>
 </widget>

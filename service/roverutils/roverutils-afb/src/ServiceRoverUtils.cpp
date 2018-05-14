@@ -17,7 +17,16 @@
 #include <service/ServiceRoverUtils.h>
 #include <roverapi/rover_utils.hpp>
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <limits>
+#include <vector>
+#include <numeric>
+
 using namespace rover;
+using namespace std;
 
 static RoverUtils utils;
 
@@ -41,31 +50,98 @@ int ServiceRoverUtils::get_bluetooth_status(bool &out_is_on) {
   return 0;
 }
 
+int get_num_cores() {
+  ifstream proc_stat("/proc/stat");
+  string line;
+  string cpu;
+  size_t found;
+  int num_cores = 0;
+
+  getline(proc_stat, line);
+  // proc_stat.ignore(5, ' '); // Skip the 'cpu' prefix.
+
+  // Read all the needed data form /proc/stat
+  while (getline(proc_stat, line)) {
+    istringstream is(line);
+    is >> cpu;
+
+    // Check if it's a cpu line
+    found = cpu.find("cpu");
+    if (found == std::string::npos) {
+      break;
+    }
+
+    num_cores++;
+  }
+
+  return num_cores;
+}
+
+
+vector<vector<size_t>> get_cpu_times(int &num_cores) {
+  ifstream proc_stat("/proc/stat");
+  string line;
+  string cpu;
+  size_t found;
+  vector<vector<size_t>> times;
+
+  getline(proc_stat, line);
+  // proc_stat.ignore(5, ' '); // Skip the 'cpu' prefix.
+
+  num_cores = 0;
+
+  // Read all the needed data form /proc/stat
+  while (getline(proc_stat, line)) {
+    istringstream is(line);
+    is >> cpu;
+
+    // Check if it's a cpu line
+    found = cpu.find("cpu");
+    if (found == std::string::npos) {
+      break;
+    }
+
+    num_cores++;
+
+    AFB_NOTICE("[ServiceRoverUtils] CPU name %s", cpu.c_str());
+
+    // Read all times
+    vector<size_t> this_cpu_times;
+    for (size_t time; is >> time; this_cpu_times.push_back(time));
+
+    // Add it to the main vector
+    times.push_back(this_cpu_times);
+  }
+
+  return times;
+}
+
 /** Autogenrated doc for get_core_utilization */
-int ServiceRoverUtils::get_core_utilization(double out_core_utilization[], int &out_core_utilization_size) {
+int ServiceRoverUtils::get_core_utilization(double out_core_utilization[], int in_core_utilization_size) {
+  vector<vector<size_t>> times0, times1;
+  int total_time;
+  int idle_time;
+  int size = 0;
 
   AFB_NOTICE("[ServiceRoverUtils] Get_core_utilization");
-  AFB_ERROR("Method Get_core_utilization not implemented");
 
-  float float_cores[] = {};
+  times0 = get_cpu_times(size);
+  usleep(500000);
+  times1 = get_cpu_times(size);
 
-  // Get data from library
-  out_core_utilization_size = utils.numberOfCores;
-  utils.getCoreUtilization(float_cores);
+  for (int i = 0; i < in_core_utilization_size; i++) {
+    total_time = std::accumulate(times1[i].begin(), times1[i].end(), 0);
+    total_time -= std::accumulate(times0[i].begin(), times0[i].end(), 0);
 
-  // Convert float to double
-  if (out_core_utilization != nullptr) {
-    delete [] out_core_utilization;
+    idle_time = times1[i][3] - times0[i][3];
+
+    AFB_NOTICE("[ServiceRoverUtils] CPU name %d", i);
+    AFB_NOTICE("[ServiceRoverUtils]  Idle Time: %d", static_cast<int>(idle_time));
+    AFB_NOTICE("[ServiceRoverUtils]  Total Time: %d", static_cast<int>(total_time));
+
+    out_core_utilization[i] = 100 * static_cast<double>((total_time - idle_time)) / total_time;
+    AFB_NOTICE("[ServiceRoverUtils]  Usage: %f", out_core_utilization[i]);
   }
-
-  out_core_utilization = new double[utils.numberOfCores];
-
-  for (int i = 0; i < utils.numberOfCores; i++){
-    out_core_utilization[i] = static_cast<double>(float_cores[i]);
-  }
-
-  // Clean up internal created variables
-  delete [] float_cores;
 
   return 0;
 }
@@ -110,9 +186,12 @@ int ServiceRoverUtils::get_number_cores(int &out_num_cores) {
 
   AFB_NOTICE("[ServiceRoverUtils] Get_number_cores");
 
-  out_num_cores = static_cast<int>(utils.numberOfCores);
+  out_num_cores = get_num_cores();
+
+  AFB_NOTICE("[ServiceRoverUtils] Get_number_cores cores: %d", out_num_cores);
 
   return 0;
+
 }
 
 /** Autogenrated doc for get_wlan_status */

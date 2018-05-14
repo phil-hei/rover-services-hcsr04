@@ -29,10 +29,17 @@ extern "C"
 };
 
 enum rover_button_id {
-
+  user_button,
+  shutdown_button,
+  custom_button
 };
 enum rover_sensor_id {
-
+  rear_right,
+  rear_left,
+  front_right,
+  front_left,
+  front,
+  rear
 };
 
 class ServiceRoverUtils {
@@ -45,7 +52,7 @@ public:
     int get_bluetooth_status(bool &out_is_on);
 
     /** Autogenrated doc for get_core_utilization */
-    int get_core_utilization(double out_core_utilization[], int &out_core_utilization_size);
+    int get_core_utilization(double out_core_utilization[], int in_core_utilization_size);
 
     /** Autogenrated doc for get_ethernet_status */
     int get_ethernet_status(bool &out_is_on);
