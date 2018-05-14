@@ -1,0 +1,205 @@
+#%RAML 1.0
+title: Rover Display
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - rear_left
+      - front_right
+      - front_left
+      - front
+      - rear
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+/display:
+  description: "Displays the buffer"
+/clear_display:
+  description: "Clear the display"
+/draw_bitmap:
+  description: "Draw Bitmap"
+  post:
+    body:
+      properties:
+        x_loc:
+          type: integer
+        y_loc:
+          type: integer
+        bitmap:
+          type: integer[]
+        w_size:
+          type: integer
+        h_size:
+          type: integer
+        color:
+          type: integer
+/set_cursor:
+  description: "Set Cursor"
+  post:
+    body:
+      properties:
+        x_loc:
+          type: integer
+        y_loc:
+          type: integer
+/set_text_size:
+  description: "Set Text Size"
+  post:
+    body:
+      properties:
+        size:
+          type: integer
+/set_text_color:
+  description: "Set Text Color"
+  post:
+    body:
+      properties:
+        color:
+          type: integer
+/print:
+  description: "Print"
+  post:
+    body:
+      properties:
+        text:
+          type: string
+/draw_rectangle:
+  description: "Draw a Rectangle"
+  post:
+    body:
+      properties:
+        x_loc:
+          type: integer
+        y_loc:
+          type: integer
+        w_size:
+          type: integer
+        h_size:
+          type: integer
+        color:
+          type: integer
+        filled:
+          type: boolean
+/draw_pixel:
+  description: "Draw a Pixel"
+  post:
+    body:
+      properties:
+        x_loc:
+          type: integer
+        y_loc:
+          type: integer
+        color:
+          type: integer
+/draw_circle:
+  description: "Draw a Circle"
+  post:
+    body:
+      properties:
+        x_loc:
+          type: integer
+        y_loc:
+          type: integer
+        r_size:
+          type: integer
+        color:
+          type: integer
+        filled:
+          type: boolean
+/draw_round_rectangle:
+  description: "Draw a rectangle with rounded corners"
+  post:
+    body:
+      properties:
+        x_loc:
+          type: integer
+        y_loc:
+          type: integer
+        w_size:
+          type: integer
+        h_size:
+          type: integer
+        r_size:
+          type: integer
+        color:
+          type: integer
+/draw_triangle:
+  description: "Draw a rectangle with rounded corners"
+  post:
+    body:
+      properties:
+        x1_loc:
+          type: integer
+        y1_loc:
+          type: integer
+        x2_loc:
+          type: integer
+        y2_loc:
+          type: integer
+        x3_loc:
+          type: integer
+        y3_loc:
+          type: integer
+        color:
+          type: integer
+        filled:
+          type: boolean
+/draw_char:
+  description: "Draw a character"
+  post:
+    body:
+      properties:
+        x_loc:
+          type: integer
+        y_loc:
+          type: integer
+        character:
+          type: integer
+        color:
+          type: integer
+        bg_color:
+          type: integer
+        size:
+          type: integer
+/fill_screen:
+  description: "Fill the screen with single color"
+  post:
+    body:
+      properties:
+        color:
+          type: integer
+/set_rotation:
+  description: "Set Rotation"
+  post:
+    body:
+      properties:
+        rot:
+          type: integer
+/invert_display:
+  description: "Invert Display"
+  post:
+    body:
+      properties:
+        inv:
+          type: boolean
+/get_width:
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            width:
+              type: integer
+/get_height:
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            height:
+              type: integer
