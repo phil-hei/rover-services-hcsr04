@@ -1,0 +1,97 @@
+#%RAML 1.0
+title: Rover Utils
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - rear_left
+      - front_right
+      - front_left
+      - front
+      - rear
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+/get_core_utilization:
+  description: "Get Core utilization"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            core_utilization:
+              type: number[]
+/get_number_cores:
+  description: "Get number of cores"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            num_cores:
+              type: integer
+/get_wlan_status:
+  description: "Get the status of the WLAN"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            is_on:
+              type: boolean
+/get_ethernet_status:
+  description: "Get the status of the Ethernet Connection"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            is_on:
+              type: boolean
+/get_internet_status:
+  description: "Get the status of the internet Connection"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            is_on:
+              type: boolean
+/get_bluetooth_status:
+  description: "Get the status of the Bluetooth"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            is_on:
+              type: boolean
+/get_honocloud_status:
+  description: "Get the status of the Hono Cloud"
+  post:
+    body:
+      properties:
+        host_name:
+          type: string
+        port:
+          type: integer
+        tenant_name:
+          type: string
+        device_id:
+          type: string
+        user:
+          type: string
+        password:
+          type: string
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            is_on:
+              type: boolean
