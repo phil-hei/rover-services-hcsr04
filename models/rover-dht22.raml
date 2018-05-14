@@ -1,0 +1,62 @@
+#%RAML 1.0
+title: Rover DHT22
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - rear_left
+      - front_right
+      - front_left
+      - front
+      - rear
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+/read:
+  description: "Read Temperature"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            temperature:
+              type: number
+/read_temperature:
+  description: "Read Temperature"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            temperature:
+              type: number
+/read_humidity:
+  description: "Read Humidity"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            humidity:
+              type: number
+/set_pin:
+  description: "Set DHT22 Pin"
+  post:
+    body:
+      properties:
+        pin:
+          type: integer
+/get_pin:
+  description: "Get DHT22 Pin"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            pin:
+              type: integer
