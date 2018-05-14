@@ -77,6 +77,13 @@ public:
         const int in_x_loc,
         const int in_y_loc);
 
+    /** Autogenrated doc for draw_line */
+    int draw_line(const int in_color,
+        const int in_x1_loc,
+        const int in_x2_loc,
+        const int in_y1_loc,
+        const int in_y2_loc);
+
     /** Autogenrated doc for draw_pixel */
     int draw_pixel(const int in_color,
         const int in_x_loc,
@@ -92,6 +99,7 @@ public:
 
     /** Autogenrated doc for draw_round_rectangle */
     int draw_round_rectangle(const int in_color,
+        const bool in_filled,
         const int in_h_size,
         const int in_r_size,
         const int in_w_size,

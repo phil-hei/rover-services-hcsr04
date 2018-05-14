@@ -103,7 +103,7 @@ static void set_rotation(struct afb_req request) {
 
 static void draw_round_rectangle(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  json_object *val[6];
+  json_object *val[7];
   int ret = 0;
 
   AFB_NOTICE("[roverdisplay] Calling draw_round_rectangle");
@@ -116,27 +116,32 @@ static void draw_round_rectangle(struct afb_req request) {
       afb_req_fail(request, "bad-request", "No 'color' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "h_size", &val[1])) {
+    if (!json_object_object_get_ex(args, "filled", &val[1])) {
+      AFB_ERROR("[roverdisplay] No 'filled' param provided");
+      afb_req_fail(request, "bad-request", "No 'filled' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "h_size", &val[2])) {
       AFB_ERROR("[roverdisplay] No 'h_size' param provided");
       afb_req_fail(request, "bad-request", "No 'h_size' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "r_size", &val[2])) {
+    if (!json_object_object_get_ex(args, "r_size", &val[3])) {
       AFB_ERROR("[roverdisplay] No 'r_size' param provided");
       afb_req_fail(request, "bad-request", "No 'r_size' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "w_size", &val[3])) {
+    if (!json_object_object_get_ex(args, "w_size", &val[4])) {
       AFB_ERROR("[roverdisplay] No 'w_size' param provided");
       afb_req_fail(request, "bad-request", "No 'w_size' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "x_loc", &val[4])) {
+    if (!json_object_object_get_ex(args, "x_loc", &val[5])) {
       AFB_ERROR("[roverdisplay] No 'x_loc' param provided");
       afb_req_fail(request, "bad-request", "No 'x_loc' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "y_loc", &val[5])) {
+    if (!json_object_object_get_ex(args, "y_loc", &val[6])) {
       AFB_ERROR("[roverdisplay] No 'y_loc' param provided");
       afb_req_fail(request, "bad-request", "No 'y_loc' param provided");
       return;
@@ -147,11 +152,12 @@ static void draw_round_rectangle(struct afb_req request) {
 
 
   ret = obj.draw_round_rectangle(static_cast<int>(json_object_get_int(val[0])),
-      static_cast<int>(json_object_get_int(val[1])),
+      static_cast<bool>(json_object_get_boolean(val[1])),
       static_cast<int>(json_object_get_int(val[2])),
       static_cast<int>(json_object_get_int(val[3])),
       static_cast<int>(json_object_get_int(val[4])),
-      static_cast<int>(json_object_get_int(val[5])));
+      static_cast<int>(json_object_get_int(val[5])),
+      static_cast<int>(json_object_get_int(val[6])));
   if (ret) {
     AFB_ERROR("[roverdisplay] Verb 'draw_round_rectangle' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'draw_round_rectangle' returning error %d", ret);
@@ -188,6 +194,63 @@ static void set_text_color(struct afb_req request) {
   if (ret) {
     AFB_ERROR("[roverdisplay] Verb 'set_text_color' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'set_text_color' returning error %d", ret);
+    return;
+  }
+
+
+
+  afb_req_success(request, args, NULL);
+
+}
+
+static void draw_line(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+  json_object *val[5];
+  int ret = 0;
+
+  AFB_NOTICE("[roverdisplay] Calling draw_line");
+
+
+  if (args) {
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "color", &val[0])) {
+      AFB_ERROR("[roverdisplay] No 'color' param provided");
+      afb_req_fail(request, "bad-request", "No 'color' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "x1_loc", &val[1])) {
+      AFB_ERROR("[roverdisplay] No 'x1_loc' param provided");
+      afb_req_fail(request, "bad-request", "No 'x1_loc' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "x2_loc", &val[2])) {
+      AFB_ERROR("[roverdisplay] No 'x2_loc' param provided");
+      afb_req_fail(request, "bad-request", "No 'x2_loc' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "y1_loc", &val[3])) {
+      AFB_ERROR("[roverdisplay] No 'y1_loc' param provided");
+      afb_req_fail(request, "bad-request", "No 'y1_loc' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "y2_loc", &val[4])) {
+      AFB_ERROR("[roverdisplay] No 'y2_loc' param provided");
+      afb_req_fail(request, "bad-request", "No 'y2_loc' param provided");
+      return;
+    }
+
+
+  }
+
+
+  ret = obj.draw_line(static_cast<int>(json_object_get_int(val[0])),
+      static_cast<int>(json_object_get_int(val[1])),
+      static_cast<int>(json_object_get_int(val[2])),
+      static_cast<int>(json_object_get_int(val[3])),
+      static_cast<int>(json_object_get_int(val[4])));
+  if (ret) {
+    AFB_ERROR("[roverdisplay] Verb 'draw_line' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'draw_line' returning error %d", ret);
     return;
   }
 
@@ -860,6 +923,7 @@ static const struct afb_verb_v2 verbs[] = {
   {.verb = "set_rotation", .callback = set_rotation, .auth = NULL, .info = "Set Rotation", .session = 0},
   {.verb = "draw_round_rectangle", .callback = draw_round_rectangle, .auth = NULL, .info = "Draw a rectangle with rounded corners", .session = 0},
   {.verb = "set_text_color", .callback = set_text_color, .auth = NULL, .info = "Set Text Color", .session = 0},
+  {.verb = "draw_line", .callback = draw_line, .auth = NULL, .info = "Draw a line", .session = 0},
   {.verb = "draw_bitmap", .callback = draw_bitmap, .auth = NULL, .info = "Draw Bitmap", .session = 0},
   {.verb = "get_height", .callback = get_height, .auth = NULL, .info = "Auto Generated - get_height", .session = 0},
   {.verb = "print", .callback = print, .auth = NULL, .info = "Print", .session = 0},

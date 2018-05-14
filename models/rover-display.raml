@@ -128,6 +128,8 @@ types:
           type: integer
         color:
           type: integer
+        filled:
+          type: boolean
 /draw_triangle:
   description: "Draw a rectangle with rounded corners"
   post:
@@ -165,6 +167,21 @@ types:
         bg_color:
           type: integer
         size:
+          type: integer
+/draw_line:
+  description: "Draw a line"
+  post:
+    body:
+      properties:
+        x1_loc:
+          type: integer
+        y1_loc:
+          type: integer
+        x2_loc:
+          type: integer
+        y2_loc:
+          type: integer
+        color:
           type: integer
 /fill_screen:
   description: "Fill the screen with single color"
