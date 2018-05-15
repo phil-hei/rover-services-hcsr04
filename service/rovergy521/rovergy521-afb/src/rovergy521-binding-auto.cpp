@@ -247,7 +247,7 @@ static void read_gyro_z(struct afb_req request) {
 
 static void read_angle_y(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  double _var_acc_y = static_cast<double>(0);
+  double _var_angle_y = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
   int ret = 0;
@@ -262,7 +262,7 @@ static void read_angle_y(struct afb_req request) {
   }
 
 
-  ret = obj.read_angle_y(_var_acc_y);
+  ret = obj.read_angle_y(_var_angle_y);
   if (ret) {
     AFB_ERROR("[rovergy521] Verb 'read_angle_y' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read_angle_y' returning error %d", ret);
@@ -270,8 +270,8 @@ static void read_angle_y(struct afb_req request) {
   }
 
 
-  new_sub_json = json_object_new_double(_var_acc_y);
-  json_object_object_add(new_json, "acc_y", new_sub_json);
+  new_sub_json = json_object_new_double(_var_angle_y);
+  json_object_object_add(new_json, "angle_y", new_sub_json);
 
   afb_req_success(request, new_json, NULL);
   // Release the request json object
@@ -281,7 +281,7 @@ static void read_angle_y(struct afb_req request) {
 
 static void read_angle_x(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  double _var_acc_x = static_cast<double>(0);
+  double _var_angle_x = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
   int ret = 0;
@@ -296,7 +296,7 @@ static void read_angle_x(struct afb_req request) {
   }
 
 
-  ret = obj.read_angle_x(_var_acc_x);
+  ret = obj.read_angle_x(_var_angle_x);
   if (ret) {
     AFB_ERROR("[rovergy521] Verb 'read_angle_x' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read_angle_x' returning error %d", ret);
@@ -304,8 +304,8 @@ static void read_angle_x(struct afb_req request) {
   }
 
 
-  new_sub_json = json_object_new_double(_var_acc_x);
-  json_object_object_add(new_json, "acc_x", new_sub_json);
+  new_sub_json = json_object_new_double(_var_angle_x);
+  json_object_object_add(new_json, "angle_x", new_sub_json);
 
   afb_req_success(request, new_json, NULL);
   // Release the request json object
@@ -315,7 +315,7 @@ static void read_angle_x(struct afb_req request) {
 
 static void read_angle_z(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  double _var_acc_z = static_cast<double>(0);
+  double _var_angle_z = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
   int ret = 0;
@@ -330,7 +330,7 @@ static void read_angle_z(struct afb_req request) {
   }
 
 
-  ret = obj.read_angle_z(_var_acc_z);
+  ret = obj.read_angle_z(_var_angle_z);
   if (ret) {
     AFB_ERROR("[rovergy521] Verb 'read_angle_z' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read_angle_z' returning error %d", ret);
@@ -338,8 +338,8 @@ static void read_angle_z(struct afb_req request) {
   }
 
 
-  new_sub_json = json_object_new_double(_var_acc_z);
-  json_object_object_add(new_json, "acc_z", new_sub_json);
+  new_sub_json = json_object_new_double(_var_angle_z);
+  json_object_object_add(new_json, "angle_z", new_sub_json);
 
   afb_req_success(request, new_json, NULL);
   // Release the request json object

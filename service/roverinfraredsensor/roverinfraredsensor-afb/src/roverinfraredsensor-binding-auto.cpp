@@ -46,26 +46,32 @@ static void read(struct afb_req request) {
   double _var_distance = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
-  json_object *val = NULL;
+  json_object *val[1];
   int ret = 0;
 
   AFB_NOTICE("[roverinfraredsensor] Calling read");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[roverinfraredsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[roverinfraredsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.read(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+
+  ret = obj.read(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
       _var_distance);
   if (ret) {
     AFB_ERROR("[roverinfraredsensor] Verb 'read' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read' returning error %d", ret);
     return;
   }
+
 
   new_sub_json = json_object_new_double(_var_distance);
   json_object_object_add(new_json, "distance", new_sub_json);

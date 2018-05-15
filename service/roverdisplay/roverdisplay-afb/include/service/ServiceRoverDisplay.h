@@ -55,66 +55,66 @@ public:
     int display();
 
     /** Autogenrated doc for draw_bitmap */
-    int draw_bitmap(const int in_bitmap[], const int in_bitmap_size,
-        const int in_color,
-        const int in_h_size,
+    int draw_bitmap(const int in_x_loc,
+        const int in_y_loc,
+        const int in_bitmap[], const int in_bitmap_size,
         const int in_w_size,
-        const int in_x_loc,
-        const int in_y_loc);
+        const int in_h_size,
+        const int in_color);
 
     /** Autogenrated doc for draw_char */
-    int draw_char(const int in_bg_color,
+    int draw_char(const int in_x_loc,
+        const int in_y_loc,
         const int in_character,
         const int in_color,
-        const int in_size,
-        const int in_x_loc,
-        const int in_y_loc);
+        const int in_bg_color,
+        const int in_size);
 
     /** Autogenrated doc for draw_circle */
-    int draw_circle(const int in_color,
-        const bool in_filled,
+    int draw_circle(const int in_x_loc,
+        const int in_y_loc,
         const int in_r_size,
-        const int in_x_loc,
-        const int in_y_loc);
+        const int in_color,
+        const bool in_filled);
 
     /** Autogenrated doc for draw_line */
-    int draw_line(const int in_color,
-        const int in_x1_loc,
-        const int in_x2_loc,
+    int draw_line(const int in_x1_loc,
         const int in_y1_loc,
-        const int in_y2_loc);
+        const int in_x2_loc,
+        const int in_y2_loc,
+        const int in_color);
 
     /** Autogenrated doc for draw_pixel */
-    int draw_pixel(const int in_color,
-        const int in_x_loc,
-        const int in_y_loc);
+    int draw_pixel(const int in_x_loc,
+        const int in_y_loc,
+        const int in_color);
 
     /** Autogenrated doc for draw_rectangle */
-    int draw_rectangle(const int in_color,
-        const bool in_filled,
-        const int in_h_size,
+    int draw_rectangle(const int in_x_loc,
+        const int in_y_loc,
         const int in_w_size,
-        const int in_x_loc,
-        const int in_y_loc);
+        const int in_h_size,
+        const int in_color,
+        const bool in_filled);
 
     /** Autogenrated doc for draw_round_rectangle */
-    int draw_round_rectangle(const int in_color,
-        const bool in_filled,
+    int draw_round_rectangle(const int in_x_loc,
+        const int in_y_loc,
+        const int in_w_size,
         const int in_h_size,
         const int in_r_size,
-        const int in_w_size,
-        const int in_x_loc,
-        const int in_y_loc);
+        const int in_color,
+        const bool in_filled);
 
     /** Autogenrated doc for draw_triangle */
-    int draw_triangle(const int in_color,
-        const bool in_filled,
-        const int in_x1_loc,
-        const int in_x2_loc,
-        const int in_x3_loc,
+    int draw_triangle(const int in_x1_loc,
         const int in_y1_loc,
+        const int in_x2_loc,
         const int in_y2_loc,
-        const int in_y3_loc);
+        const int in_x3_loc,
+        const int in_y3_loc,
+        const int in_color,
+        const bool in_filled);
 
     /** Autogenrated doc for fill_screen */
     int fill_screen(const int in_color);

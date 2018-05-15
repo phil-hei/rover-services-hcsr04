@@ -50,6 +50,14 @@ static void get_frequency(struct afb_req request) {
 
   AFB_NOTICE("[roverbuzzer] Calling get_frequency");
 
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
   ret = obj.get_frequency(_var_buzzer_frequency);
   if (ret) {
     AFB_ERROR("[roverbuzzer] Verb 'get_frequency' returning error");
@@ -60,8 +68,6 @@ static void get_frequency(struct afb_req request) {
 
   new_sub_json = json_object_new_int(_var_buzzer_frequency);
   json_object_object_add(new_json, "buzzer_frequency", new_sub_json);
-
-
 
   afb_req_success(request, new_json, NULL);
   // Release the request json object
@@ -76,13 +82,18 @@ static void set_frequency(struct afb_req request) {
 
   AFB_NOTICE("[roverbuzzer] Calling set_frequency");
 
+
   if (args) {
+    // Parse args if possible
     if (!json_object_object_get_ex(args, "buzzer_frequency", &val[0])) {
       AFB_ERROR("[roverbuzzer] No 'buzzer_frequency' param provided");
       afb_req_fail(request, "bad-request", "No 'buzzer_frequency' param provided");
       return;
     }
+
+
   }
+
 
   ret = obj.set_frequency(static_cast<int>(json_object_get_int(val[0])));
   if (ret) {
@@ -103,12 +114,21 @@ static void set_off(struct afb_req request) {
 
   AFB_NOTICE("[roverbuzzer] Calling set_off");
 
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
   ret = obj.set_off();
   if (ret) {
     AFB_ERROR("[roverbuzzer] Verb 'set_off' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'set_off' returning error %d", ret);
     return;
   }
+
 
 
   afb_req_success(request, args, NULL);
@@ -119,16 +139,18 @@ static void play_melody(struct afb_req request) {
   json_object *args = afb_req_json(request);
   json_object *val[2];
   json_object *val_melody_size_obj = NULL;
-  int _val_melody_size = 0;
-  int * _val_melody = nullptr;
+  int _var_melody_size = 0;
+  int * _var_melody = nullptr;
   json_object *val_tempo_size_obj = NULL;
-  int _val_tempo_size = 0;
-  double * _val_tempo = nullptr;
+  int _var_tempo_size = 0;
+  double * _var_tempo = nullptr;
   int ret = 0;
 
   AFB_NOTICE("[roverbuzzer] Calling play_melody");
 
+
   if (args) {
+    // Parse args if possible
     if (!json_object_object_get_ex(args, "melody", &val[0])) {
       AFB_ERROR("[roverbuzzer] No 'melody' param provided");
       afb_req_fail(request, "bad-request", "No 'melody' param provided");
@@ -140,13 +162,13 @@ static void play_melody(struct afb_req request) {
       return;
     }
 
-    _val_melody_size = json_object_get_int(val_melody_size_obj);
+    _var_melody_size = json_object_get_int(val_melody_size_obj);
 
-     _val_melody = new int[_val_melody_size];
+    _var_melody = new int[_var_melody_size];
 
-     for (int i = 0; i < _val_melody_size; i++) {
-       _val_melody[i] = static_cast<int>(json_object_get_int(json_object_array_get_idx(val[0], i)));
-     }
+    for (int i = 0; i < _var_melody_size; i++) {
+      _var_melody[i] = static_cast<int>(json_object_get_int(json_object_array_get_idx(val[0], i)));
+    }
 
     if (!json_object_object_get_ex(args, "tempo", &val[1])) {
       AFB_ERROR("[roverbuzzer] No 'tempo' param provided");
@@ -159,26 +181,29 @@ static void play_melody(struct afb_req request) {
       return;
     }
 
-    _val_tempo_size = json_object_get_int(val_tempo_size_obj);
+    _var_tempo_size = json_object_get_int(val_tempo_size_obj);
 
-     _val_tempo = new double[_val_tempo_size];
+    _var_tempo = new double[_var_tempo_size];
 
-     for (int i = 0; i < _val_tempo_size; i++) {
-       _val_tempo[i] = static_cast<double>(json_object_get_double(json_object_array_get_idx(val[1], i)));
-     }
+    for (int i = 0; i < _var_tempo_size; i++) {
+      _var_tempo[i] = static_cast<double>(json_object_get_double(json_object_array_get_idx(val[1], i)));
+    }
+
+
 
   }
 
-  ret = obj.play_melody(_val_melody, _val_melody_size,
-      _val_tempo, _val_tempo_size);
+
+  ret = obj.play_melody(_var_melody, _var_melody_size,
+      _var_tempo, _var_tempo_size);
   if (ret) {
     AFB_ERROR("[roverbuzzer] Verb 'play_melody' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'play_melody' returning error %d", ret);
     return;
   }
 
-  delete [] _val_melody;
-  delete [] _val_tempo;
+  delete [] _var_melody;
+  delete [] _var_tempo;
 
 
   afb_req_success(request, args, NULL);
@@ -192,13 +217,18 @@ static void set_tone(struct afb_req request) {
 
   AFB_NOTICE("[roverbuzzer] Calling set_tone");
 
+
   if (args) {
+    // Parse args if possible
     if (!json_object_object_get_ex(args, "buzzer_frequency", &val[0])) {
       AFB_ERROR("[roverbuzzer] No 'buzzer_frequency' param provided");
       afb_req_fail(request, "bad-request", "No 'buzzer_frequency' param provided");
       return;
     }
+
+
   }
+
 
   ret = obj.set_tone(static_cast<int>(json_object_get_int(val[0])));
   if (ret) {
@@ -218,6 +248,14 @@ static void set_on(struct afb_req request) {
   int ret = 0;
 
   AFB_NOTICE("[roverbuzzer] Calling set_on");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
 
   ret = obj.set_on();
   if (ret) {

@@ -58,13 +58,13 @@ public:
     int read_acc_z(int &out_acc_z);
 
     /** Autogenrated doc for read_angle_x */
-    int read_angle_x(double &out_acc_x);
+    int read_angle_x(double &out_angle_x);
 
     /** Autogenrated doc for read_angle_y */
-    int read_angle_y(double &out_acc_y);
+    int read_angle_y(double &out_angle_y);
 
     /** Autogenrated doc for read_angle_z */
-    int read_angle_z(double &out_acc_z);
+    int read_angle_z(double &out_angle_z);
 
     /** Autogenrated doc for read_gyro_x */
     int read_gyro_x(int &out_gyro_x);

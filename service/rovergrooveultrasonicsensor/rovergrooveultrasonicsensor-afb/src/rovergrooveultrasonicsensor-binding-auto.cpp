@@ -46,26 +46,32 @@ static void read(struct afb_req request) {
   double _var_distance = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
-  json_object *val = NULL;
+  json_object *val[1];
   int ret = 0;
 
   AFB_NOTICE("[rovergrooveultrasonicsensor] Calling read");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.read(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+
+  ret = obj.read(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
       _var_distance);
   if (ret) {
     AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'read' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read' returning error %d", ret);
     return;
   }
+
 
   new_sub_json = json_object_new_double(_var_distance);
   json_object_object_add(new_json, "distance", new_sub_json);
@@ -78,26 +84,31 @@ static void read(struct afb_req request) {
 
 static void set_sig_pin(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  json_object *val = NULL;
+  json_object *val[2];
   int ret = 0;
 
   AFB_NOTICE("[rovergrooveultrasonicsensor] Calling set_sig_pin");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
-      if (!json_object_object_get_ex(args, "sig_pin", &val)) {
-        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sig_pin' param provided");
-        afb_req_fail(request, "bad-request", "No 'sig_pin' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "sig_pin", &val[1])) {
+      AFB_ERROR("[rovergrooveultrasonicsensor] No 'sig_pin' param provided");
+      afb_req_fail(request, "bad-request", "No 'sig_pin' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.set_sig_pin(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
-      json_object_object_get_ex(args, "sig_pin", &val) ? static_cast<int>(json_object_get_int(val)) : static_cast<int>(0));
+
+  ret = obj.set_sig_pin(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
+      static_cast<int>(json_object_get_int(val[1])));
   if (ret) {
     AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'set_sig_pin' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'set_sig_pin' returning error %d", ret);
@@ -105,42 +116,8 @@ static void set_sig_pin(struct afb_req request) {
   }
 
 
+
   afb_req_success(request, args, NULL);
-
-}
-
-static void get_sig_pin(struct afb_req request) {
-  json_object *args = afb_req_json(request);
-  int _var_sig_pin = static_cast<int>(0);
-  json_object * new_json = json_object_new_object();
-  json_object * new_sub_json = NULL;
-  json_object *val = NULL;
-  int ret = 0;
-
-  AFB_NOTICE("[rovergrooveultrasonicsensor] Calling get_sig_pin");
-
-  if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
-  }
-
-  ret = obj.get_sig_pin(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
-      _var_sig_pin);
-  if (ret) {
-    AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'get_sig_pin' returning error");
-    afb_req_fail_f(request, "bad-request", "Verb 'get_sig_pin' returning error %d", ret);
-    return;
-  }
-
-  new_sub_json = json_object_new_int(_var_sig_pin);
-  json_object_object_add(new_json, "sig_pin", new_sub_json);
-
-  afb_req_success(request, new_json, NULL);
-  // Release the request json object
-  json_object_put(new_json);
 
 }
 
@@ -149,20 +126,25 @@ static void check(struct afb_req request) {
   bool _var_enable = static_cast<bool>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
-  json_object *val = NULL;
+  json_object *val[1];
   int ret = 0;
 
   AFB_NOTICE("[rovergrooveultrasonicsensor] Calling check");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.check(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+
+  ret = obj.check(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
       _var_enable);
   if (ret) {
     AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'check' returning error");
@@ -170,8 +152,50 @@ static void check(struct afb_req request) {
     return;
   }
 
+
   new_sub_json = json_object_new_boolean(_var_enable);
   json_object_object_add(new_json, "enable", new_sub_json);
+
+  afb_req_success(request, new_json, NULL);
+  // Release the request json object
+  json_object_put(new_json);
+
+}
+
+static void get_sig_pin(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+  int _var_sig_pin = static_cast<int>(0);
+  json_object * new_json = json_object_new_object();
+  json_object * new_sub_json = NULL;
+  json_object *val[1];
+  int ret = 0;
+
+  AFB_NOTICE("[rovergrooveultrasonicsensor] Calling get_sig_pin");
+
+
+  if (args) {
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[rovergrooveultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
+  }
+
+
+  ret = obj.get_sig_pin(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
+      _var_sig_pin);
+  if (ret) {
+    AFB_ERROR("[rovergrooveultrasonicsensor] Verb 'get_sig_pin' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'get_sig_pin' returning error %d", ret);
+    return;
+  }
+
+
+  new_sub_json = json_object_new_int(_var_sig_pin);
+  json_object_object_add(new_json, "sig_pin", new_sub_json);
 
   afb_req_success(request, new_json, NULL);
   // Release the request json object
@@ -190,8 +214,8 @@ static const struct afb_verb_v2 verbs[] = {
   /*Without security*/
   {.verb = "read", .callback = read, .auth = NULL, .info = "Read Data From Sensor", .session = 0},
   {.verb = "set_sig_pin", .callback = set_sig_pin, .auth = NULL, .info = "Sets the private attribute sigPin for Groove Ultrasonic Sensor", .session = 0},
-  {.verb = "get_sig_pin", .callback = get_sig_pin, .auth = NULL, .info = "Sets the private attribute sigPin for Groove Ultrasonic Sensor", .session = 0},
   {.verb = "check", .callback = check, .auth = NULL, .info = "Check if the sensor is enabled", .session = 0},
+  {.verb = "get_sig_pin", .callback = get_sig_pin, .auth = NULL, .info = "Sets the private attribute sigPin for Groove Ultrasonic Sensor", .session = 0},
   {.verb= NULL, .callback=NULL, .auth = NULL, .info = NULL, .session = 0 }
 };
 

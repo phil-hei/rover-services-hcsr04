@@ -109,36 +109,37 @@ static void read_humidity(struct afb_req request) {
 
 }
 
-static void set_pin(struct afb_req request) {
+static void get_pin(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  json_object *val[1];
+  int _var_pin = static_cast<int>(0);
+  json_object * new_json = json_object_new_object();
+  json_object * new_sub_json = NULL;
   int ret = 0;
 
-  AFB_NOTICE("[roverdht22] Calling set_pin");
+  AFB_NOTICE("[roverdht22] Calling get_pin");
 
 
   if (args) {
     // Parse args if possible
-    if (!json_object_object_get_ex(args, "pin", &val[0])) {
-      AFB_ERROR("[roverdht22] No 'pin' param provided");
-      afb_req_fail(request, "bad-request", "No 'pin' param provided");
-      return;
-    }
 
 
   }
 
 
-  ret = obj.set_pin(static_cast<int>(json_object_get_int(val[0])));
+  ret = obj.get_pin(_var_pin);
   if (ret) {
-    AFB_ERROR("[roverdht22] Verb 'set_pin' returning error");
-    afb_req_fail_f(request, "bad-request", "Verb 'set_pin' returning error %d", ret);
+    AFB_ERROR("[roverdht22] Verb 'get_pin' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'get_pin' returning error %d", ret);
     return;
   }
 
 
+  new_sub_json = json_object_new_int(_var_pin);
+  json_object_object_add(new_json, "pin", new_sub_json);
 
-  afb_req_success(request, args, NULL);
+  afb_req_success(request, new_json, NULL);
+  // Release the request json object
+  json_object_put(new_json);
 
 }
 
@@ -176,37 +177,36 @@ static void read_temperature(struct afb_req request) {
 
 }
 
-static void get_pin(struct afb_req request) {
+static void set_pin(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  int _var_pin = static_cast<int>(0);
-  json_object * new_json = json_object_new_object();
-  json_object * new_sub_json = NULL;
+  json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdht22] Calling get_pin");
+  AFB_NOTICE("[roverdht22] Calling set_pin");
 
 
   if (args) {
     // Parse args if possible
+    if (!json_object_object_get_ex(args, "pin", &val[0])) {
+      AFB_ERROR("[roverdht22] No 'pin' param provided");
+      afb_req_fail(request, "bad-request", "No 'pin' param provided");
+      return;
+    }
 
 
   }
 
 
-  ret = obj.get_pin(_var_pin);
+  ret = obj.set_pin(static_cast<int>(json_object_get_int(val[0])));
   if (ret) {
-    AFB_ERROR("[roverdht22] Verb 'get_pin' returning error");
-    afb_req_fail_f(request, "bad-request", "Verb 'get_pin' returning error %d", ret);
+    AFB_ERROR("[roverdht22] Verb 'set_pin' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'set_pin' returning error %d", ret);
     return;
   }
 
 
-  new_sub_json = json_object_new_int(_var_pin);
-  json_object_object_add(new_json, "pin", new_sub_json);
 
-  afb_req_success(request, new_json, NULL);
-  // Release the request json object
-  json_object_put(new_json);
+  afb_req_success(request, args, NULL);
 
 }
 
@@ -221,9 +221,9 @@ static const struct afb_verb_v2 verbs[] = {
   /*Without security*/
   {.verb = "read", .callback = read, .auth = NULL, .info = "Read Temperature", .session = 0},
   {.verb = "read_humidity", .callback = read_humidity, .auth = NULL, .info = "Read Humidity", .session = 0},
-  {.verb = "set_pin", .callback = set_pin, .auth = NULL, .info = "Set DHT22 Pin", .session = 0},
-  {.verb = "read_temperature", .callback = read_temperature, .auth = NULL, .info = "Read Temperature", .session = 0},
   {.verb = "get_pin", .callback = get_pin, .auth = NULL, .info = "Get DHT22 Pin", .session = 0},
+  {.verb = "read_temperature", .callback = read_temperature, .auth = NULL, .info = "Read Temperature", .session = 0},
+  {.verb = "set_pin", .callback = set_pin, .auth = NULL, .info = "Set DHT22 Pin", .session = 0},
   {.verb= NULL, .callback=NULL, .auth = NULL, .info = NULL, .session = 0 }
 };
 

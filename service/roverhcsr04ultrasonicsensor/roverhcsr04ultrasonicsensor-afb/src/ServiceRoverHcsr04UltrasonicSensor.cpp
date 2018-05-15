@@ -98,7 +98,6 @@ int ServiceRoverHcsr04UltrasonicSensor::get_echo_pin(const rover_sensor_id in_se
 /** Autogenrated doc for get_trig_pin */
 int ServiceRoverHcsr04UltrasonicSensor::get_trig_pin(const rover_sensor_id in_sensor_id,
     int &out_trig_pin) {
-
   AFB_NOTICE("[ServiceRoverHcsr04UltrasonicSensor] Get_trig_pin");
   RoverHCSR04 sensor = getSensor(in_sensor_id);
 
@@ -114,7 +113,6 @@ int ServiceRoverHcsr04UltrasonicSensor::get_trig_pin(const rover_sensor_id in_se
 /** Autogenrated doc for read */
 int ServiceRoverHcsr04UltrasonicSensor::read(const rover_sensor_id in_sensor_id,
     double &out_distance) {
-
   AFB_NOTICE("[ServiceRoverHcsr04UltrasonicSensor] Read");
   RoverHCSR04 sensor = getSensor(in_sensor_id);
 
@@ -128,9 +126,8 @@ int ServiceRoverHcsr04UltrasonicSensor::read(const rover_sensor_id in_sensor_id,
 }
 
 /** Autogenrated doc for set_echo_pin */
-int ServiceRoverHcsr04UltrasonicSensor::set_echo_pin(const int in_echo_pin,
-    const rover_sensor_id in_sensor_id) {
-
+int ServiceRoverHcsr04UltrasonicSensor::set_echo_pin(const rover_sensor_id in_sensor_id,
+    const int in_echo_pin) {
   AFB_NOTICE("[ServiceRoverHcsr04UltrasonicSensor] Set_echo_pin");
   RoverHCSR04 sensor = getSensor(in_sensor_id);
 
@@ -146,7 +143,6 @@ int ServiceRoverHcsr04UltrasonicSensor::set_echo_pin(const int in_echo_pin,
 /** Autogenrated doc for set_trig_pin */
 int ServiceRoverHcsr04UltrasonicSensor::set_trig_pin(const rover_sensor_id in_sensor_id,
     const int in_trig_pin) {
-
   AFB_NOTICE("[ServiceRoverHcsr04UltrasonicSensor] Set_trig_pin");
   RoverHCSR04 sensor = getSensor(in_sensor_id);
 

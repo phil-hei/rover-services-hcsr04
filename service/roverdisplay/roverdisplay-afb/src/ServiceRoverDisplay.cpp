@@ -56,12 +56,12 @@ int ServiceRoverDisplay::display() {
 }
 
 /** Autogenrated doc for draw_bitmap */
-int ServiceRoverDisplay::draw_bitmap(const int in_bitmap[], const int in_bitmap_size,
-    const int in_color,
-    const int in_h_size,
+int ServiceRoverDisplay::draw_bitmap(const int in_x_loc,
+    const int in_y_loc,
+    const int in_bitmap[], const int in_bitmap_size,
     const int in_w_size,
-    const int in_x_loc,
-    const int in_y_loc) {
+    const int in_h_size,
+    const int in_color) {
   AFB_NOTICE("[ServiceRoverDisplay] Draw_bitmap");
   uint8_t * bitmap = new uint8_t[in_bitmap_size];
 
@@ -75,12 +75,12 @@ int ServiceRoverDisplay::draw_bitmap(const int in_bitmap[], const int in_bitmap_
 }
 
 /** Autogenrated doc for draw_char */
-int ServiceRoverDisplay::draw_char(const int in_bg_color,
+int ServiceRoverDisplay::draw_char(const int in_x_loc,
+    const int in_y_loc,
     const int in_character,
     const int in_color,
-    const int in_size,
-    const int in_x_loc,
-    const int in_y_loc) {
+    const int in_bg_color,
+    const int in_size) {
 
   AFB_NOTICE("[ServiceRoverDisplay] Draw_char");
   obj.drawChar(in_x_loc, in_y_loc, in_character, in_color, in_bg_color, in_size);
@@ -89,11 +89,11 @@ int ServiceRoverDisplay::draw_char(const int in_bg_color,
 }
 
 /** Autogenrated doc for draw_circle */
-int ServiceRoverDisplay::draw_circle(const int in_color,
-    const bool in_filled,
+int ServiceRoverDisplay::draw_circle(const int in_x_loc,
+    const int in_y_loc,
     const int in_r_size,
-    const int in_x_loc,
-    const int in_y_loc) {
+    const int in_color,
+    const bool in_filled) {
 
   AFB_NOTICE("[ServiceRoverDisplay] Draw_circle");
   if (in_filled) {
@@ -106,12 +106,11 @@ int ServiceRoverDisplay::draw_circle(const int in_color,
 }
 
 /** Autogenrated doc for draw_line */
-int ServiceRoverDisplay::draw_line(const int in_color,
-    const int in_x1_loc,
-    const int in_x2_loc,
+int ServiceRoverDisplay::draw_line(const int in_x1_loc,
     const int in_y1_loc,
-    const int in_y2_loc) {
-
+    const int in_x2_loc,
+    const int in_y2_loc,
+    const int in_color) {
   AFB_NOTICE("[ServiceRoverDisplay] Draw_line");
   obj.drawLine(in_x1_loc, in_y1_loc, in_x2_loc, in_y2_loc, in_color);
 
@@ -119,10 +118,9 @@ int ServiceRoverDisplay::draw_line(const int in_color,
 }
 
 /** Autogenrated doc for draw_pixel */
-int ServiceRoverDisplay::draw_pixel(const int in_color,
-    const int in_x_loc,
-    const int in_y_loc) {
-
+int ServiceRoverDisplay::draw_pixel(const int in_x_loc,
+    const int in_y_loc,
+    const int in_color) {
   AFB_NOTICE("[ServiceRoverDisplay] Draw_pixel");
   obj.drawPixel(in_x_loc, in_y_loc, in_color);
 
@@ -130,13 +128,12 @@ int ServiceRoverDisplay::draw_pixel(const int in_color,
 }
 
 /** Autogenrated doc for draw_rectangle */
-int ServiceRoverDisplay::draw_rectangle(const int in_color,
-    const bool in_filled,
-    const int in_h_size,
+int ServiceRoverDisplay::draw_rectangle(const int in_x_loc,
+    const int in_y_loc,
     const int in_w_size,
-    const int in_x_loc,
-    const int in_y_loc) {
-
+    const int in_h_size,
+    const int in_color,
+    const bool in_filled) {
   AFB_NOTICE("[ServiceRoverDisplay] Draw_rectangle");
   if (in_filled) {
     // obj.fillCircle(in_x_loc, in_y_loc, in_r_size, in_color);
@@ -148,13 +145,13 @@ int ServiceRoverDisplay::draw_rectangle(const int in_color,
 }
 
 /** Autogenrated doc for draw_round_rectangle */
-int ServiceRoverDisplay::draw_round_rectangle(const int in_color,
-    const bool in_filled,
+int ServiceRoverDisplay::draw_round_rectangle(const int in_x_loc,
+    const int in_y_loc,
+    const int in_w_size,
     const int in_h_size,
     const int in_r_size,
-    const int in_w_size,
-    const int in_x_loc,
-    const int in_y_loc) {
+    const int in_color,
+    const bool in_filled) {
 
   AFB_NOTICE("[ServiceRoverDisplay] Draw_round_rectangle");
   if (in_filled) {
@@ -167,14 +164,14 @@ int ServiceRoverDisplay::draw_round_rectangle(const int in_color,
 }
 
 /** Autogenrated doc for draw_triangle */
-int ServiceRoverDisplay::draw_triangle(const int in_color,
-    const bool in_filled,
-    const int in_x1_loc,
-    const int in_x2_loc,
-    const int in_x3_loc,
+int ServiceRoverDisplay::draw_triangle(const int in_x1_loc,
     const int in_y1_loc,
+    const int in_x2_loc,
     const int in_y2_loc,
-    const int in_y3_loc) {
+    const int in_x3_loc,
+    const int in_y3_loc,
+    const int in_color,
+    const bool in_filled) {
 
   AFB_NOTICE("[ServiceRoverDisplay] Draw_triangle");
   if (in_filled) {
@@ -189,7 +186,6 @@ int ServiceRoverDisplay::draw_triangle(const int in_color,
 
 /** Autogenrated doc for fill_screen */
 int ServiceRoverDisplay::fill_screen(const int in_color) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Fill_screen");
 
   obj.fillScreen(in_color);
@@ -199,7 +195,6 @@ int ServiceRoverDisplay::fill_screen(const int in_color) {
 
 /** Autogenrated doc for get_height */
 int ServiceRoverDisplay::get_height(int &out_height) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Get_height");
 
   out_height = obj.height();
@@ -209,7 +204,6 @@ int ServiceRoverDisplay::get_height(int &out_height) {
 
 /** Autogenrated doc for get_width */
 int ServiceRoverDisplay::get_width(int &out_width) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Get_width");
 
   out_width = obj.width();
@@ -219,7 +213,6 @@ int ServiceRoverDisplay::get_width(int &out_width) {
 
 /** Autogenrated doc for invert_display */
 int ServiceRoverDisplay::invert_display(const bool in_inv) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Invert_display");
   obj.invertDisplay(in_inv);
 
@@ -237,7 +230,6 @@ int ServiceRoverDisplay::print(const char * in_text) {
 /** Autogenrated doc for set_cursor */
 int ServiceRoverDisplay::set_cursor(const int in_x_loc,
     const int in_y_loc) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Set_cursor");
   obj.setCursor(in_x_loc, in_y_loc);
 
@@ -246,7 +238,6 @@ int ServiceRoverDisplay::set_cursor(const int in_x_loc,
 
 /** Autogenrated doc for set_rotation */
 int ServiceRoverDisplay::set_rotation(const int in_rot) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Set_rotation");
   obj.setRotation(in_rot);
 
@@ -255,7 +246,6 @@ int ServiceRoverDisplay::set_rotation(const int in_rot) {
 
 /** Autogenrated doc for set_text_color */
 int ServiceRoverDisplay::set_text_color(const int in_color) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Set_text_color");
   obj.setTextColor(in_color);
 
@@ -264,7 +254,6 @@ int ServiceRoverDisplay::set_text_color(const int in_color) {
 
 /** Autogenrated doc for set_text_size */
 int ServiceRoverDisplay::set_text_size(const int in_size) {
-
   AFB_NOTICE("[ServiceRoverDisplay] Set_text_size");
   obj.setTextSize(in_size);
 

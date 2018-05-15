@@ -43,31 +43,37 @@ static int init()
 
 static void set_echo_pin(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  json_object *val = NULL;
+  json_object *val[2];
   int ret = 0;
 
   AFB_NOTICE("[roverhcsr04ultrasonicsensor] Calling set_echo_pin");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "echo_pin", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'echo_pin' param provided");
-        afb_req_fail(request, "bad-request", "No 'echo_pin' param provided");
-        return;
-      }
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "echo_pin", &val[1])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'echo_pin' param provided");
+      afb_req_fail(request, "bad-request", "No 'echo_pin' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.set_echo_pin(json_object_object_get_ex(args, "echo_pin", &val) ? static_cast<int>(json_object_get_int(val)) : static_cast<int>(0),
-      json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0));
+
+  ret = obj.set_echo_pin(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
+      static_cast<int>(json_object_get_int(val[1])));
   if (ret) {
     AFB_ERROR("[roverhcsr04ultrasonicsensor] Verb 'set_echo_pin' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'set_echo_pin' returning error %d", ret);
     return;
   }
+
 
 
   afb_req_success(request, args, NULL);
@@ -79,26 +85,32 @@ static void read(struct afb_req request) {
   double _var_distance = static_cast<double>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
-  json_object *val = NULL;
+  json_object *val[1];
   int ret = 0;
 
   AFB_NOTICE("[roverhcsr04ultrasonicsensor] Calling read");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.read(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+
+  ret = obj.read(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
       _var_distance);
   if (ret) {
     AFB_ERROR("[roverhcsr04ultrasonicsensor] Verb 'read' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'read' returning error %d", ret);
     return;
   }
+
 
   new_sub_json = json_object_new_double(_var_distance);
   json_object_object_add(new_json, "distance", new_sub_json);
@@ -111,31 +123,37 @@ static void read(struct afb_req request) {
 
 static void set_trig_pin(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  json_object *val = NULL;
+  json_object *val[2];
   int ret = 0;
 
   AFB_NOTICE("[roverhcsr04ultrasonicsensor] Calling set_trig_pin");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
-      if (!json_object_object_get_ex(args, "trig_pin", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'trig_pin' param provided");
-        afb_req_fail(request, "bad-request", "No 'trig_pin' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "trig_pin", &val[1])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'trig_pin' param provided");
+      afb_req_fail(request, "bad-request", "No 'trig_pin' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.set_trig_pin(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
-      json_object_object_get_ex(args, "trig_pin", &val) ? static_cast<int>(json_object_get_int(val)) : static_cast<int>(0));
+
+  ret = obj.set_trig_pin(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
+      static_cast<int>(json_object_get_int(val[1])));
   if (ret) {
     AFB_ERROR("[roverhcsr04ultrasonicsensor] Verb 'set_trig_pin' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'set_trig_pin' returning error %d", ret);
     return;
   }
+
 
 
   afb_req_success(request, args, NULL);
@@ -147,26 +165,32 @@ static void get_echo_pin(struct afb_req request) {
   int _var_echo_pin = static_cast<int>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
-  json_object *val = NULL;
+  json_object *val[1];
   int ret = 0;
 
   AFB_NOTICE("[roverhcsr04ultrasonicsensor] Calling get_echo_pin");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.get_echo_pin(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+
+  ret = obj.get_echo_pin(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
       _var_echo_pin);
   if (ret) {
     AFB_ERROR("[roverhcsr04ultrasonicsensor] Verb 'get_echo_pin' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'get_echo_pin' returning error %d", ret);
     return;
   }
+
 
   new_sub_json = json_object_new_int(_var_echo_pin);
   json_object_object_add(new_json, "echo_pin", new_sub_json);
@@ -182,26 +206,32 @@ static void get_trig_pin(struct afb_req request) {
   int _var_trig_pin = static_cast<int>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
-  json_object *val = NULL;
+  json_object *val[1];
   int ret = 0;
 
   AFB_NOTICE("[roverhcsr04ultrasonicsensor] Calling get_trig_pin");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.get_trig_pin(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+
+  ret = obj.get_trig_pin(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
       _var_trig_pin);
   if (ret) {
     AFB_ERROR("[roverhcsr04ultrasonicsensor] Verb 'get_trig_pin' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'get_trig_pin' returning error %d", ret);
     return;
   }
+
 
   new_sub_json = json_object_new_int(_var_trig_pin);
   json_object_object_add(new_json, "trig_pin", new_sub_json);
@@ -217,26 +247,32 @@ static void check(struct afb_req request) {
   bool _var_enable = static_cast<bool>(0);
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
-  json_object *val = NULL;
+  json_object *val[1];
   int ret = 0;
 
   AFB_NOTICE("[roverhcsr04ultrasonicsensor] Calling check");
 
+
   if (args) {
-      if (!json_object_object_get_ex(args, "sensor_id", &val)) {
-        AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
-        afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
-        return;
-      }
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "sensor_id", &val[0])) {
+      AFB_ERROR("[roverhcsr04ultrasonicsensor] No 'sensor_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'sensor_id' param provided");
+      return;
+    }
+
+
   }
 
-  ret = obj.check(json_object_object_get_ex(args, "sensor_id", &val) ? static_cast<rover_sensor_id>(json_object_get_int(val)) : static_cast<rover_sensor_id>(0),
+
+  ret = obj.check(static_cast<rover_sensor_id>(json_object_get_int(val[0])),
       _var_enable);
   if (ret) {
     AFB_ERROR("[roverhcsr04ultrasonicsensor] Verb 'check' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'check' returning error %d", ret);
     return;
   }
+
 
   new_sub_json = json_object_new_boolean(_var_enable);
   json_object_object_add(new_json, "enable", new_sub_json);

@@ -28,6 +28,20 @@ extern "C"
     #include <afb/afb-binding.h>
 };
 
+enum rover_button_id {
+  user_button,
+  shutdown_button,
+  custom_button
+};
+enum rover_sensor_id {
+  rear_right,
+  rear_left,
+  front_right,
+  front_left,
+  front,
+  rear
+};
+
 class ServiceRoverDriving {
 public:
   ServiceRoverDriving();

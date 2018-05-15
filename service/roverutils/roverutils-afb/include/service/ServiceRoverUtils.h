@@ -58,12 +58,12 @@ public:
     int get_ethernet_status(bool &out_is_on);
 
     /** Autogenrated doc for get_honocloud_status */
-    int get_honocloud_status(const char * in_device_id,
-        const char * in_host_name,
-        const char * in_password,
+    int get_honocloud_status(const char * in_host_name,
         const int in_port,
         const char * in_tenant_name,
+        const char * in_device_id,
         const char * in_user,
+        const char * in_password,
         bool &out_is_on);
 
     /** Autogenrated doc for get_internet_status */

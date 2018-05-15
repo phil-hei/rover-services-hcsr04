@@ -54,34 +54,34 @@ static void get_honocloud_status(struct afb_req request) {
 
   if (args) {
     // Parse args if possible
-    if (!json_object_object_get_ex(args, "device_id", &val[0])) {
-      AFB_ERROR("[roverutils] No 'device_id' param provided");
-      afb_req_fail(request, "bad-request", "No 'device_id' param provided");
-      return;
-    }
-    if (!json_object_object_get_ex(args, "host_name", &val[1])) {
+    if (!json_object_object_get_ex(args, "host_name", &val[0])) {
       AFB_ERROR("[roverutils] No 'host_name' param provided");
       afb_req_fail(request, "bad-request", "No 'host_name' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "password", &val[2])) {
-      AFB_ERROR("[roverutils] No 'password' param provided");
-      afb_req_fail(request, "bad-request", "No 'password' param provided");
-      return;
-    }
-    if (!json_object_object_get_ex(args, "port", &val[3])) {
+    if (!json_object_object_get_ex(args, "port", &val[1])) {
       AFB_ERROR("[roverutils] No 'port' param provided");
       afb_req_fail(request, "bad-request", "No 'port' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "tenant_name", &val[4])) {
+    if (!json_object_object_get_ex(args, "tenant_name", &val[2])) {
       AFB_ERROR("[roverutils] No 'tenant_name' param provided");
       afb_req_fail(request, "bad-request", "No 'tenant_name' param provided");
       return;
     }
-    if (!json_object_object_get_ex(args, "user", &val[5])) {
+    if (!json_object_object_get_ex(args, "device_id", &val[3])) {
+      AFB_ERROR("[roverutils] No 'device_id' param provided");
+      afb_req_fail(request, "bad-request", "No 'device_id' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "user", &val[4])) {
       AFB_ERROR("[roverutils] No 'user' param provided");
       afb_req_fail(request, "bad-request", "No 'user' param provided");
+      return;
+    }
+    if (!json_object_object_get_ex(args, "password", &val[5])) {
+      AFB_ERROR("[roverutils] No 'password' param provided");
+      afb_req_fail(request, "bad-request", "No 'password' param provided");
       return;
     }
 
@@ -90,9 +90,9 @@ static void get_honocloud_status(struct afb_req request) {
 
 
   ret = obj.get_honocloud_status(static_cast<const char *>(json_object_get_string(val[0])),
-      static_cast<const char *>(json_object_get_string(val[1])),
+      static_cast<int>(json_object_get_int(val[1])),
       static_cast<const char *>(json_object_get_string(val[2])),
-      static_cast<int>(json_object_get_int(val[3])),
+      static_cast<const char *>(json_object_get_string(val[3])),
       static_cast<const char *>(json_object_get_string(val[4])),
       static_cast<const char *>(json_object_get_string(val[5])),
       _var_is_on);

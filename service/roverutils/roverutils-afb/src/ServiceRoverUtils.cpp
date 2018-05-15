@@ -157,16 +157,16 @@ int ServiceRoverUtils::get_ethernet_status(bool &out_is_on) {
 }
 
 /** Autogenrated doc for get_honocloud_status */
-int ServiceRoverUtils::get_honocloud_status(const char * in_device_id,
-    const char * in_host_name,
-    const char * in_password,
+int ServiceRoverUtils::get_honocloud_status(const char * in_host_name,
     const int in_port,
     const char * in_tenant_name,
+    const char * in_device_id,
     const char * in_user,
+    const char * in_password,
     bool &out_is_on) {
 
   AFB_NOTICE("[ServiceRoverUtils] Get_honocloud_status");
-  AFB_WARNING("[ServiceRoverUtils] Unimplemented Call");
+  AFB_ERROR("Method Get_honocloud_status not implemented");
 
   return -1;
 }

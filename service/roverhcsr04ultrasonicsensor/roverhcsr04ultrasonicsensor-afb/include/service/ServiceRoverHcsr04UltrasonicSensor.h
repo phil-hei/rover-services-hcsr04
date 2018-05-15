@@ -28,6 +28,11 @@ extern "C"
     #include <afb/afb-binding.h>
 };
 
+enum rover_button_id {
+  user_button,
+  shutdown_button,
+  custom_button
+};
 enum rover_sensor_id {
   rear_right,
   rear_left,
@@ -60,8 +65,8 @@ public:
         double &out_distance);
 
     /** Autogenrated doc for set_echo_pin */
-    int set_echo_pin(const int in_echo_pin,
-        const rover_sensor_id in_sensor_id);
+    int set_echo_pin(const rover_sensor_id in_sensor_id,
+        const int in_echo_pin);
 
     /** Autogenrated doc for set_trig_pin */
     int set_trig_pin(const rover_sensor_id in_sensor_id,
