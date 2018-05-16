@@ -32,8 +32,10 @@
 #include <app/RoverGrooveUltrasonicSensor.h>
 #include <app/RoverBuzzer.h>
 #include <app/RoverUtils.h>
+#include <app/RoverDisplay.h>
 
 #include "melodies.h"
+#include "appstacle_logo.c"
 
 using namespace std;
 
@@ -127,7 +129,7 @@ int test_rover_groovesensor(char * uri) {
 
   while (count < 3) {
     rc |= ws.read(rover_sensor_id::front, sensor_val);
-    printf("Front sensor value: %f\n", sensor_val);
+    printf("Front sensor value#include <app/RoverUtils.h>: %f\n", sensor_val);
     sleep(1);
     count++;
   }
@@ -191,6 +193,39 @@ int test_rover_utils(char * uri) {
   }
 }
 
+// using namespace rover;
+
+int test_rover_display(char * uri) {
+  int rc = 0;
+  bool status;
+  // double * cores_util;
+  // int n_cores = 0;
+
+  RoverDisplay ws((const char *)uri);
+
+  rc |= ws.draw_bitmap(0, 0, appstacle_logo, 1024, 128, 64, 1);
+  // rc |= ws.clear_display();
+  // RoverBase base = RoverBase();
+  // RoverDisplay disp = RoverDisplay();
+  // RoverHMC5883L other = RoverHMC5883L();
+  // base.initialize();
+  // other.initialize();
+  // disp.initialize();
+  // printf("Cleaning Display\n");
+  // while (true) {
+  //   disp.clearDisplay();
+  //   // disp.drawLine(0, 0, 50, 50, 1);
+  //   disp.display();
+  // }
+  // printf("Ethernet Status: %s\n", status? "ON" : "OFF");
+
+  // delete [] cores_util;
+
+  if (rc) {
+    return -1;
+  }
+}
+
 /* entry function */
 int main(int ac, char **av, char **env)
 {
@@ -212,7 +247,8 @@ int main(int ac, char **av, char **env)
   // Test Buzzer
   // rc |= test_rover_buzzer(uri);
   // Test Utils
-  rc |= test_rover_utils(uri);
+  // rc |= test_rover_utils(uri);
+  rc |= test_rover_display(uri);
 
   if (rc) {
     return -1;
