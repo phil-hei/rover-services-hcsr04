@@ -1,5 +1,5 @@
 #%RAML 1.0
-title: Rover Infrared Sensor
+title: Rover Demo
 mediaType: application/json
 version: v1
 baseUri: localhost:8000/api?token=x
@@ -24,17 +24,10 @@ types:
       - buttons
       - infrared
       - rover_demo_max
-/read:
-  description: "Read Data From Sensor"
+/run:
+  description: "Run Demo"
   post:
     body:
       properties:
-        sensor_id:
-          type: rover_sensor_id
-  get:
-    responses:
-      200:
-        body:
-          properties:
-            distance:
-              type: number
+        demo_id:
+          type: rover_demo_id
