@@ -104,12 +104,6 @@ public:
       start_opt = 1 + this->opt - 3;
     }
 
-    disp.set_cursor(100, 5);
-    disp.print(to_string_s(this->opt));
-
-    disp.set_cursor(100, 25);
-    disp.print(to_string_s(start_opt));
-
     for (int i = 0; i < 3; i++) {
       if ((i + start_opt) == this->opt) {
         bg_color = 1;
@@ -184,13 +178,42 @@ Menu * update_select_option(RoverButtons &btn, Menu * menu) {
   return menu;
 }
 
+void shutdown_cb(Menu * menu, void * closure) {
+
+  switch (menu->get_option()) {
+    case 0: // Reset
+      system("shutdown -r now");
+      break;
+    case 1: // Shutdown
+      system("shutdown -h now");
+      break;
+    default:
+      break;
+  }
+
+  if (menu->get_option() == 0) {
+    system("shutdown -r now");
+  }
+
+  return;
+}
+
+void main_cb(Menu * menu, void * closure) {
+
+  if (menu->get_option() == 3) {
+    system("shutdown -f");
+  }
+
+  return;
+}
+
 void demo_cb(Menu * menu, void * closure) {
 
   if (menu->get_option() == 0) {
     RoverBuzzer * bzr = (RoverBuzzer *)closure;
     bzr->play_melody(mario_theme, MARION_THEME_SIZE, mario_theme_tempo, MARION_THEME_SIZE);
   }
-  
+
   return;
 }
 
@@ -215,17 +238,22 @@ int main(int ac, char **av, char **env)
 
   Menu main_menu = Menu("Main");
   Menu demo_menu = Menu("Demo");
+  Menu shut_menu = Menu("Shutdown");
   Menu * curr_menu = &main_menu;
 
   main_menu.add_submenu("demo", &demo_menu);
   main_menu.add_option("status", NULL, NULL);
   main_menu.add_option("info", NULL, NULL);
-  main_menu.add_option("shutdown", NULL, NULL);
+  main_menu.add_submenu("shutdown", &shut_menu);
 
   demo_menu.add_option("buzzer", demo_cb, &bzr);
   demo_menu.add_option("driving", demo_cb, &bzr);
   demo_menu.add_option("infrared", demo_cb, &bzr);
   demo_menu.add_submenu("back", &main_menu);
+
+  shut_menu.add_option("reset", shutdown_cb, NULL);
+  shut_menu.add_option("shutdown", shutdown_cb, NULL);
+  shut_menu.add_submenu("back", &main_menu);
 
 
   while (true) {
