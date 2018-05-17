@@ -27,8 +27,10 @@
 
 using namespace std;
 
-Menu::Menu(char *name) {
+Menu::Menu(char *name, RoverButtons* btn, RoverDisplay *disp) {
   this->name = name;
+  this->btn = btn;
+  this->disp = disp;
 }
 
 int Menu::get_max_size() {
@@ -51,7 +53,7 @@ void Menu::inc_option() {
   }
 }
 
-void Menu::add_option(char * option, void (*callback)(Menu* menu, void * closure), void * closure) {
+void Menu::add_option(char * option, void (*callback)(Menu* menu, RoverButtons* btn, void * closure), void * closure) {
   options.push_back(option);
   submenu.push_back(NULL);
   callbacks.push_back(callback);
@@ -65,7 +67,7 @@ void Menu::add_submenu(char * option, Menu *menu) {
   cookies.push_back(NULL);
 }
 
-void Menu::draw(RoverDisplay &disp) {
+void Menu::draw() {
   int rc = 0;
   bool status;
   int start_opt = 0;
@@ -74,10 +76,10 @@ void Menu::draw(RoverDisplay &disp) {
   int bg_color = 0;
 
 
-  rc |= disp.clear_display();
+  rc |= this->disp->clear_display();
 
-  disp.set_text_size(2);
-	disp.set_text_color(1);
+  this->disp->set_text_size(2);
+	this->disp->set_text_color(1);
 
   start_opt = 0;
   if (this->opt >= 3) {
@@ -91,14 +93,14 @@ void Menu::draw(RoverDisplay &disp) {
       bg_color = 0;
     }
 
-    disp.set_text_color(text_color);
-    disp.draw_rectangle(0, i*20, 128, 20, bg_color, false);
+    this->disp->set_text_color(text_color);
+    this->disp->draw_rectangle(0, i*20, 128, 20, bg_color, false);
 
-    disp.set_cursor(5, 2 + 20 * i);
-  	disp.print(options[i + start_opt]);
+    this->disp->set_cursor(5, 2 + 20 * i);
+  	this->disp->print(options[i + start_opt]);
   }
 
-  disp.display();
+  this->disp->display();
 }
 
 Menu * Menu::select() {
@@ -110,7 +112,41 @@ Menu * Menu::select() {
   }
 
   if (callbacks[this->opt]) {
-    callbacks[this->opt](this, cookies[this->opt]);
+    callbacks[this->opt](this, this->btn, cookies[this->opt]);
+  }
+
+  return this;
+}
+
+void Menu::update() {
+  double state = 1;
+  static bool trigered = false;
+
+  this->btn->read(shutdown_button, state);
+
+  if (trigered && state != 0) {
+    trigered = false;
+    this->inc_option();
+  }
+
+  if (state == 0) {
+    trigered = true;
+  }
+}
+
+Menu * Menu::next() {
+  double state = 1;
+  static bool trigered = false;
+
+  this->btn->read(user_button, state);
+
+  if (trigered && state != 0) {
+    trigered = false;
+    return this->select();
+  }
+
+  if (state == 0) {
+    trigered = true;
   }
 
   return this;
