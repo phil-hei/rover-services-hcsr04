@@ -102,19 +102,19 @@ int main(int ac, char **av, char **env)
   Menu shut_menu = Menu("Shutdown", &btn, &display);
   Menu * curr_menu = &main_menu;
 
-  main_menu.add_submenu("demo", &demo_menu);
-  main_menu.add_option("status", NULL, NULL);
-  main_menu.add_option("info", NULL, NULL);
-  main_menu.add_submenu("shutdown", &shut_menu);
+  main_menu.add_submenu("1:Demo", &demo_menu);
+  main_menu.add_option("2:Status", NULL, NULL);
+  main_menu.add_option("3:Info", NULL, NULL);
+  main_menu.add_submenu("4:Shutdown", &shut_menu);
 
-  demo_menu.add_option("buzzer", demo_cb, &bzr);
-  demo_menu.add_option("driving", demo_cb, &bzr);
-  demo_menu.add_option("infrared", demo_cb, &bzr);
-  demo_menu.add_submenu("back", &main_menu);
+  demo_menu.add_option("1:Buzzer", demo_cb, &bzr);
+  demo_menu.add_option("2:Driving", demo_cb, &bzr);
+  demo_menu.add_option("3:Infrared", demo_cb, &bzr);
+  demo_menu.add_submenu("4:Back", &main_menu);
 
-  shut_menu.add_option("reset", shutdown_cb, NULL);
-  shut_menu.add_option("shutdown", shutdown_cb, NULL);
-  shut_menu.add_submenu("back", &main_menu);
+  shut_menu.add_option("1:Reset", shutdown_cb, NULL);
+  shut_menu.add_option("2:Shutdown", shutdown_cb, NULL);
+  shut_menu.add_submenu("3:Back", &main_menu);
 
 
   while (true) {
