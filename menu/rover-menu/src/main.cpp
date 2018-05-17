@@ -35,13 +35,16 @@
 #include <app/RoverUtils.h>
 #include <app/RoverDisplay.h>
 #include <app/RoverButtons.h>
+#include <app/RoverDriving.h>
 
 #include <Menu.h>
-#include <melodies.h>
+#include <demo/RoverBuzzerDemo.h>
+#include <demo/RoverDrivingDemo.h>
 #include <kuksa_logo.h>
 
 using namespace std;
 
+// Callback for handling shutdown menu
 void shutdown_cb(Menu * menu, RoverButtons* btn, void * closure) {
 
   switch (menu->get_option()) {
@@ -55,27 +58,29 @@ void shutdown_cb(Menu * menu, RoverButtons* btn, void * closure) {
       break;
   }
 
-  if (menu->get_option() == 0) {
-    system("shutdown -r now");
-  }
-
   return;
 }
 
+// Callback for handling Main menu
 void main_cb(Menu * menu, RoverButtons* btn, void * closure) {
 
-  if (menu->get_option() == 3) {
-    system("shutdown -f");
-  }
-
   return;
 }
 
+// Callback for handling demo menu
 void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
+  RoverBuzzerDemo * bzrd = (RoverBuzzerDemo *)closure;
+  RoverDrivingDemo * drvd = (RoverDrivingDemo *)closure;
 
-  if (menu->get_option() == 0) {
-    RoverBuzzer * bzr = (RoverBuzzer *)closure;
-    bzr->play_melody(mario_theme, MARION_THEME_SIZE, mario_theme_tempo, MARION_THEME_SIZE);
+  switch (menu->get_option()) {
+    case 0: // Buzzer
+      bzrd->run();
+      break;
+    case 1: // Driving
+      drvd->run();
+      break;
+    default:
+      break;
   }
 
   return;
@@ -93,25 +98,35 @@ int main(int ac, char **av, char **env)
 
   sprintf(uri, "127.0.0.1:%s/api?token=%s", port, token);
 
+  // Create services objects
   RoverDisplay display(uri);
   RoverButtons btn(uri);
   RoverBuzzer bzr(uri);
+  RoverDriving drv(uri);
 
+  // Create demos objects
+  RoverBuzzerDemo bzr_demo(&bzr);
+  RoverDrivingDemo drv_demo(&drv, &display, &btn);
+
+  // Create the menu objects
   Menu main_menu = Menu("Main", &btn, &display);
   Menu demo_menu = Menu("Demo", &btn, &display);
   Menu shut_menu = Menu("Shutdown", &btn, &display);
   Menu * curr_menu = &main_menu;
 
+  // Add Main Menu options
   main_menu.add_submenu("1:Demo", &demo_menu);
   main_menu.add_option("2:Status", NULL, NULL);
   main_menu.add_option("3:Info", NULL, NULL);
   main_menu.add_submenu("4:Shutdown", &shut_menu);
 
-  demo_menu.add_option("1:Buzzer", demo_cb, &bzr);
-  demo_menu.add_option("2:Driving", demo_cb, &bzr);
-  demo_menu.add_option("3:Infrared", demo_cb, &bzr);
+  // Add Demo Menu options
+  demo_menu.add_option("1:Buzzer", demo_cb, &bzr_demo);
+  demo_menu.add_option("2:Driving", demo_cb, &drv_demo);
+  demo_menu.add_option("3:Infrared", demo_cb, NULL);
   demo_menu.add_submenu("4:Back", &main_menu);
 
+  // Add Shutdown menu options
   shut_menu.add_option("1:Reset", shutdown_cb, NULL);
   shut_menu.add_option("2:Shutdown", shutdown_cb, NULL);
   shut_menu.add_submenu("3:Back", &main_menu);
