@@ -109,3 +109,6 @@ if __name__ == '__main__':
 
     full_path = os.path.join(root_path, "demo")
     build_service(full_path, target, clean, install)
+
+    full_path = os.path.join(root_path, "menu")
+    build_service(full_path, target, clean, install)

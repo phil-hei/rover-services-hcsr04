@@ -322,7 +322,6 @@ static void draw_bitmap(struct afb_req request) {
 
   }
 
-
   ret = obj.draw_bitmap(static_cast<int>(json_object_get_int(val[0])),
       static_cast<int>(json_object_get_int(val[1])),
       _var_bitmap, _var_bitmap_size,
@@ -920,24 +919,24 @@ static void draw_circle(struct afb_req request) {
 static const struct afb_verb_v2 verbs[] = {
   /*Without security*/
   {.verb = "clear_display", .callback = clear_display, .auth = NULL, .info = "Clear the display", .session = 0},
-  {.verb = "get_height", .callback = get_height, .auth = NULL, .info = "Auto Generated - get_height", .session = 0},
-  {.verb = "set_rotation", .callback = set_rotation, .auth = NULL, .info = "Set Rotation", .session = 0},
-  {.verb = "draw_round_rectangle", .callback = draw_round_rectangle, .auth = NULL, .info = "Draw a rectangle with rounded corners", .session = 0},
+  // {.verb = "get_height", .callback = get_height, .auth = NULL, .info = "Auto Generated - get_height", .session = 0},
+  // {.verb = "set_rotation", .callback = set_rotation, .auth = NULL, .info = "Set Rotation", .session = 0},
+  // {.verb = "draw_round_rectangle", .callback = draw_round_rectangle, .auth = NULL, .info = "Draw a rectangle with rounded corners", .session = 0},
   {.verb = "draw_line", .callback = draw_line, .auth = NULL, .info = "Draw a line", .session = 0},
   {.verb = "draw_bitmap", .callback = draw_bitmap, .auth = NULL, .info = "Draw Bitmap", .session = 0},
   {.verb = "set_text_color", .callback = set_text_color, .auth = NULL, .info = "Set Text Color", .session = 0},
-  {.verb = "get_width", .callback = get_width, .auth = NULL, .info = "Auto Generated - get_width", .session = 0},
+  // {.verb = "get_width", .callback = get_width, .auth = NULL, .info = "Auto Generated - get_width", .session = 0},
   {.verb = "draw_rectangle", .callback = draw_rectangle, .auth = NULL, .info = "Draw a Rectangle", .session = 0},
   {.verb = "set_text_size", .callback = set_text_size, .auth = NULL, .info = "Set Text Size", .session = 0},
-  {.verb = "draw_triangle", .callback = draw_triangle, .auth = NULL, .info = "Draw a rectangle with rounded corners", .session = 0},
-  {.verb = "draw_pixel", .callback = draw_pixel, .auth = NULL, .info = "Draw a Pixel", .session = 0},
+  // {.verb = "draw_triangle", .callback = draw_triangle, .auth = NULL, .info = "Draw a rectangle with rounded corners", .session = 0},
+  // {.verb = "draw_pixel", .callback = draw_pixel, .auth = NULL, .info = "Draw a Pixel", .session = 0},
   {.verb = "set_cursor", .callback = set_cursor, .auth = NULL, .info = "Set Cursor", .session = 0},
   {.verb = "print", .callback = print, .auth = NULL, .info = "Print", .session = 0},
-  {.verb = "fill_screen", .callback = fill_screen, .auth = NULL, .info = "Fill the screen with single color", .session = 0},
-  {.verb = "invert_display", .callback = invert_display, .auth = NULL, .info = "Invert Display", .session = 0},
-  {.verb = "draw_char", .callback = draw_char, .auth = NULL, .info = "Draw a character", .session = 0},
+  // {.verb = "fill_screen", .callback = fill_screen, .auth = NULL, .info = "Fill the screen with single color", .session = 0},
+  // {.verb = "invert_display", .callback = invert_display, .auth = NULL, .info = "Invert Display", .session = 0},
+  // {.verb = "draw_char", .callback = draw_char, .auth = NULL, .info = "Draw a character", .session = 0},
   {.verb = "display", .callback = display, .auth = NULL, .info = "Displays the buffer", .session = 0},
-  {.verb = "draw_circle", .callback = draw_circle, .auth = NULL, .info = "Draw a Circle", .session = 0},
+  // {.verb = "draw_circle", .callback = draw_circle, .auth = NULL, .info = "Draw a Circle", .session = 0},
   {.verb= NULL, .callback=NULL, .auth = NULL, .info = NULL, .session = 0 }
 };
 
