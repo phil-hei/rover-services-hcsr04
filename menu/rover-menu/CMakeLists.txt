@@ -1,7 +1,9 @@
 PROJECT_TARGET_ADD(rover-menu)
 
+INCLUDE_DIRECTORIES(include/)
+
 # Define project Targets
-ADD_EXECUTABLE(${TARGET_NAME} src/main.cpp src/appstacle_logo.c)
+ADD_EXECUTABLE(${TARGET_NAME} src/main.cpp src/Menu.cpp)
 SET_TARGET_PROPERTIES(${TARGET_NAME} PROPERTIES
 	LABELS "EXECUTABLE"
 	OUTPUT_NAME ${TARGET_NAME}

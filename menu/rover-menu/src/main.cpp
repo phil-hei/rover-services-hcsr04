@@ -36,113 +36,11 @@
 #include <app/RoverDisplay.h>
 #include <app/RoverButtons.h>
 
-#include "melodies.h"
-#include "appstacle_logo.c"
+#include <Menu.h>
+#include <melodies.h>
+#include <kuksa_logo.h>
 
 using namespace std;
-
-RoverDisplay display;
-
-class Menu {
-public:
-  char * name;
-
-  Menu(char *name) {
-    this->name = name;
-  }
-
-  int get_max_size() {
-    return options.size();
-  }
-
-  void set_option(int opt) {
-    this->opt = opt;
-  }
-
-  int get_option(){
-    return this->opt;
-  }
-
-  void inc_option() {
-    this->opt++;
-
-    if (this->opt >= this->get_max_size()) {
-      this->opt = 0;
-    }
-  }
-
-  void add_option(char * option, void (*callback)(Menu* menu, void * closure), void * closure) {
-    options.push_back(option);
-    submenu.push_back(NULL);
-    callbacks.push_back(callback);
-    cookies.push_back(closure);
-  }
-
-  void add_submenu(char * option, Menu *menu) {
-    options.push_back(option);
-    submenu.push_back(menu);
-    callbacks.push_back(NULL);
-    cookies.push_back(NULL);
-  }
-
-  void draw(RoverDisplay &disp) {
-    int rc = 0;
-    bool status;
-    int start_opt = 0;
-    int end_opt = 3;
-    int text_color = 1;
-    int bg_color = 0;
-
-
-    rc |= disp.clear_display();
-
-    disp.set_text_size(2);
-  	disp.set_text_color(1);
-
-    start_opt = 0;
-    if (this->opt >= 3) {
-      start_opt = 1 + this->opt - 3;
-    }
-
-    for (int i = 0; i < 3; i++) {
-      if ((i + start_opt) == this->opt) {
-        bg_color = 1;
-      } else {
-        bg_color = 0;
-      }
-
-      disp.set_text_color(text_color);
-      disp.draw_rectangle(0, i*20, 128, 20, bg_color, false);
-
-      disp.set_cursor(5, 2 + 20 * i);
-    	disp.print(options[i + start_opt]);
-    }
-
-    disp.display();
-  }
-
-  Menu * select() {
-    Menu * ret;
-    if (submenu[this->opt] != NULL) {
-      ret = submenu[this->opt];
-      this->set_option(0);
-      return ret;
-    }
-
-    if (callbacks[this->opt]) {
-      callbacks[this->opt](this, cookies[this->opt]);
-    }
-
-    return this;
-  }
-
-private:
-  vector<char *> options;
-  vector<Menu *> submenu;
-  vector<void (*)(Menu* menu, void * closure)> callbacks;
-  vector<void *> cookies;
-  uint opt = 0;
-};
 
 bool update_curr_option(RoverButtons &btn, Menu *menu) {
   double state = 1;
