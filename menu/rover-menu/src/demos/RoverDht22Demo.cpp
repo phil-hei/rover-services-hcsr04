@@ -61,7 +61,7 @@ bool RoverDht22Demo::check_button() {
   double state = 1;
   static bool trigered = false;
 
-  this->btn->read(shutdown_button, state);
+  this->btn->read(user_button, state);
 
   if (trigered && state != 0) {
     trigered = false;
