@@ -28,8 +28,6 @@
 
 #include <app/RoverBuzzer.h>
 
-#include <demo/Demo.h>
-
 using namespace std;
 
 class RoverBuzzerDemo {

@@ -30,9 +30,7 @@
 #include <app/RoverButtons.h>
 #include <app/RoverDisplay.h>
 
-#include <demo/Demo.h>
 #include <Menu.h>
-
 
 using namespace std;
 

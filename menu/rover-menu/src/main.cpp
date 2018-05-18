@@ -40,6 +40,7 @@
 #include <Menu.h>
 #include <demo/RoverBuzzerDemo.h>
 #include <demo/RoverDrivingDemo.h>
+#include <demo/RoverInfraredDemo.h>
 #include <kuksa_logo.h>
 
 using namespace std;
@@ -71,6 +72,7 @@ void main_cb(Menu * menu, RoverButtons* btn, void * closure) {
 void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
   RoverBuzzerDemo * bzrd = (RoverBuzzerDemo *)closure;
   RoverDrivingDemo * drvd = (RoverDrivingDemo *)closure;
+  RoverInfraredDemo * infrd = (RoverInfraredDemo *)closure;
 
   switch (menu->get_option()) {
     case 0: // Buzzer
@@ -78,6 +80,9 @@ void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
       break;
     case 1: // Driving
       drvd->run();
+      break;
+    case 2: // Infrared
+      infrd->run();
       break;
     default:
       break;
@@ -103,10 +108,12 @@ int main(int ac, char **av, char **env)
   RoverButtons btn(uri);
   RoverBuzzer bzr(uri);
   RoverDriving drv(uri);
+  RoverInfraredSensor inf_red(uri);
 
   // Create demos objects
   RoverBuzzerDemo bzr_demo(&bzr);
   RoverDrivingDemo drv_demo(&drv, &display, &btn);
+  RoverInfraredDemo inf_red_demo(&inf_red, &display, &btn);
 
   // Create the menu objects
   Menu main_menu = Menu("Main", &btn, &display);
@@ -123,7 +130,7 @@ int main(int ac, char **av, char **env)
   // Add Demo Menu options
   demo_menu.add_option("1:Buzzer", demo_cb, &bzr_demo);
   demo_menu.add_option("2:Driving", demo_cb, &drv_demo);
-  demo_menu.add_option("3:Infrared", demo_cb, NULL);
+  demo_menu.add_option("3:Infrared", demo_cb, &inf_red_demo);
   demo_menu.add_submenu("4:Back", &main_menu);
 
   // Add Shutdown menu options

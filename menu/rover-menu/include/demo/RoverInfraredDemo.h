@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef _DEMO_HEADER_
-#define _DEMO_HEADER_
+#ifndef _ROVER_INFRARED_HEADER_
+#define _ROVER_INFRARED_HEADER_
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,16 +26,28 @@
 #include <errno.h>
 #include <vector>
 
-#include <app/RoverDisplay.h>
+#include <app/RoverInfraredSensor.h>
 #include <app/RoverButtons.h>
+#include <app/RoverDisplay.h>
 
 using namespace std;
 
-class Demo {
+class RoverInfraredDemo {
 public:
+  uint curr_speed;
+  bool running;
 
-  virtual int run();
+  RoverInfraredDemo(RoverInfraredSensor *inf_sensor, RoverDisplay * disp, RoverButtons * btn);
 
+  int run();
+
+  bool check_button();
+
+private:
+
+  RoverInfraredSensor * inf_sensor;
+  RoverDisplay * disp;
+  RoverButtons * btn;
 };
 
-#endif /* _DEMO_HEADER_ */
+#endif /* _ROVER_INFRARED_HEADER_ */
