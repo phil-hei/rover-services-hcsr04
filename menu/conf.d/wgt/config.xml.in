@@ -11,5 +11,6 @@
     <param name="roverbuttons" value="ws" />
     <param name="roverdisplay" value="ws" />
     <param name="roverbuzzer" value="ws" />
+    <param name="roverinfraredsensor" value="ws" />
   </feature>
 </widget>
