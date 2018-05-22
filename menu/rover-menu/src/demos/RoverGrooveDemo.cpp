@@ -22,8 +22,13 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <vector>
+#include <sstream>
+#include <iomanip>
 
 #include <demo/RoverGrooveDemo.h>
+
+static const int oled_width = 128;
+static const int oled_height = 64;
 
 RoverGrooveDemo::RoverGrooveDemo(RoverGrooveUltrasonicSensor *grv_sensor, RoverDisplay * disp, RoverButtons * btn) {
   this->grv_sensor = grv_sensor;
@@ -31,8 +36,23 @@ RoverGrooveDemo::RoverGrooveDemo(RoverGrooveUltrasonicSensor *grv_sensor, RoverD
   this->btn = btn;
 }
 
+inline const char * get_val_str(double val) {
+  std::stringstream string_val;
+
+  string_val << std::setprecision(2);
+  string_val << std::fixed;
+
+  string_val << val;
+
+  return string_val.str().c_str();
+
+}
+
+
 int RoverGrooveDemo::run() {
   double sensor_val;
+  static const int triangle_width = 10;
+  static const int triangle_height = 20;
 
   this->disp->set_text_size(2);
   this->disp->set_text_color(1);
@@ -43,19 +63,33 @@ int RoverGrooveDemo::run() {
     // Front
     this->grv_sensor->read(rover_sensor_id::front, sensor_val);
     // Arrow
-    this->disp->draw_triangle(5, 40, 15, 30, 15, 50, 1, true);
+    this->disp->draw_triangle(triangle_width,
+                              0,
+                              0,
+                              triangle_height/2,
+                              triangle_width,
+                              triangle_height,
+                              1,
+                              true);
 
-    this->disp->set_cursor(30, 30);
-  	this->disp->print(to_string(sensor_val).c_str());
+    this->disp->set_cursor(triangle_width + 4, 3);
+  	this->disp->print(get_val_str(sensor_val));
 
 
     // Rear
     this->grv_sensor->read(rover_sensor_id::rear, sensor_val);
     // Arrow
-    this->disp->draw_triangle(100, 40, 110, 30, 110, 50, 1, true);
+    this->disp->draw_triangle(oled_width - triangle_width,
+                              oled_height - triangle_height,
+                              oled_width,
+                              oled_height - triangle_height/2,
+                              oled_width - triangle_width,
+                              oled_height,
+                              1,
+                              true);
 
-    this->disp->set_cursor(90, 30);
-    this->disp->print(to_string(sensor_val).c_str());
+    this->disp->set_cursor(oled_width - 72, oled_height - 17);
+    this->disp->print(get_val_str(sensor_val));
 
 
     this->disp->display();

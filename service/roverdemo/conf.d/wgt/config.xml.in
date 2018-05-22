@@ -11,11 +11,5 @@
   </feature>
   <feature name="urn:AGL:widget:required-api">
      <param name="lib/afb-roverdemo.so" value="local" />
-     <param name="roverdriving" value="ws" />
-     <param name="roverinfraredsensor" value="ws" />
-     <param name="rovergrooveultrasonicsensor" value="ws" />
-     <param name="roverbuzzer" value="ws" />
-     <param name="roverutils" value="ws" />
-     <param name="roverbuttons" value="ws" />
   </feature>
 </widget>

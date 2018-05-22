@@ -72,6 +72,14 @@ def build_service(path, target=None, clean=False, install=False):
         subprocess.check_output(bash_cmd, shell=True)
 
 
+def check_filter(filter, name):
+    if filter:
+        if filter not in name:
+            return False
+
+    return True
+
+
 if __name__ == '__main__':
     from sys import argv
     myargs = getopts(argv)
@@ -79,6 +87,7 @@ if __name__ == '__main__':
     target = None
     clean = False
     install = False
+    filter = None
 
     if '-l' in myargs:
         logging.basicConfig(level=mapping[myargs['-l']])
@@ -97,18 +106,26 @@ if __name__ == '__main__':
         else:
             logging.warning("No target specified")
 
+    if '-f' in myargs:
+        filter = myargs['-f']
+
     logging.info("Provided params - " + json.dumps(myargs,
                                                    sort_keys=True,
                                                    indent=4))
 
     for filename in os.listdir(services_path):
+        if not check_filter(filter, filename):
+            continue
+
         logging.info("Building Service - " + filename)
         full_path = os.path.join(services_path, filename)
 
         build_service(full_path, target, clean, install)
 
-    full_path = os.path.join(root_path, "demo")
-    build_service(full_path, target, clean, install)
+    if check_filter(filter, "demo"):
+        full_path = os.path.join(root_path, "demo")
+        build_service(full_path, target, clean, install)
 
-    full_path = os.path.join(root_path, "menu")
-    build_service(full_path, target, clean, install)
+    if check_filter(filter, "menu"):
+        full_path = os.path.join(root_path, "menu")
+        build_service(full_path, target, clean, install)

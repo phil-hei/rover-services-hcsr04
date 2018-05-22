@@ -54,7 +54,7 @@ void menu_cb(Menu * menu, RoverButtons* btn, void * closure) {
       drv_demo->drv->turnleft();
       break;
     case 5: // Turn right
-      drv_demo->drv->turnleft();
+      drv_demo->drv->turnright();
       break;
     case 6: // Stop
       drv_demo->drv->stop();
@@ -74,19 +74,19 @@ RoverDrivingDemo::RoverDrivingDemo(RoverDriving *drv, RoverDisplay * disp, Rover
   this->btn = btn;
   this->main = new Menu("DrivingDemo", btn, disp);
 
-  this->main->add_option("1:Inc. Speed", menu_cb, NULL);
-  this->main->add_option("2:Dec. Speed", menu_cb, NULL);
-  this->main->add_option("3:Go Forward", menu_cb, NULL);
-  this->main->add_option("4:Go Backward", menu_cb, NULL);
-  this->main->add_option("5:Turn Left", menu_cb, NULL);
-  this->main->add_option("6:Turn Right", menu_cb, NULL);
-  this->main->add_option("7:Stop", menu_cb, NULL);
-  this->main->add_option("8:End", menu_cb, NULL);
+  this->main->add_option("1:Speed++", menu_cb, this);
+  this->main->add_option("2:Speed--", menu_cb, this);
+  this->main->add_option("3:Forward", menu_cb, this);
+  this->main->add_option("4:Backward", menu_cb, this);
+  this->main->add_option("5:Left", menu_cb, this);
+  this->main->add_option("6:Right", menu_cb, this);
+  this->main->add_option("7:Stop", menu_cb, this);
+  this->main->add_option("8:End", menu_cb, this);
 }
 
 int RoverDrivingDemo::run() {
 
-  this->drv->setspeed(0);
+  this->drv->setspeed(480);
 
   while(this->running) {
     this->main->update();

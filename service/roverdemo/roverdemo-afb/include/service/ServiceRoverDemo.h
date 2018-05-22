@@ -42,8 +42,8 @@ enum rover_demo_id {
 };
 enum rover_sensor_id {
   rear_right,
-  rear_left,
   front_right,
+  rear_left,
   front_left,
   front,
   rear

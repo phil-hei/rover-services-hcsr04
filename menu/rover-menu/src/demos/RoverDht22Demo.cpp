@@ -32,7 +32,7 @@ RoverDht22Demo::RoverDht22Demo(RoverDht22 *sensor, RoverDisplay * disp, RoverBut
 }
 
 int RoverDht22Demo::run() {
-  double sensor_val;
+  double sensor_val = 1;
 
   this->disp->set_text_size(2);
   this->disp->set_text_color(1);
@@ -47,7 +47,7 @@ int RoverDht22Demo::run() {
 
 
     // Humidity
-    this->sensor->read_humidity(sensor_val);
+    // this->sensor->read_humidity(sensor_val);
     this->disp->set_cursor(90, 30);
     this->disp->print(to_string(sensor_val).c_str());
 

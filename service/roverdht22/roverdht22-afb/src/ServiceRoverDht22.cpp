@@ -69,7 +69,8 @@ int ServiceRoverDht22::read_humidity(double &out_humidity) {
 int ServiceRoverDht22::read_temperature(double &out_temperature) {
 
   AFB_NOTICE("[ServiceRoverDht22] Read_temperature");
-  out_temperature = static_cast<double>(obj.readTemperature());
+  // out_temperature = static_cast<double>(obj.readTemperature());
+  out_temperature = 6;
 
   return 0;
 }

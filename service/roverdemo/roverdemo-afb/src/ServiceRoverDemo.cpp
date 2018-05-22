@@ -22,11 +22,6 @@ ServiceRoverDemo::ServiceRoverDemo() {
 
 int ServiceRoverDemo::init() {
   AFB_NOTICE("[ServiceRoverDemo] Init ");
-
-  afb_daemon_require_api("identity", 1);
-
-  afb_service_call_sync("api", "verb", NULL, &data);
-  
   return -1;
 }
 

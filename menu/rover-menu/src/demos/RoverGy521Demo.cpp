@@ -22,6 +22,8 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <vector>
+#include <sstream>
+#include <iomanip>
 
 #include <demo/RoverGy521Demo.h>
 
@@ -31,13 +33,39 @@ RoverGy521Demo::RoverGy521Demo(RoverGy521 *sensor, RoverDisplay * disp, RoverBut
   this->btn = btn;
 }
 
+
+inline string get_val_str(double val) {
+  std::stringstream string_val;
+
+  string_val << std::setprecision(2);
+  string_val << std::fixed;
+
+  string_val << val;
+
+  return string_val.str();
+
+}
+
+template <typename T>
+string get_string(T data);
+
+template <>
+string get_string<int>(int data) {
+  return to_string(data);
+}
+
+template <>
+string get_string<double>(double data) {
+  return get_val_str(data);
+}
+
 template <typename T>
 void print_data(RoverDisplay * disp, const char * prefix, T data[3]) {
   static const char * data_name[3] = {"x", "y", "z"};
   string data_str;
 
   for (int i = 0; i < 3; i++){
-    data_str = string(prefix) + to_string(data[i]);
+    data_str = string(prefix) + data_name[i] + string(":") + get_string(data[i]);
     disp->set_cursor(5, 2 + 20 * i);
     disp->print(data_str.c_str());
   }
@@ -49,7 +77,7 @@ int RoverGy521Demo::run() {
   double double_data[3];
   uint sel = 0;
 
-  this->disp->set_text_size(2);
+  this->disp->set_text_size(1);
   this->disp->set_text_color(1);
 
   while (!check_button()) {
@@ -72,13 +100,13 @@ int RoverGy521Demo::run() {
         this->sensor->read_gyro_x(int_data[0]);
         this->sensor->read_gyro_y(int_data[1]);
         this->sensor->read_gyro_z(int_data[2]);
-        print_data<int>(this->disp, "gyro_", int_data);
+        print_data<int>(this->disp, "gy_", int_data);
         break;
       case 2: // Angle
         this->sensor->read_angle_x(double_data[0]);
         this->sensor->read_angle_y(double_data[1]);
         this->sensor->read_angle_z(double_data[2]);
-        print_data<double>(this->disp, "gyro_", double_data);
+        print_data<double>(this->disp, "an_", double_data);
         break;
       default:
         break;

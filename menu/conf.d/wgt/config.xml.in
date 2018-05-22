@@ -7,10 +7,18 @@
   <description>@PROJECT_DESCRIPTION@</description>
   <author>@PROJECT_AUTHOR@ &lt;@PROJECT_AUTHOR_MAIL@&gt;</author>
   <license>@PROJECT_LICENSE@</license>
+  <feature name="urn:AGL:widget:required-permission">
+    <param name="urn:AGL:permission::system:run-by-default" value="required" />
+  </feature>
   <feature name="urn:AGL:widget:required-api">
     <param name="roverbuttons" value="ws" />
     <param name="roverdisplay" value="ws" />
     <param name="roverbuzzer" value="ws" />
     <param name="roverinfraredsensor" value="ws" />
+    <param name="roverdht22" value="ws" />
+    <param name="rovergy521" value="ws" />
+    <param name="roverdriving" value="ws" />
+    <param name="rovergrooveultrasonicsensor" value="ws" />
+    <param name="roverutils" value="ws" />
   </feature>
 </widget>

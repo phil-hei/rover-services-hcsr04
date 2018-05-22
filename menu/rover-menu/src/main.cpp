@@ -38,13 +38,14 @@
 #include <app/RoverDriving.h>
 
 #include <Menu.h>
+#include <StatusMenu.h>
 #include <demo/RoverBuzzerDemo.h>
 #include <demo/RoverDrivingDemo.h>
 #include <demo/RoverInfraredDemo.h>
 #include <demo/RoverGrooveDemo.h>
 #include <demo/RoverDht22Demo.h>
 #include <demo/RoverGy521Demo.h>
-#include <kuksa_logo.h>
+#include <icons/bluetooth_logo.h>
 
 using namespace std;
 
@@ -67,6 +68,15 @@ void shutdown_cb(Menu * menu, RoverButtons* btn, void * closure) {
 
 // Callback for handling Main menu
 void main_cb(Menu * menu, RoverButtons* btn, void * closure) {
+  StatusMenu * status = (StatusMenu *)closure;
+
+  switch (menu->get_option()) {
+    case 1:
+      status->run();
+      break;
+    default:
+      break;
+  }
 
   return;
 }
@@ -127,6 +137,7 @@ int main(int ac, char **av, char **env)
   RoverGrooveUltrasonicSensor grv_sen(uri);
   RoverDht22 dht_sen(uri);
   RoverGy521 gy_sen(uri);
+  RoverUtils util(uri);
 
   // Create demos objects
   RoverBuzzerDemo bzr_demo(&bzr);
@@ -136,6 +147,8 @@ int main(int ac, char **av, char **env)
   RoverDht22Demo dht_sen_demo(&dht_sen, &display, &btn);
   RoverGy521Demo gy_sen_demo(&gy_sen, &display, &btn);
 
+  StatusMenu status_men(&util, &display, &btn);
+
   // Create the menu objects
   Menu main_menu = Menu("Main", &btn, &display);
   Menu demo_menu = Menu("Demo", &btn, &display);
@@ -144,7 +157,7 @@ int main(int ac, char **av, char **env)
 
   // Add Main Menu options
   main_menu.add_submenu("1:Demo", &demo_menu);
-  main_menu.add_option("2:Status", NULL, NULL);
+  main_menu.add_option("2:Status", main_cb, &status_men);
   main_menu.add_option("3:Info", NULL, NULL);
   main_menu.add_submenu("4:Shutdown", &shut_menu);
 
@@ -168,7 +181,7 @@ int main(int ac, char **av, char **env)
     curr_menu = curr_menu->next();
     curr_menu->draw();
   }
-
+  
   if (rc) {
     return -1;
   }

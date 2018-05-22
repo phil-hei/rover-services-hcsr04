@@ -22,8 +22,13 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <vector>
+#include <sstream>
+#include <iomanip>
 
 #include <demo/RoverInfraredDemo.h>
+
+static const int oled_width = 128;
+static const int oled_height = 64;
 
 RoverInfraredDemo::RoverInfraredDemo(RoverInfraredSensor *inf_sensor, RoverDisplay * disp, RoverButtons * btn) {
   this->inf_sensor = inf_sensor;
@@ -31,45 +36,95 @@ RoverInfraredDemo::RoverInfraredDemo(RoverInfraredSensor *inf_sensor, RoverDispl
   this->btn = btn;
 }
 
+inline const char * get_val_str(double val) {
+  std::stringstream string_val;
+
+  string_val << std::setprecision(2);
+  string_val << std::fixed;
+
+  string_val << val;
+
+  return string_val.str().c_str();
+
+}
+
 int RoverInfraredDemo::run() {
+  static const int triangle_width = 10;
+  static const int triangle_height = 10;
   double sensor_val;
 
-  this->disp->set_text_size(2);
+
+  this->disp->set_text_size(1);
   this->disp->set_text_color(1);
 
   while (!check_button()) {
     this->disp->clear_display();
 
+    // Draw all triangles
+    // Up-left
+    this->disp->draw_triangle(0,
+                              0,
+                              0,
+                              triangle_height,
+                              triangle_width,
+                              0,
+                              1,
+                              true);
+    // Bottom-left
+    this->disp->draw_triangle(0,
+                              oled_height,
+                              triangle_width,
+                              oled_height,
+                              0,
+                              oled_height - triangle_height,
+                              1,
+                              true);
+
+    // Up-right
+    this->disp->draw_triangle(oled_width,
+                              0,
+                              oled_width,
+                              triangle_height,
+                              oled_width - triangle_width,
+                              0,
+                              1,
+                              true);
+    // Buttom-right
+    this->disp->draw_triangle(oled_width,
+                              oled_height,
+                              oled_width,
+                              oled_height - triangle_height,
+                              oled_width - triangle_width,
+                              oled_height,
+                              1,
+                              true);
+
+
+    // Read Left
+    this->inf_sensor->read(rover_sensor_id::rear_right, sensor_val);
+    this->disp->set_cursor(80, 2);
+    this->disp->print(get_val_str(sensor_val));
+
+    // Read right
+    this->inf_sensor->read(rover_sensor_id::rear_left, sensor_val);
+    this->disp->set_cursor(80,  oled_height - (8 + 2));
+    this->disp->print(get_val_str(sensor_val));
+
+
     // Front right
     this->inf_sensor->read(rover_sensor_id::front_right, sensor_val);
-    // Arrow
-    this->disp->draw_triangle(5, 10, 15, 10, 5, 20, 1, true);
-
-    this->disp->set_cursor(30, 10);
-  	this->disp->print(to_string(sensor_val).c_str());
+    this->disp->set_cursor(triangle_width + 2, 2);
+  	this->disp->print(get_val_str(sensor_val));
 
     // Front left
     this->inf_sensor->read(rover_sensor_id::front_left, sensor_val);
-    // Arrow
-    this->disp->draw_triangle(5, 50, 15, 60, 5, 60, 1, true);
 
-    this->disp->set_cursor(30, 50);
-    this->disp->print(to_string(sensor_val).c_str());
-
-    this->inf_sensor->read(rover_sensor_id::rear_right, sensor_val);
-    // Arrow
-    this->disp->draw_triangle(65, 10, 75, 10, 75, 20, 1, true);
+    this->disp->set_cursor(triangle_width + 2, oled_height - (8 + 2));
+    this->disp->print(get_val_str(sensor_val));
 
 
-    this->disp->set_cursor(90, 10);
-    this->disp->print(to_string(sensor_val).c_str());
 
-    this->inf_sensor->read(rover_sensor_id::rear_left, sensor_val);
-    // Arrow
-    this->disp->draw_triangle(65, 60, 75, 60, 75, 50, 1, true);
 
-    this->disp->set_cursor(90, 50);
-    this->disp->print(to_string(sensor_val).c_str());
 
     this->disp->display();
   }
