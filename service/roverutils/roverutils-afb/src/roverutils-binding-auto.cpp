@@ -112,6 +112,40 @@ static void get_honocloud_status(struct afb_req request) {
 
 }
 
+static void get_number_of_network_interfaces(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+  int _var_num_interface = static_cast<int>(0);
+  json_object * new_json = json_object_new_object();
+  json_object * new_sub_json = NULL;
+  int ret = 0;
+
+  AFB_NOTICE("[roverutils] Calling get_number_of_network_interfaces");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
+  ret = obj.get_number_of_network_interfaces(_var_num_interface);
+  if (ret) {
+    AFB_ERROR("[roverutils] Verb 'get_number_of_network_interfaces' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'get_number_of_network_interfaces' returning error %d", ret);
+    return;
+  }
+
+
+  new_sub_json = json_object_new_int(_var_num_interface);
+  json_object_object_add(new_json, "num_interface", new_sub_json);
+
+  afb_req_success(request, new_json, NULL);
+  // Release the request json object
+  json_object_put(new_json);
+
+}
+
 static void get_bluetooth_status(struct afb_req request) {
   json_object *args = afb_req_json(request);
   bool _var_is_on = static_cast<bool>(0);
@@ -207,6 +241,55 @@ static void get_wlan_status(struct afb_req request) {
 
   new_sub_json = json_object_new_boolean(_var_is_on);
   json_object_object_add(new_json, "is_on", new_sub_json);
+
+  afb_req_success(request, new_json, NULL);
+  // Release the request json object
+  json_object_put(new_json);
+
+}
+
+static void get_interface_info(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+const   char * _var_interface_name = static_cast<char *>(0);
+const   char * _var_ip_addr = static_cast<char *>(0);
+const   char * _var_hw_addr = static_cast<char *>(0);
+  json_object * new_json = json_object_new_object();
+  json_object * new_sub_json = NULL;
+  json_object *val[1];
+  int ret = 0;
+
+  AFB_NOTICE("[roverutils] Calling get_interface_info");
+
+
+  if (args) {
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "interface_idx", &val[0])) {
+      AFB_ERROR("[roverutils] No 'interface_idx' param provided");
+      afb_req_fail(request, "bad-request", "No 'interface_idx' param provided");
+      return;
+    }
+
+
+  }
+
+
+  ret = obj.get_interface_info(static_cast<int>(json_object_get_int(val[0])),
+      _var_interface_name,
+      _var_ip_addr,
+      _var_hw_addr);
+  if (ret) {
+    AFB_ERROR("[roverutils] Verb 'get_interface_info' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'get_interface_info' returning error %d", ret);
+    return;
+  }
+
+
+  new_sub_json = json_object_new_string(_var_interface_name);
+  json_object_object_add(new_json, "interface_name", new_sub_json);
+  new_sub_json = json_object_new_string(_var_ip_addr);
+  json_object_object_add(new_json, "ip_addr", new_sub_json);
+  new_sub_json = json_object_new_string(_var_hw_addr);
+  json_object_object_add(new_json, "hw_addr", new_sub_json);
 
   afb_req_success(request, new_json, NULL);
   // Release the request json object
@@ -344,9 +427,11 @@ static void get_number_cores(struct afb_req request) {
 static const struct afb_verb_v2 verbs[] = {
   /*Without security*/
   {.verb = "get_honocloud_status", .callback = get_honocloud_status, .auth = NULL, .info = "Get the status of the Hono Cloud", .session = 0},
+  {.verb = "get_number_of_network_interfaces", .callback = get_number_of_network_interfaces, .auth = NULL, .info = "Get the amount of network interfaces", .session = 0},
   {.verb = "get_bluetooth_status", .callback = get_bluetooth_status, .auth = NULL, .info = "Get the status of the Bluetooth", .session = 0},
   {.verb = "get_internet_status", .callback = get_internet_status, .auth = NULL, .info = "Get the status of the internet Connection", .session = 0},
   {.verb = "get_wlan_status", .callback = get_wlan_status, .auth = NULL, .info = "Get the status of the WLAN", .session = 0},
+  {.verb = "get_interface_info", .callback = get_interface_info, .auth = NULL, .info = "Get the information of the network by a given idx", .session = 0},
   {.verb = "get_core_utilization", .callback = get_core_utilization, .auth = NULL, .info = "Get Core utilization", .session = 0},
   {.verb = "get_ethernet_status", .callback = get_ethernet_status, .auth = NULL, .info = "Get the status of the Ethernet Connection", .session = 0},
   {.verb = "get_number_cores", .callback = get_number_cores, .auth = NULL, .info = "Get number of cores", .session = 0},

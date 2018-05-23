@@ -7,8 +7,8 @@ types:
   rover_sensor_id:
     enum:
       - rear_right
-      - front_right
       - rear_left
+      - front_right
       - front_left
       - front
       - rear
@@ -102,3 +102,30 @@ types:
           properties:
             is_on:
               type: boolean
+/get_number_of_network_interfaces:
+  description: "Get the amount of network interfaces"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            num_interface:
+              type: integer
+/get_interface_info:
+  description: "Get the information of the network by a given idx"
+  post:
+    body:
+      properties:
+        interface_idx:
+          type: integer
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            interface_name:
+              type: string
+            ip_addr:
+              type: string
+            hw_addr:
+              type: string

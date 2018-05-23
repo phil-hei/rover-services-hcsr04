@@ -24,6 +24,11 @@
 #include <limits>
 #include <vector>
 #include <numeric>
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
+#include <array>
+
 
 using namespace rover;
 using namespace std;
@@ -171,9 +176,80 @@ int ServiceRoverUtils::get_honocloud_status(const char * in_host_name,
   return -1;
 }
 
+std::string exec(const char* cmd) {
+    std::array<char, 128> buffer;
+    std::string result;
+    std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) throw std::runtime_error("popen() failed!");
+    while (!feof(pipe.get())) {
+        if (fgets(buffer.data(), 128, pipe.get()) != nullptr)
+            result += buffer.data();
+    }
+    return result;
+}
+
+void get_interface_data(string int_name, const char * &ip, const char *  &mac) {
+  string data_ex;
+
+  string cmd = string("ifconfig ") + int_name;
+
+  stringstream interfaces(exec(cmd.c_str()));
+
+  while (interfaces >> data_ex) {
+
+    if (!data_ex.compare("inet")) {
+      interfaces >> data_ex;
+
+      if (!data_ex.compare("addr:")) {
+        interfaces >> data_ex;
+      }
+
+      ip = data_ex.c_str();
+    }
+
+    if (!data_ex.compare("ether")) {
+      interfaces >> data_ex;
+      mac = data_ex.c_str();
+    }
+  }
+
+}
+
+void get_interfaces(vector<string> &interfaces) {
+  string int_name;
+  stringstream cmd_out(exec("ifconfig -s -a | awk '{if(NR>1)print $1}'"));
+
+  while (cmd_out >> int_name) {
+
+    interfaces.push_back(int_name);
+  }
+
+}
+
+/** Autogenrated doc for get_interface_info */
+int ServiceRoverUtils::get_interface_info(const int in_interface_idx,
+    const char * &out_interface_name,
+    const char * &out_ip_addr,
+    const char * &out_hw_addr) {
+  AFB_NOTICE("[ServiceRoverUtils] Get_interface_info");
+
+  vector<string> interfaces;
+
+  get_interfaces(interfaces);
+
+  if (in_interface_idx >= interfaces.size()) {
+    return -1;
+  }
+
+  out_interface_name = interfaces[in_interface_idx].c_str();
+
+  get_interface_data(interfaces[in_interface_idx], out_ip_addr, out_hw_addr);
+
+  return 0;
+}
+
 /** Autogenrated doc for get_internet_status */
 int ServiceRoverUtils::get_internet_status(bool &out_is_on) {
-
   AFB_NOTICE("[ServiceRoverUtils] Get_internet_status");
 
   out_is_on = static_cast<bool>(utils.getInternetStatus());
@@ -183,7 +259,6 @@ int ServiceRoverUtils::get_internet_status(bool &out_is_on) {
 
 /** Autogenrated doc for get_number_cores */
 int ServiceRoverUtils::get_number_cores(int &out_num_cores) {
-
   AFB_NOTICE("[ServiceRoverUtils] Get_number_cores");
 
   out_num_cores = get_num_cores();
@@ -194,9 +269,20 @@ int ServiceRoverUtils::get_number_cores(int &out_num_cores) {
 
 }
 
+/** Autogenrated doc for get_number_of_network_interfaces */
+int ServiceRoverUtils::get_number_of_network_interfaces(int &out_num_interface) {
+  AFB_NOTICE("[ServiceRoverUtils] Get_number_of_network_interfaces");
+  vector<string> interfaces;
+
+  get_interfaces(interfaces);
+
+  out_num_interface = interfaces.size();
+
+  return 0;
+}
+
 /** Autogenrated doc for get_wlan_status */
 int ServiceRoverUtils::get_wlan_status(bool &out_is_on) {
-
   AFB_NOTICE("[ServiceRoverUtils] Get_wlan_status");
 
   out_is_on = static_cast<bool>(utils.getWlanStatus());

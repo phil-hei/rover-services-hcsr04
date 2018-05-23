@@ -33,6 +33,13 @@ enum rover_button_id {
   shutdown_button,
   custom_button
 };
+enum rover_demo_id {
+  buzzer,
+  driving,
+  buttons,
+  infrared,
+  rover_demo_max
+};
 enum rover_sensor_id {
   rear_right,
   rear_left,
@@ -66,11 +73,20 @@ public:
         const char * in_password,
         bool &out_is_on);
 
+    /** Autogenrated doc for get_interface_info */
+    int get_interface_info(const int in_interface_idx,
+        const char * &out_interface_name,
+        const char * &out_ip_addr,
+        const char * &out_hw_addr);
+
     /** Autogenrated doc for get_internet_status */
     int get_internet_status(bool &out_is_on);
 
     /** Autogenrated doc for get_number_cores */
     int get_number_cores(int &out_num_cores);
+
+    /** Autogenrated doc for get_number_of_network_interfaces */
+    int get_number_of_network_interfaces(int &out_num_interface);
 
     /** Autogenrated doc for get_wlan_status */
     int get_wlan_status(bool &out_is_on);
