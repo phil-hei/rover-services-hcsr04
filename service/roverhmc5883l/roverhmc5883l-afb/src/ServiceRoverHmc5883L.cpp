@@ -96,7 +96,7 @@ int ServiceRoverHmc5883L::set_address(const int in_address) {
 int ServiceRoverHmc5883L::set_calibration_period(const int in_period) {
   AFB_NOTICE("[ServiceRoverHmc5883L] Set_calibration_period");
 
-  sensor.setHMC588LAddress(in_period);
+  sensor.setHMC588LCalibrationPeriod(in_period);
 
   return 0;
 }
@@ -105,7 +105,7 @@ int ServiceRoverHmc5883L::set_calibration_period(const int in_period) {
 int ServiceRoverHmc5883L::set_declination_angle(const double in_angle) {
   AFB_NOTICE("[ServiceRoverHmc5883L] Set_declination_angle");
 
-  sensor.setHMC588LAddress(static_cast<const float>(in_angle));
+  sensor.setHMC588LDeclinationAngle(static_cast<const float>(in_angle));
 
   return 0;
 }
