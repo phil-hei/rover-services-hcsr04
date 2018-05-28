@@ -33,6 +33,7 @@
 #include <app/RoverBuzzer.h>
 #include <app/RoverUtils.h>
 #include <app/RoverDisplay.h>
+#include <app/RoverConfig.h>
 
 #include "melodies.h"
 #include "appstacle_logo.c"
@@ -226,6 +227,37 @@ int test_rover_display(char * uri) {
   }
 }
 
+int test_rover_config(char * uri) {
+  int rc = 0;
+  string value;
+  // double * cores_util;
+  // int n_cores = 0;
+
+  RoverConfig ws((const char *)uri);
+
+  rc |= ws.get("MQTT_USERNAME_C", value);
+  // rc |= ws.clear_display();
+  // RoverBase base = RoverBase();
+  // RoverDisplay disp = RoverDisplay();
+  // RoverHMC5883L other = RoverHMC5883L();
+  // base.initialize();
+  // other.initialize();
+  // disp.initialize();
+  // printf("Cleaning Display\n");
+  // while (true) {
+  //   disp.clearDisplay();
+  //   // disp.drawLine(0, 0, 50, 50, 1);
+  //   disp.display();
+  // }
+  printf("Value: %s\n", value);
+
+  // delete [] cores_util;
+
+  if (rc) {
+    return -1;
+  }
+}
+
 /* entry function */
 int main(int ac, char **av, char **env)
 {
@@ -248,7 +280,7 @@ int main(int ac, char **av, char **env)
   // rc |= test_rover_buzzer(uri);
   // Test Utils
   // rc |= test_rover_utils(uri);
-  rc |= test_rover_display(uri);
+  rc |= test_rover_config(uri);
 
   if (rc) {
     return -1;

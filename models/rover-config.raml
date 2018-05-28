@@ -1,0 +1,40 @@
+#%RAML 1.0
+title: Rover Config
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - front_right
+      - rear_left
+      - front_left
+      - front
+      - rear
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+  rover_demo_id:
+    enum:
+      - buzzer
+      - driving
+      - buttons
+      - infrared
+      - rover_demo_max
+/get:
+  description: "Get a configuration parameter"
+  post:
+    body:
+      properties:
+        key:
+          type: string
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            value:
+              type: string
