@@ -20,5 +20,6 @@
     <param name="roverdriving" value="ws" />
     <param name="rovergrooveultrasonicsensor" value="ws" />
     <param name="roverutils" value="ws" />
+    <param name="roverhmc5883l" value="ws" />
   </feature>
 </widget>
