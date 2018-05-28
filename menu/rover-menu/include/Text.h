@@ -33,7 +33,7 @@ using namespace std;
 
 class Text {
 public:
-  Text(RoverButtons* btn, RoverDisplay *disp);
+  Text(RoverDisplay *disp, RoverButtons* btn);
 
   void add_text(string text);
 
@@ -49,7 +49,7 @@ private:
   RoverButtons *btn;
   RoverDisplay *disp;
   uint char_size = 1;
-  uint num_chars_line = 16;
+  uint num_chars_line = 128/6;
   uint line_height = 10;
   bool running;
 

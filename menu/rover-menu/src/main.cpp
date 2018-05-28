@@ -22,12 +22,12 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <vector>
-
 #include <systemd/sd-event.h>
-#include <json-c/json.h>
 
+#include <json-c/json.h>
 #include <afb/afb-wsj1.h>
 #include <afb/afb-ws-client.h>
+
 #include <app/RoverDriving.h>
 #include <app/RoverInfraredSensor.h>
 #include <app/RoverGrooveUltrasonicSensor.h>
@@ -37,8 +37,6 @@
 #include <app/RoverButtons.h>
 #include <app/RoverDriving.h>
 
-#include <Menu.h>
-#include <StatusMenu.h>
 #include <demo/RoverBuzzerDemo.h>
 #include <demo/RoverDrivingDemo.h>
 #include <demo/RoverInfraredDemo.h>
@@ -46,6 +44,10 @@
 #include <demo/RoverDht22Demo.h>
 #include <demo/RoverGy521Demo.h>
 #include <icons/bluetooth_logo.h>
+
+#include <Menu.h>
+#include <Text.h>
+#include <StatusMenu.h>
 
 using namespace std;
 
@@ -69,10 +71,14 @@ void shutdown_cb(Menu * menu, RoverButtons* btn, void * closure) {
 // Callback for handling Main menu
 void main_cb(Menu * menu, RoverButtons* btn, void * closure) {
   StatusMenu * status = (StatusMenu *)closure;
+  Text * text = (Text *)closure;
 
   switch (menu->get_option()) {
     case 1:
       status->run();
+      break;
+    case 2:
+      text->print();
       break;
     default:
       break;
@@ -116,6 +122,34 @@ void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
   return;
 }
 
+void create_info_text(Text &text, RoverUtils &utils) {
+  int int_num = 0;
+  std::string out_interface_name;
+  std::string out_ip_addr;
+  std::string out_hw_add;
+  string info;
+
+  text.add_text("====================");
+  text.add_text("NETWORK");
+  text.add_text("====================");
+
+  utils.get_number_of_network_interfaces(int_num);
+
+  for (int i = 0; i < int_num; i++) {
+    utils.get_interface_info(i, out_interface_name, out_ip_addr, out_hw_add);
+
+    info = std::string("Interface: ") + out_interface_name;
+    text.add_text(info);
+    text.add_text("--------------------");
+    info = std::string("IP: ") + out_ip_addr;
+    text.add_text(info);
+    text.add_text("--------------------");
+    info = std::string("HW: ") + out_hw_add;
+    text.add_text(info);
+    text.add_text("--------------------");
+  }
+}
+
 /* entry function */
 int main(int ac, char **av, char **env)
 {
@@ -148,6 +182,9 @@ int main(int ac, char **av, char **env)
   RoverGy521Demo gy_sen_demo(&gy_sen, &display, &btn);
 
   StatusMenu status_men(&util, &display, &btn);
+  Text info_text(&display, &btn);
+
+  create_info_text(info_text, util);
 
   // Create the menu objects
   Menu main_menu = Menu("Main", &btn, &display);
@@ -158,7 +195,7 @@ int main(int ac, char **av, char **env)
   // Add Main Menu options
   main_menu.add_submenu("1:Demo", &demo_menu);
   main_menu.add_option("2:Status", main_cb, &status_men);
-  main_menu.add_option("3:Info", NULL, NULL);
+  main_menu.add_option("3:Info", main_cb, &info_text);
   main_menu.add_submenu("4:Shutdown", &shut_menu);
 
   // Add Demo Menu options
@@ -181,7 +218,7 @@ int main(int ac, char **av, char **env)
     curr_menu = curr_menu->next();
     curr_menu->draw();
   }
-  
+
   if (rc) {
     return -1;
   }

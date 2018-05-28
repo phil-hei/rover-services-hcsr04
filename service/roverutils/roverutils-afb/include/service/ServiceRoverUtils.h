@@ -65,19 +65,19 @@ public:
     int get_ethernet_status(bool &out_is_on);
 
     /** Autogenrated doc for get_honocloud_status */
-    int get_honocloud_status(const char * in_host_name,
+    int get_honocloud_status(const std::string in_host_name,
         const int in_port,
-        const char * in_tenant_name,
-        const char * in_device_id,
-        const char * in_user,
-        const char * in_password,
+        const std::string in_tenant_name,
+        const std::string in_device_id,
+        const std::string in_user,
+        const std::string in_password,
         bool &out_is_on);
 
     /** Autogenrated doc for get_interface_info */
     int get_interface_info(const int in_interface_idx,
-        const char * &out_interface_name,
-        const char * &out_ip_addr,
-        const char * &out_hw_addr);
+        std::string &out_interface_name,
+        std::string &out_ip_addr,
+        std::string &out_hw_addr);
 
     /** Autogenrated doc for get_internet_status */
     int get_internet_status(bool &out_is_on);

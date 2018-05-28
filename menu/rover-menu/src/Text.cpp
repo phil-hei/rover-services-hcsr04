@@ -28,15 +28,16 @@
 
 using namespace std;
 
-Text::Text(RoverButtons* btn, RoverDisplay *disp) {
+Text::Text(RoverDisplay *disp, RoverButtons* btn) {
   this->btn = btn;
   this->disp = disp;
 }
 
 void Text::scroll_down() {
+  uint screen_lines = 64 / this->line_height;
   this->pos++;
 
-  if (this->pos >= fulltext.size()) {
+  if (this->pos + screen_lines > fulltext.size()) {
     this->pos = 0;
   }
 }
@@ -89,6 +90,9 @@ void Text::add_text(string text) {
 
   }
 
+  // Add the remaining text to the next line
+  fulltext.push_back(line);
+
 }
 
 void Text::draw() {
@@ -106,14 +110,15 @@ void Text::draw() {
   this->disp->set_text_size(this->char_size);
 	this->disp->set_text_color(1);
 
-  start_opt = 0;
-  if (this->pos >= screen_lines) {
-    start_opt = 1 + this->pos - screen_lines;
-  }
-
   for (int i = 0; i < screen_lines; i++) {
-    this->disp->set_cursor(5, 2 + 20 * i);
-  	this->disp->print(this->fulltext[i + start_opt].c_str());
+    this->disp->set_cursor(5, 2 + this->line_height * i);
+
+    // In case there are less text lines than what fits in screen
+    if (i >= this->fulltext.size()) {
+      break;
+    }
+
+  	this->disp->print(this->fulltext[i + this->pos].c_str());
   }
 
   this->disp->display();
@@ -148,6 +153,8 @@ void Text::update() {
 }
 
 void Text::print() {
+  this->running = true;
+  this->pos = 0;
   while (this->running) {
     this->update();
     this->draw();

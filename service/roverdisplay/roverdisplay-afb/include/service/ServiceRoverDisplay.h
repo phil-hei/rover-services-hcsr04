@@ -33,6 +33,13 @@ enum rover_button_id {
   shutdown_button,
   custom_button
 };
+enum rover_demo_id {
+  buzzer,
+  driving,
+  buttons,
+  infrared,
+  rover_demo_max
+};
 enum rover_sensor_id {
   rear_right,
   rear_left,
@@ -129,7 +136,7 @@ public:
     int invert_display(const bool in_inv);
 
     /** Autogenrated doc for print */
-    int print(const char * in_text);
+    int print(const std::string in_text);
 
     /** Autogenrated doc for set_cursor */
     int set_cursor(const int in_x_loc,

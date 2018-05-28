@@ -162,12 +162,12 @@ int ServiceRoverUtils::get_ethernet_status(bool &out_is_on) {
 }
 
 /** Autogenrated doc for get_honocloud_status */
-int ServiceRoverUtils::get_honocloud_status(const char * in_host_name,
+int ServiceRoverUtils::get_honocloud_status(const std::string in_host_name,
     const int in_port,
-    const char * in_tenant_name,
-    const char * in_device_id,
-    const char * in_user,
-    const char * in_password,
+    const std::string in_tenant_name,
+    const std::string in_device_id,
+    const std::string in_user,
+    const std::string in_password,
     bool &out_is_on) {
 
   AFB_NOTICE("[ServiceRoverUtils] Get_honocloud_status");
@@ -188,8 +188,9 @@ std::string exec(const char* cmd) {
     return result;
 }
 
-void get_interface_data(string int_name, const char * &ip, const char *  &mac) {
+void get_interface_data(string int_name, std::string &ip, std::string  &mac) {
   string data_ex;
+  int find_res = 0;
 
   string cmd = string("ifconfig ") + int_name;
 
@@ -200,14 +201,22 @@ void get_interface_data(string int_name, const char * &ip, const char *  &mac) {
     if (!data_ex.compare("inet")) {
       interfaces >> data_ex;
 
-      if (!data_ex.compare("addr:")) {
-        interfaces >> data_ex;
+      find_res = data_ex.find("addr:");
+
+      if (find_res != string::npos) {
+        data_ex = data_ex.substr(5);
       }
 
       ip = data_ex.c_str();
+
     }
 
     if (!data_ex.compare("ether")) {
+      interfaces >> data_ex;
+      mac = data_ex.c_str();
+    }
+
+    if (!data_ex.compare("HWaddr")) {
       interfaces >> data_ex;
       mac = data_ex.c_str();
     }
@@ -217,7 +226,7 @@ void get_interface_data(string int_name, const char * &ip, const char *  &mac) {
 
 void get_interfaces(vector<string> &interfaces) {
   string int_name;
-  stringstream cmd_out(exec("ifconfig -s -a | awk '{if(NR>1)print $1}'"));
+  stringstream cmd_out(exec("ifconfig -a | grep '^[a-z].*' | awk '{ print $1}'"));
 
   while (cmd_out >> int_name) {
 
@@ -228,9 +237,9 @@ void get_interfaces(vector<string> &interfaces) {
 
 /** Autogenrated doc for get_interface_info */
 int ServiceRoverUtils::get_interface_info(const int in_interface_idx,
-    const char * &out_interface_name,
-    const char * &out_ip_addr,
-    const char * &out_hw_addr) {
+    std::string &out_interface_name,
+    std::string &out_ip_addr,
+    std::string &out_hw_addr) {
   AFB_NOTICE("[ServiceRoverUtils] Get_interface_info");
 
   vector<string> interfaces;
@@ -241,7 +250,7 @@ int ServiceRoverUtils::get_interface_info(const int in_interface_idx,
     return -1;
   }
 
-  out_interface_name = interfaces[in_interface_idx].c_str();
+  out_interface_name = interfaces[in_interface_idx];
 
   get_interface_data(interfaces[in_interface_idx], out_ip_addr, out_hw_addr);
 

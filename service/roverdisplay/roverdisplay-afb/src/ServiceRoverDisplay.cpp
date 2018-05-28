@@ -227,9 +227,9 @@ int ServiceRoverDisplay::invert_display(const bool in_inv) {
 }
 
 /** Autogenrated doc for print */
-int ServiceRoverDisplay::print(const char * in_text) {
+int ServiceRoverDisplay::print(const std::string in_text) {
   AFB_NOTICE("[ServiceRoverDisplay] Print");
-  obj.print(in_text);
+  obj.print(in_text.c_str());
 
   return 0;
 }

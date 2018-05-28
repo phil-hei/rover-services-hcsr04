@@ -89,12 +89,12 @@ static void get_honocloud_status(struct afb_req request) {
   }
 
 
-  ret = obj.get_honocloud_status(static_cast<const char *>(json_object_get_string(val[0])),
+  ret = obj.get_honocloud_status(static_cast<std::string>(json_object_get_string(val[0])),
       static_cast<int>(json_object_get_int(val[1])),
-      static_cast<const char *>(json_object_get_string(val[2])),
-      static_cast<const char *>(json_object_get_string(val[3])),
-      static_cast<const char *>(json_object_get_string(val[4])),
-      static_cast<const char *>(json_object_get_string(val[5])),
+      static_cast<std::string>(json_object_get_string(val[2])),
+      static_cast<std::string>(json_object_get_string(val[3])),
+      static_cast<std::string>(json_object_get_string(val[4])),
+      static_cast<std::string>(json_object_get_string(val[5])),
       _var_is_on);
   if (ret) {
     AFB_ERROR("[roverutils] Verb 'get_honocloud_status' returning error");
@@ -250,9 +250,9 @@ static void get_wlan_status(struct afb_req request) {
 
 static void get_interface_info(struct afb_req request) {
   json_object *args = afb_req_json(request);
-const   char * _var_interface_name = static_cast<char *>(0);
-const   char * _var_ip_addr = static_cast<char *>(0);
-const   char * _var_hw_addr = static_cast<char *>(0);
+  std::string _var_interface_name;
+  std::string _var_ip_addr;
+  std::string _var_hw_addr;
   json_object * new_json = json_object_new_object();
   json_object * new_sub_json = NULL;
   json_object *val[1];
@@ -283,12 +283,12 @@ const   char * _var_hw_addr = static_cast<char *>(0);
     return;
   }
 
-
-  new_sub_json = json_object_new_string(_var_interface_name);
+  //
+  new_sub_json = json_object_new_string(_var_interface_name.c_str());
   json_object_object_add(new_json, "interface_name", new_sub_json);
-  new_sub_json = json_object_new_string(_var_ip_addr);
+  new_sub_json = json_object_new_string(_var_ip_addr.c_str());
   json_object_object_add(new_json, "ip_addr", new_sub_json);
-  new_sub_json = json_object_new_string(_var_hw_addr);
+  new_sub_json = json_object_new_string(_var_hw_addr.c_str());
   json_object_object_add(new_json, "hw_addr", new_sub_json);
 
   afb_req_success(request, new_json, NULL);

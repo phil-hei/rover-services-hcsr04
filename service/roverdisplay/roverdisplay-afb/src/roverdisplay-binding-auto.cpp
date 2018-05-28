@@ -322,6 +322,7 @@ static void draw_bitmap(struct afb_req request) {
 
   }
 
+
   ret = obj.draw_bitmap(static_cast<int>(json_object_get_int(val[0])),
       static_cast<int>(json_object_get_int(val[1])),
       _var_bitmap, _var_bitmap_size,
@@ -683,7 +684,7 @@ static void print(struct afb_req request) {
   }
 
 
-  ret = obj.print(static_cast<const char *>(json_object_get_string(val[0])));
+  ret = obj.print(static_cast<std::string>(json_object_get_string(val[0])));
   if (ret) {
     AFB_ERROR("[roverdisplay] Verb 'print' returning error");
     afb_req_fail_f(request, "bad-request", "Verb 'print' returning error %d", ret);
@@ -936,7 +937,7 @@ static const struct afb_verb_v2 verbs[] = {
   // {.verb = "invert_display", .callback = invert_display, .auth = NULL, .info = "Invert Display", .session = 0},
   // {.verb = "draw_char", .callback = draw_char, .auth = NULL, .info = "Draw a character", .session = 0},
   {.verb = "display", .callback = display, .auth = NULL, .info = "Displays the buffer", .session = 0},
-  // {.verb = "draw_circle", .callback = draw_circle, .auth = NULL, .info = "Draw a Circle", .session = 0},
+  {.verb = "draw_circle", .callback = draw_circle, .auth = NULL, .info = "Draw a Circle", .session = 0},
   {.verb= NULL, .callback=NULL, .auth = NULL, .info = NULL, .session = 0 }
 };
 
