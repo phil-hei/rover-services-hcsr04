@@ -69,6 +69,10 @@ int RoverBearingDemo::run() {
 
   int tip_x = origin_x + arrow_len;
   int tip_y = origin_y;
+  int arrow_tip_x_1 = tip_x;
+  int arrow_tip_y_1 = tip_y;
+  int arrow_tip_x_2 = tip_x;
+  int arrow_tip_y_2 = tip_y;
   double sensor_val;
 
   this->disp->set_text_size(1);
@@ -89,6 +93,20 @@ int RoverBearingDemo::run() {
     tip_y += std::sin(pi * sensor_val / 180) * arrow_len;
 
     this->disp->draw_line(origin_x, origin_y, tip_x, tip_y, 1);
+
+    arrow_tip_x_1 = tip_x;
+    arrow_tip_x_1 -= std::cos(pi * (sensor_val - 45) / 180) * 5;
+    arrow_tip_y_1 = tip_y;
+    arrow_tip_y_1 -= std::sin(pi * (sensor_val - 45) / 180) * 5;
+
+    // this->disp->draw_line(arrow_tip_x, arrow_tip_y, tip_x, tip_y, 1);
+
+    arrow_tip_x_2 = tip_x;
+    arrow_tip_x_2 -= std::cos(pi * (sensor_val + 45) / 180) * 5;
+    arrow_tip_y_2 = tip_y;
+    arrow_tip_y_2 -= std::sin(pi * (sensor_val + 45) / 180) * 5;
+
+    this->disp->draw_triangle(arrow_tip_x_1, arrow_tip_y_1, arrow_tip_x_2, arrow_tip_y_2, tip_x, tip_y, 1, true);
 
     this->disp->display();
   }
