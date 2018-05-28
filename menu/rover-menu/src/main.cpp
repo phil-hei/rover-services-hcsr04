@@ -138,6 +138,10 @@ void create_info_text(Text &text, RoverUtils &utils) {
   for (int i = 0; i < int_num; i++) {
     utils.get_interface_info(i, out_interface_name, out_ip_addr, out_hw_add);
 
+    if (!out_interface_name.compare("lo")) {
+      continue;
+    }
+
     info = std::string("Interface: ") + out_interface_name;
     text.add_text(info);
     text.add_text("--------------------");

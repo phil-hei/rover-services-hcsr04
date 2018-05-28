@@ -1,0 +1,85 @@
+#%RAML 1.0
+title: Rover HMC5883L
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - front_right
+      - rear_left
+      - front_left
+      - front
+      - rear
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+  rover_demo_id:
+    enum:
+      - buzzer
+      - driving
+      - buttons
+      - infrared
+      - rover_demo_max
+/read:
+  description: "Read the bearing value from Bearing sensor Sunfounder HMC5883L"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            bearing_value:
+              type: number
+/calibrate:
+  description: "Starts calibration for the bearing sensor"
+/set_address:
+  description: "Sets the HMC5883L Address"
+  post:
+    body:
+      properties:
+        address:
+          type: integer
+/get_address:
+  description: "Get the HMC5883L Address"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            address:
+              type: integer
+/set_calibration_period:
+  description: "Set the calibration period"
+  post:
+    body:
+      properties:
+        period:
+          type: integer
+/get_calibration_period:
+  description: "Get the calibration period"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            period:
+              type: integer
+/set_declination_angle:
+  description: "Set the declination angle"
+  post:
+    body:
+      properties:
+        angle:
+          type: number
+/get_declination_angle:
+  description: "Get the declination angle"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            angle:
+              type: number
