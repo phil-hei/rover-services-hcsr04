@@ -35,9 +35,9 @@ static ServiceRoverDisplay obj;
 static int init()
 {
   int rc = 0;
-	AFB_NOTICE("Initializing... ");
+	AFB_DEBUG("Initializing... ");
   rc = obj.init();
-	AFB_NOTICE("Initialization done!");
+	AFB_DEBUG("Initialization done!");
 	return rc;
 }
 
@@ -45,7 +45,7 @@ static void clear_display(struct afb_req request) {
   json_object *args = afb_req_json(request);
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling clear_display");
+  AFB_DEBUG("[roverdisplay] Calling clear_display");
 
 
   if (args) {
@@ -75,7 +75,7 @@ static void get_height(struct afb_req request) {
   json_object * new_sub_json = NULL;
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling get_height");
+  AFB_DEBUG("[roverdisplay] Calling get_height");
 
 
   if (args) {
@@ -107,7 +107,7 @@ static void set_rotation(struct afb_req request) {
   json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling set_rotation");
+  AFB_DEBUG("[roverdisplay] Calling set_rotation");
 
 
   if (args) {
@@ -140,7 +140,7 @@ static void draw_round_rectangle(struct afb_req request) {
   json_object *val[7];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_round_rectangle");
+  AFB_DEBUG("[roverdisplay] Calling draw_round_rectangle");
 
 
   if (args) {
@@ -209,7 +209,7 @@ static void draw_line(struct afb_req request) {
   json_object *val[5];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_line");
+  AFB_DEBUG("[roverdisplay] Calling draw_line");
 
 
   if (args) {
@@ -269,7 +269,7 @@ static void draw_bitmap(struct afb_req request) {
   int * _var_bitmap = nullptr;
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_bitmap");
+  AFB_DEBUG("[roverdisplay] Calling draw_bitmap");
 
 
   if (args) {
@@ -347,7 +347,7 @@ static void set_text_color(struct afb_req request) {
   json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling set_text_color");
+  AFB_DEBUG("[roverdisplay] Calling set_text_color");
 
 
   if (args) {
@@ -382,7 +382,7 @@ static void get_width(struct afb_req request) {
   json_object * new_sub_json = NULL;
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling get_width");
+  AFB_DEBUG("[roverdisplay] Calling get_width");
 
 
   if (args) {
@@ -414,7 +414,7 @@ static void draw_rectangle(struct afb_req request) {
   json_object *val[6];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_rectangle");
+  AFB_DEBUG("[roverdisplay] Calling draw_rectangle");
 
 
   if (args) {
@@ -477,7 +477,7 @@ static void set_text_size(struct afb_req request) {
   json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling set_text_size");
+  AFB_DEBUG("[roverdisplay] Calling set_text_size");
 
 
   if (args) {
@@ -510,7 +510,7 @@ static void draw_triangle(struct afb_req request) {
   json_object *val[8];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_triangle");
+  AFB_DEBUG("[roverdisplay] Calling draw_triangle");
 
 
   if (args) {
@@ -585,7 +585,7 @@ static void draw_pixel(struct afb_req request) {
   json_object *val[3];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_pixel");
+  AFB_DEBUG("[roverdisplay] Calling draw_pixel");
 
 
   if (args) {
@@ -630,7 +630,7 @@ static void set_cursor(struct afb_req request) {
   json_object *val[2];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling set_cursor");
+  AFB_DEBUG("[roverdisplay] Calling set_cursor");
 
 
   if (args) {
@@ -669,7 +669,7 @@ static void print(struct afb_req request) {
   json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling print");
+  AFB_DEBUG("[roverdisplay] Calling print");
 
 
   if (args) {
@@ -702,7 +702,7 @@ static void fill_screen(struct afb_req request) {
   json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling fill_screen");
+  AFB_DEBUG("[roverdisplay] Calling fill_screen");
 
 
   if (args) {
@@ -735,7 +735,7 @@ static void invert_display(struct afb_req request) {
   json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling invert_display");
+  AFB_DEBUG("[roverdisplay] Calling invert_display");
 
 
   if (args) {
@@ -768,7 +768,7 @@ static void draw_char(struct afb_req request) {
   json_object *val[6];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_char");
+  AFB_DEBUG("[roverdisplay] Calling draw_char");
 
 
   if (args) {
@@ -830,7 +830,7 @@ static void display(struct afb_req request) {
   json_object *args = afb_req_json(request);
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling display");
+  AFB_DEBUG("[roverdisplay] Calling display");
 
 
   if (args) {
@@ -858,7 +858,7 @@ static void draw_circle(struct afb_req request) {
   json_object *val[5];
   int ret = 0;
 
-  AFB_NOTICE("[roverdisplay] Calling draw_circle");
+  AFB_DEBUG("[roverdisplay] Calling draw_circle");
 
 
   if (args) {

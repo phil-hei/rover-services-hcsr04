@@ -41,6 +41,66 @@ static int init()
 	return rc;
 }
 
+static void turnforwardleft(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+  int ret = 0;
+
+  AFB_NOTICE("[roverdriving] Calling turnforwardleft");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
+  ret = obj.turnforwardleft();
+  if (ret) {
+    AFB_ERROR("[roverdriving] Verb 'turnforwardleft' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'turnforwardleft' returning error %d", ret);
+    return;
+  }
+
+
+
+  afb_req_success(request, args, NULL);
+
+}
+
+static void setspeed(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+  json_object *val[1];
+  int ret = 0;
+
+  AFB_NOTICE("[roverdriving] Calling setspeed");
+
+
+  if (args) {
+    // Parse args if possible
+    if (!json_object_object_get_ex(args, "speed", &val[0])) {
+      AFB_ERROR("[roverdriving] No 'speed' param provided");
+      afb_req_fail(request, "bad-request", "No 'speed' param provided");
+      return;
+    }
+
+
+  }
+
+
+  ret = obj.setspeed(static_cast<int>(json_object_get_int(val[0])));
+  if (ret) {
+    AFB_ERROR("[roverdriving] Verb 'setspeed' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'setspeed' returning error %d", ret);
+    return;
+  }
+
+
+
+  afb_req_success(request, args, NULL);
+
+}
+
 static void goforward(struct afb_req request) {
   json_object *args = afb_req_json(request);
   int ret = 0;
@@ -149,30 +209,51 @@ static void turnright(struct afb_req request) {
 
 }
 
-static void setspeed(struct afb_req request) {
+static void turnbackwardright(struct afb_req request) {
   json_object *args = afb_req_json(request);
-  json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverdriving] Calling setspeed");
+  AFB_NOTICE("[roverdriving] Calling turnbackwardright");
 
 
   if (args) {
     // Parse args if possible
-    if (!json_object_object_get_ex(args, "speed", &val[0])) {
-      AFB_ERROR("[roverdriving] No 'speed' param provided");
-      afb_req_fail(request, "bad-request", "No 'speed' param provided");
-      return;
-    }
 
 
   }
 
 
-  ret = obj.setspeed(static_cast<int>(json_object_get_int(val[0])));
+  ret = obj.turnbackwardright();
   if (ret) {
-    AFB_ERROR("[roverdriving] Verb 'setspeed' returning error");
-    afb_req_fail_f(request, "bad-request", "Verb 'setspeed' returning error %d", ret);
+    AFB_ERROR("[roverdriving] Verb 'turnbackwardright' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'turnbackwardright' returning error %d", ret);
+    return;
+  }
+
+
+
+  afb_req_success(request, args, NULL);
+
+}
+
+static void turnforwardright(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+  int ret = 0;
+
+  AFB_NOTICE("[roverdriving] Calling turnforwardright");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
+  ret = obj.turnforwardright();
+  if (ret) {
+    AFB_ERROR("[roverdriving] Verb 'turnforwardright' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'turnforwardright' returning error %d", ret);
     return;
   }
 
@@ -209,6 +290,33 @@ static void gobackward(struct afb_req request) {
 
 }
 
+static void turnbackwardleft(struct afb_req request) {
+  json_object *args = afb_req_json(request);
+  int ret = 0;
+
+  AFB_NOTICE("[roverdriving] Calling turnbackwardleft");
+
+
+  if (args) {
+    // Parse args if possible
+
+
+  }
+
+
+  ret = obj.turnbackwardleft();
+  if (ret) {
+    AFB_ERROR("[roverdriving] Verb 'turnbackwardleft' returning error");
+    afb_req_fail_f(request, "bad-request", "Verb 'turnbackwardleft' returning error %d", ret);
+    return;
+  }
+
+
+
+  afb_req_success(request, args, NULL);
+
+}
+
 
 // static const struct afb_auth _afb_auths_v2_monitor[] = {
 // 	{type : afb_auth_Permission, text : "urn:AGL:permission:monitor:public:set"},
@@ -218,12 +326,16 @@ static void gobackward(struct afb_req request) {
 
 static const struct afb_verb_v2 verbs[] = {
   /*Without security*/
-  {.verb = "goforward", .callback = goforward, .auth = NULL, .info = "Move Forward", .session = 0},
-  {.verb = "turnleft", .callback = turnleft, .auth = NULL, .info = "Turn Left", .session = 0},
-  {.verb = "stop", .callback = stop, .auth = NULL, .info = "Stop the Rover", .session = 0},
-  {.verb = "turnright", .callback = turnright, .auth = NULL, .info = "Turn Right", .session = 0},
+  {.verb = "turnforwardleft", .callback = turnforwardleft, .auth = NULL, .info = "Turn Forward Left", .session = 0},
   {.verb = "setspeed", .callback = setspeed, .auth = NULL, .info = "Set the motors' speed", .session = 0},
+  {.verb = "goforward", .callback = goforward, .auth = NULL, .info = "Move Forward", .session = 0},
+  {.verb = "turnleft", .callback = turnleft, .auth = NULL, .info = "Rotate Left", .session = 0},
+  {.verb = "stop", .callback = stop, .auth = NULL, .info = "Stop the Rover", .session = 0},
+  {.verb = "turnright", .callback = turnright, .auth = NULL, .info = "Rotate Right", .session = 0},
+  {.verb = "turnbackwardright", .callback = turnbackwardright, .auth = NULL, .info = "Turn Backward Right", .session = 0},
+  {.verb = "turnforwardright", .callback = turnforwardright, .auth = NULL, .info = "Turn Forward Right", .session = 0},
   {.verb = "gobackward", .callback = gobackward, .auth = NULL, .info = "Move Backwards", .session = 0},
+  {.verb = "turnbackwardleft", .callback = turnbackwardleft, .auth = NULL, .info = "Turn Backward Left", .session = 0},
   {.verb= NULL, .callback=NULL, .auth = NULL, .info = NULL, .session = 0 }
 };
 

@@ -43,11 +43,11 @@ static RoverButton buttons[maxButtons] = {
 };
 
 ServiceRoverButtons::ServiceRoverButtons() {
-  AFB_NOTICE("[ServiceRoverButtons] Constructor ");
+  AFB_DEBUG("[ServiceRoverButtons] Constructor ");
 }
 
 int ServiceRoverButtons::init() {
-  AFB_NOTICE("[ServiceRoverButtons] Init ");
+  AFB_DEBUG("[ServiceRoverButtons] Init ");
 
   base.initialize();
 
@@ -62,7 +62,7 @@ int ServiceRoverButtons::init() {
 /** Autogenrated doc for read */
 int ServiceRoverButtons::read(const rover_button_id in_button_id,
     double &out_button_state) {
-  AFB_NOTICE("[ServiceRoverButtons] Read");
+  AFB_DEBUG("[ServiceRoverButtons] Read");
   int id = static_cast<int>(in_button_id);
 
   if (!check_id(in_button_id)) {

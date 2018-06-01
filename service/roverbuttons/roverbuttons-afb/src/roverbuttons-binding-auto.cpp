@@ -35,9 +35,9 @@ static ServiceRoverButtons obj;
 static int init()
 {
   int rc = 0;
-	AFB_NOTICE("Initializing... ");
+	AFB_DEBUG("Initializing... ");
   rc = obj.init();
-	AFB_NOTICE("Initialization done!");
+	AFB_DEBUG("Initialization done!");
 	return rc;
 }
 
@@ -49,7 +49,7 @@ static void read(struct afb_req request) {
   json_object *val[1];
   int ret = 0;
 
-  AFB_NOTICE("[roverbuttons] Calling read");
+  AFB_DEBUG("[roverbuttons] Calling read");
 
 
   if (args) {

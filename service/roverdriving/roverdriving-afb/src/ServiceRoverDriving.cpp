@@ -73,6 +73,42 @@ int ServiceRoverDriving::stop() {
   return 0;
 }
 
+/** Autogenrated doc for turnbackwardleft */
+int ServiceRoverDriving::turnbackwardleft() {
+  AFB_NOTICE("[ServiceRoverDriving] Turnbackwardleft");
+
+  obj.turnBackwardLeft();
+
+  return 0;
+}
+
+/** Autogenrated doc for turnbackwardright */
+int ServiceRoverDriving::turnbackwardright() {
+  AFB_NOTICE("[ServiceRoverDriving] Turnbackwardright");
+
+  obj.turnBackwardRight();
+
+  return 0;
+}
+
+/** Autogenrated doc for turnforwardleft */
+int ServiceRoverDriving::turnforwardleft() {
+  AFB_NOTICE("[ServiceRoverDriving] Turnforwardleft");
+
+  obj.turnForwardLeft();
+
+  return 0;
+}
+
+/** Autogenrated doc for turnforwardright */
+int ServiceRoverDriving::turnforwardright() {
+  AFB_NOTICE("[ServiceRoverDriving] Turnforwardright");
+
+  obj.turnForwardRight();
+
+  return 0;
+}
+
 /** Autogenrated doc for turnleft */
 int ServiceRoverDriving::turnleft() {
   AFB_NOTICE("[ServiceRoverDriving] Turnleft");

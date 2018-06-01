@@ -26,19 +26,22 @@ types:
       - rover_demo_max
 /goforward:
   description: "Move Forward"
-  get:
 /gobackward:
   description: "Move Backwards"
-  get:
 /turnright:
-  description: "Turn Right"
-  get:
+  description: "Rotate Right"
 /turnleft:
-  description: "Turn Left"
-  get:
+  description: "Rotate Left"
 /stop:
   description: "Stop the Rover"
-  get:
+/turnforwardright:
+  description: "Turn Forward Right"
+/turnforwardleft:
+  description: "Turn Forward Left"
+/turnbackwardright:
+  description: "Turn Backward Right"
+/turnbackwardleft:
+  description: "Turn Backward Left"
 /setspeed:
   description: "Set the motors' speed"
   post:

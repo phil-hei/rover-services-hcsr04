@@ -33,10 +33,17 @@ enum rover_button_id {
   shutdown_button,
   custom_button
 };
+enum rover_demo_id {
+  buzzer,
+  driving,
+  buttons,
+  infrared,
+  rover_demo_max
+};
 enum rover_sensor_id {
   rear_right,
-  rear_left,
   front_right,
+  rear_left,
   front_left,
   front,
   rear
@@ -59,6 +66,18 @@ public:
 
     /** Autogenrated doc for stop */
     int stop();
+
+    /** Autogenrated doc for turnbackwardleft */
+    int turnbackwardleft();
+
+    /** Autogenrated doc for turnbackwardright */
+    int turnbackwardright();
+
+    /** Autogenrated doc for turnforwardleft */
+    int turnforwardleft();
+
+    /** Autogenrated doc for turnforwardright */
+    int turnforwardright();
 
     /** Autogenrated doc for turnleft */
     int turnleft();
