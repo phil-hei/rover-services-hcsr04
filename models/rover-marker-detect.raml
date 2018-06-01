@@ -1,0 +1,35 @@
+#%RAML 1.0
+title: Rover Marker Detect
+mediaType: application/json
+version: v1
+baseUri: localhost:8000/api?token=x
+types:
+  rover_sensor_id:
+    enum:
+      - rear_right
+      - front_right
+      - rear_left
+      - front_left
+      - front
+      - rear
+  rover_button_id:
+    enum:
+      - user_button
+      - shutdown_button
+      - custom_button
+  rover_demo_id:
+    enum:
+      - buzzer
+      - driving
+      - buttons
+      - infrared
+      - rover_demo_max
+/detect_marker:
+  description: "Detect a single marker from camera"
+  get:
+    responses:
+      200:
+        body:
+          properties:
+            marker_id:
+              type: integer
