@@ -44,6 +44,7 @@
 #include <demo/RoverDht22Demo.h>
 #include <demo/RoverGy521Demo.h>
 #include <demo/RoverBearingDemo.h>
+#include <demo/RoverAccDemo.h>
 #include <icons/bluetooth_logo.h>
 
 #include <Menu.h>
@@ -97,6 +98,7 @@ void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
   RoverDht22Demo * dhtd =  (RoverDht22Demo *)closure;
   RoverGy521Demo * gy521d = (RoverGy521Demo *)closure;
   RoverBearingDemo * beardem = (RoverBearingDemo *)closure;
+  RoverAccDemo  * acc_demo = (RoverAccDemo *)closure;
 
   switch (menu->get_option()) {
     case 0: // Buzzer
@@ -119,6 +121,9 @@ void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
       break;
     case 6: // Bearing
       beardem->run();
+      break;
+    case 7: // ACC
+      acc_demo->run();
       break;
     default:
       break;
@@ -191,6 +196,7 @@ int main(int ac, char **av, char **env)
   RoverDht22Demo dht_sen_demo(&dht_sen, &display, &btn);
   RoverGy521Demo gy_sen_demo(&gy_sen, &display, &btn);
   RoverBearingDemo bearing_demo(&bear_sen, &display, &btn);
+  RoverAccDemo acc_demo(&drv, &grv_sen, &display, &btn);
 
   StatusMenu status_men(&util, &display, &btn);
   Text info_text(&display, &btn);
@@ -217,7 +223,8 @@ int main(int ac, char **av, char **env)
   demo_menu.add_option("5:DHT22", demo_cb, &dht_sen_demo);
   demo_menu.add_option("6:GY521", demo_cb, &gy_sen_demo);
   demo_menu.add_option("7:Bearing", demo_cb, &bearing_demo);
-  demo_menu.add_submenu("8:Back", &main_menu);
+  demo_menu.add_option("8:ACC", demo_cb, &acc_demo);
+  demo_menu.add_submenu("9:Back", &main_menu);
 
   // Add Shutdown menu options
   shut_menu.add_option("1:Reset", shutdown_cb, NULL);
