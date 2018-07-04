@@ -12,8 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef _ROVER_ACC_HEADER_
-#define _ROVER_ACC_HEADER_
+#ifndef _ROVER_HCSR04_HEADER_
+#define _ROVER_HCSR04_HEADER_
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,30 +26,28 @@
 #include <errno.h>
 #include <vector>
 
-#include <app/RoverDriving.h>
+#include <app/RoverHcsr04UltrasonicSensor.h>
 #include <app/RoverButtons.h>
 #include <app/RoverDisplay.h>
-#include <app/RoverHcsr04UltrasonicSensor.h>
-
-#include <Menu.h>
 
 using namespace std;
 
-class RoverAccDemo {
+class RoverHcsr04Demo {
 public:
   uint curr_speed;
   bool running;
-  RoverDriving * drv;
 
-  RoverAccDemo(RoverDriving *drv, RoverHcsr04UltrasonicSensor *hcsr04_sensor, RoverDisplay * disp, RoverButtons * btn);
-  
+  RoverHcsr04Demo(RoverHcsr04UltrasonicSensor *hcsr04_sensor, RoverDisplay * disp, RoverButtons * btn);
+
   int run();
 
-private:
-  RoverHcsr04UltrasonicSensor *hcsr04_sensor;
-  RoverButtons * btn;
-  Menu * main;
+  bool check_button();
 
+private:
+
+  RoverHcsr04UltrasonicSensor * hcsr04_sensor;
+  RoverDisplay * disp;
+  RoverButtons * btn;
 };
 
-#endif /* _ROVER_ACC_HEADER_ */
+#endif /* _ROVER_HCSR04_HEADER_ */

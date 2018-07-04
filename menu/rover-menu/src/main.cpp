@@ -30,12 +30,13 @@
 
 #include <app/RoverDriving.h>
 #include <app/RoverInfraredSensor.h>
-#include <app/RoverGrooveUltrasonicSensor.h>
 #include <app/RoverBuzzer.h>
 #include <app/RoverUtils.h>
 #include <app/RoverDisplay.h>
 #include <app/RoverButtons.h>
 #include <app/RoverDriving.h>
+#include <app/RoverGrooveUltrasonicSensor.h>
+#include <app/RoverHcsr04UltrasonicSensor.h>
 
 #include <demo/RoverBuzzerDemo.h>
 #include <demo/RoverDrivingDemo.h>
@@ -45,6 +46,7 @@
 #include <demo/RoverGy521Demo.h>
 #include <demo/RoverBearingDemo.h>
 #include <demo/RoverAccDemo.h>
+#include <demo/RoverHcsr04Demo.h>
 #include <icons/bluetooth_logo.h>
 
 #include <Menu.h>
@@ -94,7 +96,8 @@ void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
   RoverBuzzerDemo * bzrd = (RoverBuzzerDemo *)closure;
   RoverDrivingDemo * drvd = (RoverDrivingDemo *)closure;
   RoverInfraredDemo * infrd = (RoverInfraredDemo *)closure;
-  RoverGrooveDemo * grvsd = (RoverGrooveDemo *)closure;
+  //RoverGrooveDemo * grvsd = (RoverGrooveDemo *)closure;
+  RoverHcsr04Demo * hcsr04dem = (RoverHcsr04Demo *)closure;
   RoverDht22Demo * dhtd =  (RoverDht22Demo *)closure;
   RoverGy521Demo * gy521d = (RoverGy521Demo *)closure;
   RoverBearingDemo * beardem = (RoverBearingDemo *)closure;
@@ -110,9 +113,12 @@ void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
     case 2: // Infrared
       infrd->run();
       break;
-    case 3: // Groove
-      grvsd->run();
-      break;
+    //case 3: // Groove
+    //  grvsd->run();
+    //  break;
+    case 3: // Hcsr04
+      hcsr04dem->run();
+      break;  
     case 4: // DHT22
       dhtd->run();
       break;
@@ -122,9 +128,9 @@ void demo_cb(Menu * menu, RoverButtons* btn, void * closure) {
     case 6: // Bearing
       beardem->run();
       break;
-    case 7: // ACC
+     case 7: // ACC
       acc_demo->run();
-      break;
+      break;  
     default:
       break;
   }
@@ -182,7 +188,8 @@ int main(int ac, char **av, char **env)
   RoverBuzzer bzr(uri);
   RoverDriving drv(uri);
   RoverInfraredSensor inf_red(uri);
-  RoverGrooveUltrasonicSensor grv_sen(uri);
+  //RoverGrooveUltrasonicSensor grv_sen(uri);
+  RoverHcsr04UltrasonicSensor hcsr04_sen(uri);
   RoverDht22 dht_sen(uri);
   RoverGy521 gy_sen(uri);
   RoverUtils util(uri);
@@ -192,11 +199,12 @@ int main(int ac, char **av, char **env)
   RoverBuzzerDemo bzr_demo(&bzr);
   RoverDrivingDemo drv_demo(&drv, &display, &btn);
   RoverInfraredDemo inf_red_demo(&inf_red, &display, &btn);
-  RoverGrooveDemo grv_sen_demo(&grv_sen, &display, &btn);
+  //RoverGrooveDemo grv_sen_demo(&grv_sen, &display, &btn);
+  RoverHcsr04Demo hcsr04_sen_demo(&hcsr04_sen, &display, &btn);
   RoverDht22Demo dht_sen_demo(&dht_sen, &display, &btn);
   RoverGy521Demo gy_sen_demo(&gy_sen, &display, &btn);
   RoverBearingDemo bearing_demo(&bear_sen, &display, &btn);
-  RoverAccDemo acc_demo(&drv, &grv_sen, &display, &btn);
+  RoverAccDemo acc_demo(&drv, &hcsr04_sen, &display, &btn);
 
   StatusMenu status_men(&util, &display, &btn);
   Text info_text(&display, &btn);
@@ -219,7 +227,8 @@ int main(int ac, char **av, char **env)
   demo_menu.add_option("1:Buzzer", demo_cb, &bzr_demo);
   demo_menu.add_option("2:Driving", demo_cb, &drv_demo);
   demo_menu.add_option("3:Infrared", demo_cb, &inf_red_demo);
-  demo_menu.add_option("4:Groove", demo_cb, &grv_sen_demo);
+  //demo_menu.add_option("4:Groove", demo_cb, &grv_sen_demo);
+  demo_menu.add_option("4:HCSR04", demo_cb, &hcsr04_sen_demo);
   demo_menu.add_option("5:DHT22", demo_cb, &dht_sen_demo);
   demo_menu.add_option("6:GY521", demo_cb, &gy_sen_demo);
   demo_menu.add_option("7:Bearing", demo_cb, &bearing_demo);
